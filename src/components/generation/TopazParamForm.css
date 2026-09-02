@@ -1,0 +1,92 @@
+.adv-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.adv-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.adv-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  min-width: 70px;
+}
+.adv-slider {
+  flex: 1;
+  min-width: 120px;
+}
+.adv-val {
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 36px;
+  text-align: right;
+}
+.adv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.adv-chip {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+.adv-chip:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+.adv-chip.active {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent-light);
+  font-weight: 500;
+}
+.toolbar-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.toolbar-select-btn:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+.btn-value {
+  font-size: 12px;
+  font-weight: 500;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .toolbar-select-btn { min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adv-chip,
+  .toolbar-select-btn { transition: none; }
+}

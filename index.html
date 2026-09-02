@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Comic-Director-Canvas</title>
+  <script>
+    try {
+      const root = document.documentElement
+      root.dataset.mode = 'dark'
+      root.dataset.brand = 'default'
+      root.dataset.density = 'comfortable'
+      root.classList.add('dark')
+      root.style.colorScheme = 'dark'
+    } catch (error) {
+      const root = document.documentElement
+      root.dataset.mode = 'dark'
+      root.dataset.brand = 'default'
+      root.dataset.density = 'comfortable'
+      root.classList.add('dark')
+      root.style.colorScheme = 'dark'
+    }
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

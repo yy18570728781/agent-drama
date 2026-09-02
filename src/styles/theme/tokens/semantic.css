@@ -1,0 +1,38 @@
+:root {
+  --sys-font-family-base: var(--ref-font-family-sans);
+
+  --sys-space-1: var(--ref-space-1);
+  --sys-space-2: var(--ref-space-2);
+  --sys-space-3: var(--ref-space-3);
+  --sys-space-4: var(--ref-space-4);
+  --sys-space-5: var(--ref-space-5);
+  --sys-space-6: var(--ref-space-6);
+  --sys-space-8: var(--ref-space-8);
+
+  --sys-radius-xs: var(--ref-radius-xs);
+  --sys-radius-sm: var(--ref-radius-sm);
+  --sys-radius-md: var(--ref-radius-md);
+  --sys-radius-lg: var(--ref-radius-lg);
+  --sys-radius-xl: var(--ref-radius-xl);
+  --sys-radius-pill: var(--ref-radius-pill);
+
+  --sys-shadow-surface: var(--ref-shadow-sm);
+  --sys-shadow-elevated: var(--ref-shadow-md);
+  --sys-shadow-floating: var(--ref-shadow-lg);
+
+  --sys-control-height-sm: 30px;
+  --sys-control-height-md: 36px;
+  --sys-control-height-lg: 40px;
+  --sys-app-sidebar-width: 76px;
+
+  --sys-panel-padding: 20px;
+  --sys-toolbar-gap: 12px;
+  --sys-toolbar-padding-x: 16px;
+  --sys-toolbar-padding-y: 12px;
+
+  --sys-duration-fast: var(--ref-duration-fast);
+  --sys-duration-normal: var(--ref-duration-normal);
+  --sys-duration-slow: var(--ref-duration-slow);
+  --sys-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --sys-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}

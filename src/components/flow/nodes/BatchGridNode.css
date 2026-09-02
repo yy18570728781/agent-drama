@@ -1,0 +1,303 @@
+.batch-grid-node {
+  position: relative;
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 0;
+  overflow: visible;
+  transition: border-color 0.15s;
+  display: flex;
+  flex-direction: column;
+}
+
+.batch-grid-node.selected {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.batch-grid-node:hover {
+  border-color: #3f3f46;
+}
+
+.batch-grid-toolbar {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(24, 24, 27, 0.95);
+  border: 1px solid #27272a;
+  border-radius: 6px;
+  padding: 3px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.group:hover .batch-grid-toolbar,
+.batch-grid-toolbar.active {
+  opacity: 1;
+}
+
+.batch-grid-toolbar .tb-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #a1a1aa;
+  transition: all 0.15s;
+}
+
+.batch-grid-toolbar .tb-btn:hover {
+  background: #3f3f46;
+  color: #fff;
+}
+
+.batch-grid-header {
+  position: absolute;
+  top: -30px;
+  left: -4px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.batch-grid-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #d4d4d8;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(24, 24, 27, 0.82);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.batch-grid-count {
+  font-size: 10px;
+  color: #a1a1aa;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(24, 24, 27, 0.82);
+  flex-shrink: 0;
+}
+
+.batch-grid-content {
+  padding: 2px;
+  border-radius: 0;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.batch-grid-lightweight {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #71717a;
+  font-size: 11px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(39, 39, 42, 0.72) 0,
+    rgba(39, 39, 42, 0.72) 8px,
+    rgba(24, 24, 27, 0.88) 8px,
+    rgba(24, 24, 27, 0.88) 16px
+  );
+}
+
+.batch-grid-lightweight-icon {
+  width: 34px;
+  height: 34px;
+  border: 1px dashed rgba(161, 161, 170, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a1a1aa;
+}
+
+.batch-grid-node.is-seamless-split .batch-grid-content {
+  padding: 0;
+}
+
+.batch-grid-item {
+  position: relative;
+  border-radius: 0;
+  overflow: hidden;
+  background: #27272a;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  cursor: pointer;
+}
+
+.batch-grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  flex: 1 1 auto;
+}
+
+.batch-grid-node.is-seamless-split .batch-grid-item img {
+  object-fit: fill;
+}
+
+.batch-grid-item-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+  font-size: 10px;
+  color: #52525b;
+}
+
+.batch-grid-item-channel {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 10px;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: rgba(24, 24, 27, 0.82);
+  color: #e4e4e7;
+  z-index: 1;
+}
+
+.batch-grid-item-regenerate {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(24, 24, 27, 0.82);
+  color: #d4d4d8;
+  cursor: pointer;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+}
+
+.batch-grid-item-regenerate :deep(svg) {
+  width: 11px;
+  height: 11px;
+}
+
+.batch-grid-item:hover .batch-grid-item-regenerate {
+  opacity: 1;
+}
+
+.batch-grid-item-regenerate.visible {
+  opacity: 1;
+}
+
+.batch-grid-item-regenerate:hover {
+  background: rgba(99, 102, 241, 0.9);
+  color: #fff;
+}
+
+.batch-grid-item-meta {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.batch-grid-item-progress {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(24, 24, 27, 0.9);
+  color: #eef2ff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+}
+
+.batch-grid-item-fail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  max-width: 86px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(127, 29, 29, 0.86);
+  color: #fca5a5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+  text-align: center;
+}
+
+.batch-grid-item-fail small {
+  max-width: 100%;
+  overflow: hidden;
+  color: #fee2e2;
+  font-size: 9px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.batch-grid-item.is-running {
+  background: #1e1b2e;
+}
+
+.batch-grid-item.is-failed {
+  background: #2e1b1b;
+}
+
+.batch-grid-item-retry {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  min-width: 72px;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid rgba(252, 165, 165, 0.5);
+  border-radius: 999px;
+  background: rgba(127, 29, 29, 0.92);
+  color: #fee2e2;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 3;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.batch-grid-item-retry:hover {
+  background: rgba(220, 38, 38, 0.92);
+  border-color: rgba(254, 202, 202, 0.8);
+  color: #fff;
+}

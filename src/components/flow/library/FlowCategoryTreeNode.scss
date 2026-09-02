@@ -1,0 +1,142 @@
+.tree-node,
+.tree-children {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tree-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  min-height: 40px;
+}
+
+.tree-actions {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+}
+
+.tree-action-button {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted, #71717a);
+  cursor: pointer;
+}
+
+.tree-row:hover .tree-actions,
+.tree-actions:focus-within {
+  opacity: 1;
+}
+
+.tree-action-button:hover {
+  background: var(--bg-hover, #27272a);
+  color: var(--text-primary, #fff);
+}
+
+.tree-toggle {
+  display: grid;
+  width: 24px;
+  height: 32px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted, #71717a);
+  cursor: pointer;
+}
+
+.tree-toggle.hidden {
+  visibility: hidden;
+}
+
+.tree-toggle svg {
+  transition: transform .16s ease;
+}
+
+.tree-toggle svg.expanded {
+  transform: rotate(90deg);
+}
+
+.folder-item {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary, #a1a1aa);
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.tree-node-input {
+  width: 100%;
+  min-width: 0;
+  height: 26px;
+  padding: 0 7px;
+  border: 1px solid var(--accent, #22d3ee);
+  border-radius: 5px;
+  outline: 0;
+  background: var(--bg-elevated, #16171b);
+  color: var(--text-primary, #fff);
+}
+
+.folder-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-item:hover {
+  background: var(--bg-hover, #202126);
+  color: var(--text-primary, #fff);
+}
+
+.folder-item.active {
+  border-color: color-mix(in srgb, var(--accent, #22d3ee) 45%, transparent);
+  background: color-mix(in srgb, var(--accent, #22d3ee) 12%, transparent);
+  color: var(--accent, #22d3ee);
+}
+
+.tree-children {
+  padding-left: 18px;
+}
+
+.tree-canvas-loading {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 8px;
+  padding-left: 34px;
+  color: var(--text-muted, #71717a);
+  font-size: 12px;
+}
+
+.tree-canvas-loading .spin {
+  animation: flow-tree-spin .8s linear infinite;
+}
+
+:global(.flow-category-actions-popper .flow-category-delete-item) {
+  color: var(--el-color-danger, #f56c6c);
+}
+
+:global(.flow-category-actions-popper .flow-category-delete-item:hover) {
+  background: color-mix(in srgb, var(--el-color-danger, #f56c6c) 12%, transparent);
+  color: var(--el-color-danger-light-3, #f89898);
+}
+
+@keyframes flow-tree-spin {
+  to { transform: rotate(360deg); }
+}

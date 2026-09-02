@@ -1,0 +1,107 @@
+@use './FlowCanvasCardActions';
+
+.canvas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px 18px;
+}
+
+.canvas-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.canvas-card:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent, #22d3ee) 74%, transparent);
+  outline-offset: 4px;
+  border-radius: 10px;
+}
+
+.canvas-cover {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--border, #2b2d32);
+  border-radius: 10px;
+  background: var(--bg-elevated, #15161a);
+}
+
+.canvas-cover img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .2s ease;
+}
+
+.canvas-card:hover .canvas-cover img { transform: scale(1.025); }
+
+.canvas-card:hover .canvas-cover,
+.canvas-card.is-menu-open .canvas-cover {
+  border-color: rgba(255, 255, 255, .22);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .25), 0 0 0 1px rgba(255, 255, 255, .12);
+}
+
+.cover-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  background-image: radial-gradient(circle at 24% 18%, rgba(34, 211, 238, .2), transparent 30%), linear-gradient(145deg, #181b20, #0c0d10);
+  // color: color-mix(in srgb, var(--accent, #22d3ee) 70%, #fff);
+  color: #ffffffe0;
+}
+
+.cover-placeholder__graphic {
+  display: grid;
+  width: 64px;
+  height: 48px;
+  place-items: center;
+  // border: 1px solid rgba(103, 232, 249, .28);
+  border-radius: 12px;
+  // background: rgba(8, 47, 57, .42);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .24);
+  font-size: 28px;
+}
+
+.canvas-info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 11px 3px 0;
+}
+
+.canvas-card__favorite {
+  display: none;
+}
+
+.canvas-info strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.canvas-info small {
+  color: var(--text-muted, #71717a);
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .canvas-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+}

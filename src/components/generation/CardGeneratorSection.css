@@ -1,0 +1,78 @@
+.card-generator-section { display: contents; }
+
+.card-generator-section :deep(.generator-input-stack) {
+  --generator-surface: var(--cardview-surface-panel);
+  --generator-surface-panel: var(--cardview-surface-panel);
+  --generator-surface-muted: var(--cardview-surface-elevated);
+  --generator-surface-elevated: var(--cardview-surface-elevated);
+  --generator-surface-hover: var(--cardview-surface-hover);
+  --generator-border: var(--cardview-border);
+  --generator-text-primary: var(--cardview-text-primary);
+  --generator-text-secondary: var(--cardview-text-secondary);
+  --generator-text-muted: var(--cardview-text-muted);
+  --generator-accent: var(--cardview-accent);
+  border-radius: 16px;
+}
+
+.card-generator-section :deep(.generator-input-stack.is-expanded) {
+  border-color: color-mix(in srgb, var(--cardview-text-primary) 8%, transparent);
+  background: color-mix(in srgb, var(--cardview-surface-panel) 96%, var(--cardview-surface-elevated));
+  box-shadow: 0 18px 48px rgb(0 0 0 / 34%), inset 0 1px rgb(255 255 255 / 3%);
+}
+
+.card-input-toggle {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cardview-text-secondary);
+  cursor: pointer;
+  box-shadow: none;
+  transition: color var(--sys-duration-fast) ease, background var(--sys-duration-fast) ease;
+}
+
+.card-input-toggle:hover {
+  background: var(--cardview-surface-hover);
+  color: var(--cardview-text-primary);
+}
+
+.card-input-reveal {
+  position: fixed;
+  left: 50%;
+  bottom: 10px;
+  z-index: 70;
+  width: 72px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--cardview-accent) 44%, var(--cardview-border));
+  border-radius: 8px 8px 0 0;
+  background: color-mix(in srgb, var(--cardview-accent) 18%, var(--cardview-surface-panel));
+  color: var(--cardview-accent);
+  cursor: pointer;
+  box-shadow: var(--cardview-shadow-elevated);
+  transform: translateX(-50%);
+}
+
+.card-input-toggle:focus-visible,
+.card-input-reveal:focus-visible {
+  outline: 2px solid var(--cardview-accent);
+  outline-offset: 3px;
+}
+
+.reveal-icon { transform: rotate(180deg); }
+
+@media (max-width: 720px) {
+  .card-input-toggle { width: 44px; height: 44px; }
+  .card-input-reveal { height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-input-toggle { transition: none; }
+}

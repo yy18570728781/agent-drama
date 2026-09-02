@@ -1,0 +1,87 @@
+@import "tailwindcss";
+@source "../src";
+@import "./dark-overrides.css";
+@import "./regen-picker.css";
+@import "./theme/index.css";
+@import "@/assets/iconfont/iconfont.css";
+
+:root {
+  --flow-floating-edge: 24px;
+  --flow-floating-toolbar-height: 40px;
+}
+
+button:focus,
+button:focus-visible,
+[role="button"]:focus,
+[role="button"]:focus-visible {
+  outline: none !important;
+}
+
+/* Flow top bar keeps the same shell language as the left toolbar. */
+.flow-tab-bar {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 6px !important;
+}
+
+.flow-tab-bar .tab-group {
+  gap: 4px !important;
+  padding: 4px !important;
+  background: rgba(24, 24, 27, 0.78) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid #27272a !important;
+  border-radius: 10px !important;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.28) !important;
+}
+
+.flow-tab-bar .tab-group-left {
+  gap: 1px !important;
+}
+
+.flow-tab-bar .add-tab-btn,
+.flow-tab-bar .wf-dropdown-btn {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 7px !important;
+}
+
+.flow-tab-bar .add-tab-btn svg,
+.flow-tab-bar .wf-dropdown-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.flow-tab-bar .wf-tab {
+  display: flex !important;
+  align-items: center !important;
+  max-width: 220px !important;
+  height: 30px !important;
+  padding: 0 12px !important;
+  border-radius: 7px !important;
+  background: #3f3f46 !important;
+  color: #f4f4f5 !important;
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+.flow-tab-bar .wf-tab .tab-close {
+  display: none !important;
+}
+
+.flow-tab-bar .node-count-pill {
+  min-height: 30px !important;
+  padding: 0 10px 0 12px !important;
+  border-radius: 7px !important;
+}
+
+.flow-tab-bar .graph-breadcrumb {
+  width: fit-content !important;
+  max-width: min(100%, 480px) !important;
+  padding: 6px 10px !important;
+  border-radius: 10px !important;
+  background: rgba(24, 24, 27, 0.78) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid #27272a !important;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.28) !important;
+}

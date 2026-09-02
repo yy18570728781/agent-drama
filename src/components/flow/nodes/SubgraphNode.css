@@ -1,0 +1,97 @@
+.subgraph-node-shell {
+  position: relative;
+  width: 240px;
+  min-height: 88px;
+  overflow: visible;
+  user-select: none;
+}
+
+.subgraph-node {
+  width: 100%;
+  min-height: 88px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(63, 63, 70, 0.9);
+  background: rgba(24, 24, 27, 0.96);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+  color: #f4f4f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.subgraph-node__title-wrap {
+  position: absolute;
+  top: -34px;
+  left: 2px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+  z-index: 1;
+}
+
+.subgraph-node__title {
+  max-width: 220px;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3f3f46;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.subgraph-node__title:hover {
+  color: #18181b;
+  background: rgba(161, 161, 170, 0.28);
+}
+
+.subgraph-node__title-input {
+  min-width: 120px;
+  max-width: 220px;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+  background: #fafafa;
+  color: #18181b;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid #818cf8;
+  outline: none;
+}
+
+.subgraph-node__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.subgraph-node__count-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f4f4f5;
+  white-space: nowrap;
+}
+
+.subgraph-node__action-btn {
+  border: 1px solid rgba(82, 82, 91, 0.95);
+  border-radius: 999px;
+  background: rgba(39, 39, 42, 0.9);
+  color: #e4e4e7;
+  padding: 5px 12px;
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.subgraph-node__action-btn:hover {
+  background: rgba(63, 63, 70, 0.92);
+  border-color: rgba(113, 113, 122, 0.95);
+  color: #fff;
+}

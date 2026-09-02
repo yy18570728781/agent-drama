@@ -1,0 +1,32 @@
+.subject-edit-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(4, 4, 7, .74);
+  backdrop-filter: blur(6px);
+}
+
+.subject-edit-dialog {
+  width: min(900px, 100%);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--border) 86%, white 14%);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--bg-elevated) 96%, white 4%);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .48);
+}
+
+.subject-edit-dialog-fade-enter-active,
+.subject-edit-dialog-fade-leave-active { transition: opacity .18s ease; }
+.subject-edit-dialog-fade-enter-active .subject-edit-dialog,
+.subject-edit-dialog-fade-leave-active .subject-edit-dialog { transition: transform .18s ease; }
+.subject-edit-dialog-fade-enter-from,
+.subject-edit-dialog-fade-leave-to { opacity: 0; }
+.subject-edit-dialog-fade-enter-from .subject-edit-dialog,
+.subject-edit-dialog-fade-leave-to .subject-edit-dialog { transform: translateY(8px) scale(.985); }
+
+@media (max-width: 700px) {
+  .subject-edit-dialog-overlay { padding: 12px; }
+}

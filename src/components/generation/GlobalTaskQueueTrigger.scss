@@ -1,0 +1,112 @@
+.gtq-trigger {
+  --gtq-status-color: var(--text-secondary);
+  position: relative;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gtq-status-color);
+  cursor: pointer;
+  place-items: center;
+  transition: color var(--sys-duration-fast) ease;
+}
+
+.gtq-trigger--queued { --gtq-status-color: var(--warning); }
+.gtq-trigger--running { --gtq-status-color: var(--accent-light); }
+.gtq-trigger--completed { --gtq-status-color: var(--success); }
+.gtq-trigger--failed { --gtq-status-color: var(--error); }
+.gtq-trigger--idle.is-expanded { --gtq-status-color: var(--accent-light); }
+
+.gtq-trigger__halo {
+  position: absolute;
+  inset: 5px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.88);
+}
+
+.gtq-trigger.is-breathing .gtq-trigger__halo {
+  animation: gtq-trigger-breathe 2s var(--sys-ease-in-out) infinite;
+}
+
+.gtq-trigger__surface {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  opacity: 1;
+  place-items: center;
+  transition:
+    opacity var(--sys-duration-fast) ease,
+    transform var(--sys-duration-fast) ease;
+}
+
+.gtq-trigger.is-expanded .gtq-trigger__surface {
+  opacity: 1;
+}
+
+.gtq-trigger__count {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  display: grid;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border: 1px solid var(--bg-surface);
+  border-radius: var(--sys-radius-pill);
+  background: var(--gtq-status-color);
+  color: var(--bg-base);
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  place-items: center;
+}
+
+.gtq-trigger:focus-visible .gtq-trigger__surface {
+  box-shadow: 0 0 0 2px var(--bg-surface), 0 0 0 4px var(--gtq-status-color);
+}
+
+.gtq-trigger__spin {
+  animation: gtq-trigger-spin 1s linear infinite;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gtq-trigger:hover .gtq-trigger__surface {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gtq-trigger.is-breathing .gtq-trigger__halo {
+    animation: none;
+    opacity: 0.42;
+    transform: none;
+  }
+
+  .gtq-trigger__surface {
+    transition: none;
+  }
+
+  .gtq-trigger__spin {
+    animation: none;
+  }
+}
+
+@keyframes gtq-trigger-breathe {
+  0%, 100% { opacity: 0.18; transform: scale(0.88); }
+  50% { opacity: 0.58; transform: scale(1.28); }
+}
+
+@keyframes gtq-trigger-spin {
+  to { transform: rotate(360deg); }
+}

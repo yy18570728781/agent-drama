@@ -1,0 +1,1108 @@
+﻿:deep(.media-item .media-area) {
+  aspect-ratio: unset !important;
+  height: 100%;
+}
+
+.gen-view {
+  --cardview-surface-page: var(--bg-base);
+  --cardview-surface-panel: var(--bg-surface);
+  --cardview-surface-elevated: var(--bg-elevated);
+  --cardview-surface-hover: var(--bg-hover);
+  --cardview-surface-active: var(--bg-active);
+  --cardview-border: var(--border);
+  --cardview-border-muted: var(--border-light);
+  --cardview-text-primary: var(--text-primary);
+  --cardview-text-secondary: var(--text-secondary);
+  --cardview-text-muted: var(--text-muted);
+  --cardview-accent: var(--accent);
+  --cardview-accent-soft: color-mix(in srgb, var(--accent) 18%, transparent);
+  --cardview-shadow-surface: var(--sys-shadow-surface);
+  --cardview-shadow-elevated: var(--sys-shadow-elevated);
+
+  height: 100%;
+  background: var(--cardview-surface-page);
+  color: var(--cardview-text-primary);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Overlay Styles */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: flex-start;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--cardview-surface-page) 82%, transparent) 0%,
+    color-mix(in srgb, var(--cardview-surface-page) 28%, transparent) 24%,
+    rgba(10, 10, 12, 0) 46%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  padding: 10px;
+  pointer-events: none; /* 允许点击穿透到图片 */
+}
+
+.feed-card:hover .card-overlay {
+  opacity: 1;
+}
+
+.overlay-toolbar,
+.overlay-actions {
+  pointer-events: auto; /* 恢复交互 */
+}
+
+.overlay-toolbar {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.overlay-actions {
+  display: flex;
+  justify-content: flex-start; /* 左上角 */
+  gap: 4px;
+}
+
+.meta-overlay {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ref-thumb {
+  width: 24px;
+  height: 32px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cardview-border) 86%, transparent);
+  position: relative;
+  background: var(--cardview-surface-elevated);
+  box-shadow: var(--cardview-shadow-surface);
+  flex-shrink: 0;
+}
+
+.ref-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ref-thumb-inline {
+  width: 26px;
+  height: 36px;
+  border-color: rgba(251, 191, 36, 0.35);
+  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.10);
+}
+
+.feed-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--cardview-surface-page) 10%, var(--cardview-surface-panel)) 0%,
+    color-mix(in srgb, var(--cardview-surface-elevated) 84%, var(--cardview-surface-panel)) 100%
+  );
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cardview-border) 88%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--cardview-surface-page) 48%, transparent) inset,
+    0 18px 40px rgba(15, 23, 42, 0.12);
+  width: 100%;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.feed-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 34%;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--cardview-surface-page) 42%, transparent) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.feed-card::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 11px;
+  border: 1px solid color-mix(in srgb, var(--cardview-surface-page) 18%, transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.feed-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.feed-card:hover {
+  border-color: color-mix(in srgb, var(--cardview-accent) 18%, var(--cardview-border));
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--cardview-surface-page) 58%, transparent) inset,
+    0 22px 46px rgba(15, 23, 42, 0.16);
+  transform: translateY(-2px);
+}
+
+/* Header styles removed */
+
+
+/* Body */
+.card-body {
+  background: var(--cardview-surface-elevated);
+  position: relative;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 轮播画廊 */
+.media-carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.media-carousel :deep(.el-carousel) {
+  height: 100%;
+}
+
+.media-carousel :deep(.el-carousel__container) {
+  height: 100% !important;
+}
+
+.media-carousel :deep(.el-carousel__arrow) {
+  background: rgba(0, 0, 0, 0.5);
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+}
+
+.media-carousel :deep(.el-carousel__arrow--left) {
+  left: 4px;
+}
+
+.media-carousel :deep(.el-carousel__arrow--right) {
+  right: 4px;
+}
+
+.carousel-counter {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Override HistoryRecord styles for feed */
+.media-item :deep(.record-wrapper) {
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure video/image takes full width and respects original ratio */
+/* Removed previous overrides as they are now handled by :original-ratio prop */
+
+.media-item :deep(video),
+.media-item :deep(img) {
+  /* Ensure background matches card */
+  background: var(--cardview-surface-elevated);
+  display: block;
+  margin: 0 auto;
+}
+
+/* Actions Overlay Top Left (For generating state) */
+.actions-overlay-top-left {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.feed-card:hover .actions-overlay-top-left {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Shared Action Button Style */
+.icon-action-btn {
+  background: color-mix(in srgb, var(--cardview-surface-panel) 96%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cardview-border) 94%, transparent);
+  color: var(--cardview-text-primary);
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--cardview-shadow-surface);
+  transition: all 0.2s;
+}
+
+.icon-action-btn:hover {
+  background: var(--cardview-surface-elevated);
+  color: var(--cardview-accent);
+  border-color: color-mix(in srgb, var(--cardview-accent) 34%, transparent);
+}
+
+/* Media Container */
+.media-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  position: relative;
+  min-width: 0;
+}
+
+.main-media-view {
+  width: 100%;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 0;
+  cursor: pointer;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--cardview-surface-page) 18%, var(--cardview-surface-elevated)) 0%,
+    color-mix(in srgb, var(--cardview-surface-panel) 18%, var(--cardview-surface-elevated)) 100%
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-media-view::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 24% 18%, color-mix(in srgb, var(--cardview-surface-page) 34%, transparent), transparent 30%),
+    linear-gradient(180deg, color-mix(in srgb, var(--cardview-surface-page) 10%, transparent), transparent 48%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.main-media-view .media-item {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-content-panel {
+  padding: 8px 12px 6px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--cardview-surface-elevated) 62%, var(--cardview-surface-panel)) 0%,
+    color-mix(in srgb, var(--cardview-surface-panel) 100%, transparent) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 2px;
+}
+
+.card-details-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-summary-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-bottom-panel {
+  padding: 10px 14px 14px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--cardview-surface-elevated) 52%, var(--cardview-surface-panel)) 0%,
+    color-mix(in srgb, var(--cardview-surface-elevated) 72%, var(--cardview-surface-panel)) 100%
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.result-section-bottom {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.card-meta-footer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.card-meta-footer::-webkit-scrollbar {
+  display: none;
+}
+
+.detail-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detail-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cardview-text-muted);
+  letter-spacing: 0.04em;
+}
+
+.detail-section-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cardview-text-muted);
+}
+
+.inline-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 222, 128, 0.20);
+  background: rgba(74, 222, 128, 0.06);
+  color: #6ee7b7;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.inline-copy-btn:hover {
+  color: #a7f3d0;
+  border-color: rgba(74, 222, 128, 0.40);
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.model-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.model-badge {
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.22);
+}
+
+.detail-inline-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 0 2px;
+  scrollbar-width: none;
+}
+
+.detail-inline-row::-webkit-scrollbar {
+  display: none;
+}
+
+.inline-ref-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.inline-prompt {
+  min-width: 60px;
+  flex: 1 1 120px;
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.inline-prompt-text {
+  color: #e2e8f0;
+  font-size: 12px;
+  line-height: 1.45;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inline-prompt-text.is-empty {
+  color: var(--cardview-text-muted);
+  font-style: italic;
+}
+
+.prompt-tooltip-content {
+  max-width: 360px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.55;
+  font-size: 12px;
+  color: var(--cardview-text-primary);
+}
+
+.inline-meta-group {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+  min-width: auto;
+  flex-shrink: 0;
+}
+
+.detail-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 191, 36, 0.18);
+  background: rgba(251, 191, 36, 0.06);
+  color: #d4a04a;
+  font-size: 10px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.detail-link-btn:hover {
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.35);
+  background: rgba(251, 191, 36, 0.12);
+}
+
+.meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.meta-tag-label {
+  color: #67a8c4;
+  flex-shrink: 0;
+}
+
+.meta-tag-value {
+  min-width: 0;
+  color: #94a3b8;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta-tag-muted {
+  color: var(--cardview-text-muted);
+}
+
+/* Thumbnail List */
+.thumbnail-list {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0;
+  scrollbar-width: none; /* Firefox */
+}
+
+.result-thumbnail-list {
+  width: 100%;
+  padding: 6px 2px 2px;
+}
+
+.thumbnail-list::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.thumbnail-item {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--cardview-border) 62%, transparent);
+  transition: all 0.2s;
+  opacity: 0.82;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--cardview-surface-page) 8%, var(--cardview-surface-panel)) 0%,
+    color-mix(in srgb, var(--cardview-surface-hover) 18%, var(--cardview-surface-panel)) 100%
+  );
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+}
+
+.thumbnail-item:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.thumbnail-item.active {
+  border-color: var(--cardview-accent);
+  opacity: 1;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--cardview-accent) 22%, transparent);
+}
+
+.thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ref-thumb-inline {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.main-layout {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* 左侧结果区域 */
+.result-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* 防止内部溢出 */
+}
+
+.back-to-top-btn {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  z-index: 40;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(251, 191, 36, 0.42);
+  border-radius: 999px;
+  background: color-mix(in srgb, #f59e0b 22%, var(--cardview-surface-panel));
+  color: #fef3c7;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(10px);
+  transform: translateY(-50%);
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.back-to-top-btn:hover {
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);
+  background: color-mix(in srgb, #f59e0b 32%, var(--cardview-surface-elevated));
+  border-color: rgba(251, 191, 36, 0.68);
+}
+
+.result-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 160px;
+  -webkit-overflow-scrolling: touch;
+  /* 开启硬件加速，提升滚动性能 */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* 输入面板隐藏时，结果区底部留白收缩 */
+.result-col:not(:has(.generator-input-stack)) .result-area {
+  padding-bottom: 48px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 6px 14px 8px;
+  background: linear-gradient(
+    180deg,
+    var(--cardview-surface-page) 0%,
+    var(--cardview-surface-page) 78%,
+    color-mix(in srgb, var(--cardview-surface-page) 94%, transparent) 100%
+  );
+  border-bottom: 1px solid var(--cardview-border-muted);
+}
+
+/* 历史记录列表：瀑布流容器 */
+.masonry-list {
+  padding: 12px 0 24px;
+}
+
+.masonry-grid-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.masonry-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 日期分组标题 - UNUSED */
+
+/* 每个生成批次的容器 */
+.generation-group {
+  break-inside: avoid;
+  position: relative;
+  border-radius: 12px;
+}
+
+/* 卡片样式 - 增强视觉区分 */
+.feed-card.dark-border {
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 4px 24px rgba(0, 0, 0, 0.40);
+}
+
+.feed-card.dark-border:hover {
+  border-color: color-mix(in srgb, var(--cardview-accent) 38%, rgba(255, 255, 255, 0.14));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--cardview-accent) 18%, transparent),
+    0 8px 32px rgba(0, 0, 0, 0.50);
+}
+
+/* 新结果高亮动画 */
+@keyframes new-result-glow {
+  0% { box-shadow: 0 0 0 2px color-mix(in srgb, var(--cardview-accent) 60%, transparent), 0 4px 24px rgba(0, 0, 0, 0.40); }
+  50% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--cardview-accent) 40%, transparent), 0 4px 24px rgba(0, 0, 0, 0.40); }
+  100% { box-shadow: 0 0 0 2px color-mix(in srgb, var(--cardview-accent) 60%, transparent), 0 4px 24px rgba(0, 0, 0, 0.40); }
+}
+
+.feed-card.new-result-highlight {
+  border-color: color-mix(in srgb, var(--cardview-accent) 50%, rgba(255, 255, 255, 0.14));
+  animation: new-result-glow 1.5s ease-in-out 2;
+}
+
+/* 生成中状态 - 不加特殊边框 */
+
+/* 日期标签 */
+.date-label {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--cardview-text-primary);
+  padding-bottom: 8px;
+}
+
+.empty-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+}
+
+.empty-hint-text {
+  color: var(--cardview-text-muted);
+  font-size: 14px;
+}
+
+.scale-hint {
+  position: fixed;
+  top: 60px;
+  right: 80px;
+  padding: 8px 16px;
+  background: color-mix(in srgb, var(--cardview-surface-elevated) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  color: var(--cardview-text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--cardview-shadow-surface);
+  z-index: 100;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+/* Card Info Styles - REMOVED */
+
+/* Loading Top */
+.loading-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 0;
+  color: var(--cardview-text-muted);
+  font-size: 12px;
+  width: 100%;
+}
+
+.loading-bottom {
+  position: absolute;
+  left: 50%;
+  bottom: 112px;
+  transform: translateX(-50%);
+  width: max-content;
+  min-width: 164px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: var(--cardview-text-secondary);
+  font-size: 12px;
+  background: color-mix(in srgb, var(--cardview-surface-panel) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cardview-border) 82%, transparent);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+  backdrop-filter: blur(10px);
+  z-index: 40;
+  pointer-events: none;
+}
+
+:deep(.cardview-popover-menu) {
+  background: var(--cardview-surface-panel) !important;
+  border: 1px solid var(--cardview-border) !important;
+  border-radius: 10px !important;
+  padding: 4px !important;
+  box-shadow: var(--cardview-shadow-elevated) !important;
+  color: var(--cardview-text-primary) !important;
+}
+
+:deep(.cardview-prompt-tooltip) {
+  max-width: 392px !important;
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+  border: 1px solid color-mix(in srgb, var(--cardview-border) 92%, transparent) !important;
+  background: color-mix(in srgb, var(--cardview-surface-panel) 100%, transparent) !important;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.14) !important;
+  color: var(--cardview-text-primary) !important;
+}
+
+.cardview-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--cardview-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.cardview-menu-item:hover {
+  background: color-mix(in srgb, var(--cardview-surface-hover) 72%, transparent);
+  color: var(--cardview-text-primary);
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--cardview-border);
+  border-top-color: var(--cardview-text-secondary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 卡片右键菜单 */
+:global(.card-context-menu) {
+  position: fixed;
+  background: #1e1e22;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 4px;
+  z-index: 10000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  width: 120px;
+}
+:global(.card-context-menu-item) {
+  width: 100%;
+  display: block;
+  padding: 7px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #a1a1aa;
+  font-size: 13px;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  outline: none;
+}
+:global(.card-context-menu-item:hover),
+:global(.card-context-menu-item:focus-visible) {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e4e4e7;
+}
+:global(.card-context-menu-divider) {
+  height: 1px;
+  margin: 3px 8px;
+  background: var(--cardview-border);
+}
+
+/* 卡片拖拽 */
+.main-media-view[draggable="true"] {
+  cursor: grab;
+}
+.main-media-view[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+/* 实体标签 */
+.card-entity-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  margin: 0 8px 4px;
+  background: color-mix(in srgb, var(--cardview-accent) 14%, transparent);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--cardview-accent);
+  overflow: hidden;
+}
+.card-entity-badge span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 右键菜单分割线 */
+.card-context-menu-divider {
+  height: 1px;
+  margin: 2px 4px;
+  background: var(--cardview-border-muted);
+}
+
+/* 实体绑定面板 */
+.entity-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+}
+.entity-panel {
+  width: 400px;
+  max-width: 90vw;
+  max-height: 70vh;
+  background: var(--cardview-surface-panel);
+  border: 1px solid var(--cardview-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+.entity-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--cardview-border-muted);
+}
+.entity-panel-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cardview-text-primary);
+}
+.entity-panel-close {
+  background: none;
+  border: none;
+  color: var(--cardview-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+}
+.entity-panel-close:hover {
+  color: var(--cardview-text-primary);
+  background: var(--cardview-surface-hover);
+}
+.entity-panel-search {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--cardview-border-muted);
+}
+.entity-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--cardview-surface-elevated);
+  border: 1px solid var(--cardview-border);
+  border-radius: 8px;
+  color: var(--cardview-text-primary);
+  font-size: 13px;
+  outline: none;
+}
+.entity-search-input:focus {
+  border-color: var(--cardview-accent);
+}
+.entity-panel-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px;
+  min-height: 120px;
+  max-height: 300px;
+}
+.entity-panel-loading,
+.entity-panel-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--cardview-text-muted);
+  font-size: 13px;
+}
+.entity-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--cardview-text-secondary);
+  transition: background 0.15s;
+}
+.entity-item:hover {
+  background: var(--cardview-surface-hover);
+  color: var(--cardview-text-primary);
+}
+.entity-item-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.entity-item-name {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.entity-item-code {
+  font-size: 11px;
+  color: var(--cardview-text-muted);
+}
+.entity-panel-create {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--cardview-border-muted);
+}
+.entity-create-input {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--cardview-surface-elevated);
+  border: 1px solid var(--cardview-border);
+  border-radius: 8px;
+  color: var(--cardview-text-primary);
+  font-size: 13px;
+  outline: none;
+}
+.entity-create-input:focus {
+  border-color: var(--cardview-accent);
+}
+.entity-create-btn {
+  padding: 8px 16px;
+  background: var(--cardview-accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: filter 0.15s;
+  white-space: nowrap;
+}
+.entity-create-btn:hover {
+  filter: brightness(1.1);
+}
+
+

@@ -1,0 +1,75 @@
+.canvas-card__more,
+.canvas-card__favorite {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .14);
+  color: #f4f4f5;
+  cursor: pointer;
+  background: rgba(9, 9, 11, .76);
+  opacity: 0;
+  pointer-events: none;
+  place-items: center;
+  transition: opacity .16s ease, color .16s ease, background .16s ease;
+}
+
+.canvas-card__more {
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  right: 10px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(9, 9, 11, .28);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .8));
+  font-size: 20px;
+}
+
+.canvas-card__favorite {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 15px;
+}
+
+.canvas-card__favorite.is-active {
+  color: #ff4d67;
+}
+
+.canvas-card__favorite.is-active svg {
+  fill: currentColor;
+}
+
+.canvas-card:hover .canvas-card__more,
+.canvas-card:hover .canvas-card__favorite,
+.canvas-card:focus-within .canvas-card__more,
+.canvas-card:focus-within .canvas-card__favorite,
+.canvas-card.is-menu-open .canvas-card__more {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.canvas-card__more:hover,
+.canvas-card__favorite:hover {
+  color: #fff;
+  background: rgba(39, 39, 42, .92);
+}
+
+.canvas-card__favorite.is-active:hover {
+  color: #fff;
+}
+
+.canvas-card__more:focus-visible,
+.canvas-card__favorite:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--accent, #22d3ee);
+  outline-offset: 2px;
+  pointer-events: auto;
+}
+
+.canvas-card__favorite:disabled {
+  cursor: wait;
+}

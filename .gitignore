@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+
+# AI coding tools
+.claude/
+.codex/
+.cursor/
+.opencode/
+.sisyphus/
+.windsurf/
+
+# Build output
+out/
+dist/
+dist-electron/
+coverage/
+.vite/
+
+# TypeScript cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+.eslintcache
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Vite/TS compiled intermediates
+*.vue.js
+*.vue.d.ts
+
+# IDE
+.fleet/
+.idea/
+.vs/
+.vscode/
+.zed/
+.history/
+
+# OS
+.DS_Store
+nul
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.development
+!.env.production
+!.env.example
+
+# Local dev HTTPS certificates
+.devcert/
+/.codegraph/

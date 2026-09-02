@@ -1,0 +1,9 @@
+html[data-density='compact'] {
+  --sys-control-height-sm: 26px;
+  --sys-control-height-md: 32px;
+  --sys-control-height-lg: 36px;
+  --sys-panel-padding: 16px;
+  --sys-toolbar-gap: 10px;
+  --sys-toolbar-padding-x: 12px;
+  --sys-toolbar-padding-y: 10px;
+}

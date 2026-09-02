@@ -1,0 +1,70 @@
+:root {
+  --ref-font-family-sans: "PingFang SC", "Microsoft YaHei", "Inter", sans-serif;
+
+  --ref-color-white: #ffffff;
+  --ref-color-black: #000000;
+
+  --discover-accent-300: #79e7f3;
+  --discover-accent-400: #4ddfef;
+  --discover-accent: #20d7eb;
+  --discover-accent-600: #1bb7c8;
+  --discover-accent-700: #127681;
+  --discover-accent-soft: rgba(32, 215, 235, 0.15);
+  --discover-accent-ink: #061115;
+
+  --ref-color-neutral-0: #ffffff;
+  --ref-color-neutral-50: #f8fafc;
+  --ref-color-neutral-100: #f1f5f9;
+  --ref-color-neutral-200: #e2e8f0;
+  --ref-color-neutral-300: #cbd5e1;
+  --ref-color-neutral-400: #94a3b8;
+  --ref-color-neutral-500: #64748b;
+  --ref-color-neutral-600: #475569;
+  --ref-color-neutral-700: #334155;
+  --ref-color-neutral-800: #1e293b;
+  --ref-color-neutral-850: #172033;
+  --ref-color-neutral-900: #0f172a;
+  --ref-color-neutral-950: #020617;
+
+  --ref-color-indigo-300: #9d92f8;
+  --ref-color-indigo-400: #8e83f7;
+  --ref-color-indigo-500: #7c6ef6;
+  --ref-color-indigo-600: #6b5dd6;
+  --ref-color-indigo-700: #5a4bb8;
+
+  --ref-color-slateblue-300: #c2ccde;
+  --ref-color-slateblue-400: #94a3b8;
+  --ref-color-slateblue-500: #64748b;
+  --ref-color-slateblue-600: #475569;
+  --ref-color-slateblue-700: #334155;
+
+  --ref-color-amber-400: #fbbf24;
+  --ref-color-amber-500: #f59e0b;
+  --ref-color-emerald-400: #34d399;
+  --ref-color-emerald-500: #10b981;
+  --ref-color-rose-400: #fb7185;
+  --ref-color-rose-500: #f87171;
+
+  --ref-space-1: 4px;
+  --ref-space-2: 8px;
+  --ref-space-3: 12px;
+  --ref-space-4: 16px;
+  --ref-space-5: 20px;
+  --ref-space-6: 24px;
+  --ref-space-8: 32px;
+
+  --ref-radius-xs: 6px;
+  --ref-radius-sm: 8px;
+  --ref-radius-md: 12px;
+  --ref-radius-lg: 16px;
+  --ref-radius-xl: 20px;
+  --ref-radius-pill: 999px;
+
+  --ref-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.08);
+  --ref-shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
+  --ref-shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.18);
+
+  --ref-duration-fast: 120ms;
+  --ref-duration-normal: 180ms;
+  --ref-duration-slow: 280ms;
+}

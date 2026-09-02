@@ -1,0 +1,250 @@
+.gtq-drawer-viewport {
+  position: fixed;
+  z-index: 300;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: var(--sys-app-sidebar-width);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gtq-panel {
+  position: absolute;
+  bottom: var(--sys-space-3);
+  left: var(--sys-space-2);
+  display: flex;
+  width: min(380px, calc(100% - var(--sys-space-4)));
+  height: 520px;
+  max-height: calc(100dvh - var(--sys-space-6));
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border, #333);
+  border-radius: var(--sys-radius-lg);
+  outline-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  background: var(--bg-surface, #141418);
+  box-shadow: var(--sys-shadow-floating);
+  pointer-events: auto;
+}
+
+.gtq-panel-header {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: var(--sys-space-2);
+  padding: var(--sys-space-2) var(--sys-space-3) var(--sys-space-2) var(--sys-space-4);
+  border-bottom: 1px solid var(--border-light, #27272a);
+  flex-shrink: 0;
+}
+
+.gtq-panel-title {
+  color: var(--text-primary, #e4e4e7);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gtq-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-space-1);
+  margin-left: auto;
+}
+
+.gtq-clear-btn,
+.gtq-close-btn {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--sys-radius-xs);
+  background: transparent;
+  color: var(--text-muted, #71717a);
+  cursor: pointer;
+  place-items: center;
+  transition:
+    background-color var(--sys-duration-fast) ease,
+    color var(--sys-duration-fast) ease;
+}
+
+.gtq-clear-btn:hover {
+  background: color-mix(in srgb, var(--error) 12%, transparent);
+  color: var(--error);
+}
+
+.gtq-close-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-secondary, #a1a1aa);
+}
+
+.gtq-clear-btn:focus-visible,
+.gtq-close-btn:focus-visible,
+.gtq-tab:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--accent-light);
+}
+
+.gtq-panel :deep(button:focus-visible) {
+  box-shadow: inset 0 0 0 2px var(--accent-light);
+}
+
+.gtq-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 6px 10px 0;
+  flex-shrink: 0;
+}
+
+.gtq-tab {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-space-1);
+  padding: 8px 2px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-muted, #71717a);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    border-color var(--sys-duration-fast) ease,
+    color var(--sys-duration-fast) ease;
+}
+
+.gtq-tab:hover {
+  color: var(--text-secondary, #a1a1aa);
+}
+
+.gtq-tab.active {
+  border-bottom-color: var(--accent-light);
+  color: var(--text-primary, #e4e4e7);
+}
+
+.gtq-tab-count {
+  display: grid;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 4px;
+  border-radius: var(--sys-radius-pill);
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  place-items: center;
+}
+
+.gtq-tab-count.pending {
+  background: color-mix(in srgb, var(--warning) 15%, transparent);
+  color: var(--warning);
+}
+
+.gtq-tab-count.queued {
+  background: color-mix(in srgb, var(--text-muted) 15%, transparent);
+  color: var(--text-secondary);
+}
+
+.gtq-tab-count.generating {
+  background: color-mix(in srgb, var(--accent-light) 18%, transparent);
+  color: var(--accent-light);
+}
+
+.gtq-tab-count.error {
+  background: color-mix(in srgb, var(--error) 15%, transparent);
+  color: var(--error);
+}
+
+.gtq-panel-list {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sys-space-2) 10px 10px;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.gtq-task-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gtq-empty {
+  padding: var(--sys-space-6) 0;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-align: center;
+  user-select: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar { width: 5px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { border-radius: 4px; background: var(--border-light); }
+
+.gtq-drawer-enter-active {
+  transition:
+    opacity var(--sys-duration-slow) ease,
+    transform var(--sys-duration-slow) var(--sys-ease-drawer);
+}
+
+.gtq-drawer-leave-active {
+  transition:
+    opacity var(--sys-duration-normal) ease,
+    transform var(--sys-duration-normal) var(--sys-ease-drawer);
+}
+
+.gtq-drawer-enter-from,
+.gtq-drawer-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.gtq-task-list-enter-active {
+  transition:
+    opacity var(--sys-duration-normal) ease,
+    transform var(--sys-duration-normal) var(--sys-ease-drawer);
+}
+
+.gtq-task-list-leave-active {
+  transition:
+    opacity var(--sys-duration-fast) ease,
+    transform var(--sys-duration-fast) var(--sys-ease-drawer);
+}
+
+.gtq-task-list-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.gtq-task-list-leave-to {
+  opacity: 0;
+  transform: translateX(16px);
+}
+
+@media (max-width: 640px) {
+  .gtq-panel {
+    bottom: var(--sys-space-2);
+    left: 6px;
+    width: calc(100% - var(--sys-space-3));
+    max-height: calc(100dvh - var(--sys-space-4));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gtq-drawer-enter-active,
+  .gtq-drawer-leave-active,
+  .gtq-task-list-enter-active,
+  .gtq-task-list-leave-active {
+    transition: opacity var(--sys-duration-fast) ease;
+  }
+
+  .gtq-drawer-enter-from,
+  .gtq-drawer-leave-to,
+  .gtq-task-list-enter-from,
+  .gtq-task-list-leave-to {
+    transform: none;
+  }
+}

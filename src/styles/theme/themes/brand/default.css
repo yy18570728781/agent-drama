@@ -1,0 +1,10 @@
+:root,
+html[data-brand='default'] {
+  --brand-primary-300: var(--discover-accent-300);
+  --brand-primary-400: var(--discover-accent-400);
+  --brand-primary-500: var(--discover-accent);
+  --brand-primary-600: var(--discover-accent-600);
+  --brand-primary-700: var(--discover-accent-700);
+  --brand-primary-soft: var(--discover-accent-soft);
+  --brand-primary-contrast: var(--discover-accent-ink);
+}

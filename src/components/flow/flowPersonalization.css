@@ -1,0 +1,281 @@
+.flow-personalization {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #a1a1aa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-hint {
+  margin: -2px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #71717a;
+}
+
+.option-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.three-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.two-col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.anim-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+  background: #1c1c1f;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: #a1a1aa;
+}
+
+.option-card:hover {
+  border-color: #3f3f46;
+  color: #d4d4d8;
+}
+
+.option-card.active {
+  border-color: #818cf8;
+  background: rgba(129, 140, 248, 0.08);
+  color: #f4f4f5;
+}
+
+.option-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.edge-preview,
+.anim-preview {
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edge-svg,
+.anim-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.edge-svg path,
+.anim-line,
+.anim-arrow-head {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.anim-arrow-head {
+  fill: currentColor;
+  stroke: none;
+}
+
+.anim-line-flow {
+  stroke-dasharray: 6 6;
+}
+
+.anim-line-trail {
+  stroke-dasharray: 12 6;
+}
+
+.anim-line-pulse {
+  opacity: 0.7;
+}
+
+.anim-line-blink {
+  stroke-dasharray: 3 4;
+}
+
+.color-preview {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  height: 20px;
+}
+
+.color-bar,
+.drop-direction-chip {
+  flex: 1;
+  border-radius: 4px;
+  height: 100%;
+}
+
+.color-custom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #1c1c1f;
+  border: 1px solid #27272a;
+  border-radius: 10px;
+}
+
+.color-type-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.color-custom-label {
+  font-size: 12px;
+  color: #d4d4d8;
+}
+
+.color-picker-wrap {
+  position: relative;
+  width: 28px;
+  height: 28px;
+}
+
+.color-picker {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.color-swatch {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+}
+
+.thumb-timing-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: #1c1c1f;
+  border: 1px solid #27272a;
+  border-radius: 10px;
+}
+
+.thumb-timing-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: #d4d4d8;
+}
+
+.thumb-timing-value {
+  color: #c4b5fd;
+  font-weight: 600;
+}
+
+.thumb-timing-slider {
+  width: 100%;
+  accent-color: #818cf8;
+}
+
+.thumb-timing-hint {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #71717a;
+}
+
+.drop-direction-preview {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  min-height: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-direction-preview.is-vertical {
+  flex-direction: column;
+}
+
+.drop-direction-preview.is-horizontal {
+  flex-direction: row;
+}
+
+.drop-direction-chip {
+  max-width: 28px;
+  min-height: 6px;
+  background: currentColor;
+  opacity: 0.9;
+}
+
+.settings-section__checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-section__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #d4d4d8;
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-section__checkbox {
+  width: 14px;
+  height: 14px;
+  accent-color: #818cf8;
+  cursor: pointer;
+}
+
+.settings-section__threshold-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.settings-section__threshold-slider {
+  width: 100px;
+  height: 4px;
+  accent-color: #818cf8;
+  cursor: pointer;
+}
+
+.settings-section__threshold-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #818cf8;
+  min-width: 44px;
+}

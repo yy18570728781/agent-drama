@@ -1,0 +1,103 @@
+.discover-case-manage-menu__trigger {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  color: color-mix(in srgb, var(--sys-text-primary) 72%, transparent);
+  cursor: pointer;
+  place-items: center;
+  transition:
+    border-color var(--sys-duration-normal) ease,
+    background-color var(--sys-duration-normal) ease,
+    color var(--sys-duration-normal) ease,
+    transform var(--sys-duration-fast) ease;
+}
+
+.discover-case-manage-menu__trigger:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.discover-case-manage-menu__trigger:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.discover-case-manage-menu__trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--discover-accent) 34%, transparent);
+}
+
+.discover-case-manage-menu__spinner {
+  animation: discover-case-manage-menu-spin 0.8s linear infinite;
+}
+
+:global(.discover-case-manage-menu-popper.el-popper) {
+  width: 148px;
+  padding: 6px;
+  border: 1px solid color-mix(in srgb, var(--discover-accent) 18%, var(--sys-border-default));
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-surface-panel);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+:global(.discover-case-manage-menu-popper .el-popper__arrow::before) {
+  border-color: color-mix(in srgb, var(--discover-accent) 18%, var(--sys-border-default));
+  background: var(--sys-surface-panel);
+}
+
+:global(.discover-case-manage-menu.el-dropdown-menu) {
+  padding: 0;
+  background: transparent;
+}
+
+:global(.discover-case-manage-menu .el-dropdown-menu__item) {
+  display: grid;
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: var(--sys-radius-sm);
+  color: color-mix(in srgb, var(--sys-text-primary) 84%, transparent);
+  font-size: 12px;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+}
+
+:global(.discover-case-manage-menu .el-dropdown-menu__item:not(.is-disabled):focus),
+:global(.discover-case-manage-menu .el-dropdown-menu__item:not(.is-disabled):hover) {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--sys-text-primary);
+}
+
+:global(.discover-case-manage-menu .el-dropdown-menu__item.is-danger) {
+  color: color-mix(in srgb, var(--sys-error) 84%, var(--sys-text-primary));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .discover-case-manage-menu__trigger:hover:not(:disabled) {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--sys-text-primary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .discover-case-manage-menu__trigger {
+    transition: none;
+  }
+
+  .discover-case-manage-menu__trigger:active:not(:disabled) {
+    transform: none;
+  }
+
+  .discover-case-manage-menu__spinner {
+    animation: none;
+  }
+}
+
+@keyframes discover-case-manage-menu-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

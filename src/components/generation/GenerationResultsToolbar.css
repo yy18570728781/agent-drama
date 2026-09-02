@@ -1,0 +1,316 @@
+.results-toolbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  row-gap: 5px;
+  min-width: 0;
+  flex: 1 1 100%;
+}
+
+.toolbar-side {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.toolbar-side-left {
+  min-width: 0;
+}
+
+.toolbar-side-right {
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.toolbar-menu-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.toolbar-menu-trigger {
+  height: 32px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color var(--sys-duration-fast) ease, background var(--sys-duration-fast) ease, border-color var(--sys-duration-fast) ease;
+}
+
+.toolbar-menu-trigger:hover {
+  border-color: color-mix(in srgb, var(--border) 72%, transparent);
+  background: color-mix(in srgb, var(--bg-hover) 70%, transparent);
+  color: var(--text-primary);
+}
+
+.toolbar-menu-trigger.active {
+  border-color: color-mix(in srgb, var(--accent) 46%, var(--border));
+  background: color-mix(in srgb, var(--accent) 16%, var(--bg-hover));
+  color: var(--text-primary);
+}
+
+.toolbar-menu-trigger:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 82%, white 8%);
+  outline-offset: 2px;
+}
+
+.menu-chevron {
+  opacity: 0.55;
+  transition: transform 0.15s ease;
+}
+
+.toolbar-menu-trigger.active .menu-chevron {
+  transform: rotate(180deg);
+}
+
+.toolbar-menu-panel {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  z-index: 80;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg-surface) 98%, transparent);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--sys-shadow-floating);
+}
+
+.view-menu-panel {
+  width: 244px;
+}
+
+.filter-menu-panel {
+  width: min(390px, calc(100vw - 28px));
+}
+
+.action-menu-panel {
+  right: 0;
+  left: auto;
+  width: 168px;
+}
+
+.menu-section-title {
+  margin: 3px 4px 7px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.menu-option-grid {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 7px;
+}
+
+.three-columns {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.menu-option-card,
+.menu-text-option,
+.ratio-option {
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--bg-hover) 52%, transparent);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.menu-option-card {
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.menu-text-option,
+.ratio-option {
+  height: 28px;
+}
+
+.menu-option-card:hover,
+.menu-text-option:hover,
+.ratio-option:hover,
+.menu-option-card.active,
+.menu-text-option.active,
+.ratio-option.active {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, var(--bg-hover));
+  color: var(--text-primary);
+}
+
+.menu-toggle-row {
+  width: 100%;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 7px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-toggle-row:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.action-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.toolbar-direct-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.refresh-icon {
+  display: inline-flex;
+  transition: transform 1000ms cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.toolbar-checkbox-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.toolbar-checkbox {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 7px;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color var(--sys-duration-fast) ease, background var(--sys-duration-fast) ease;
+}
+
+.toolbar-checkbox:hover {
+  background: color-mix(in srgb, var(--bg-hover) 70%, transparent);
+  color: var(--text-primary);
+}
+
+.toolbar-checkbox input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.menu-switch {
+  width: 28px;
+  height: 16px;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--bg-active);
+  transition: background 0.15s ease;
+}
+
+.menu-switch i {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.menu-switch.active {
+  background: var(--accent);
+}
+
+.menu-switch.active i {
+  transform: translateX(12px);
+}
+
+.ratio-options {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.ratio-option {
+  padding: 0;
+  font-size: 10px;
+}
+
+@media (max-width: 720px) {
+  .toolbar-side-left {
+    flex: 1 1 100%;
+  }
+
+  .toolbar-menu-trigger span {
+    display: none;
+  }
+
+  .toolbar-menu-trigger {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .menu-chevron {
+    display: none;
+  }
+
+  .toolbar-checkbox {
+    min-height: 36px;
+    padding: 0 5px;
+  }
+
+  .batch-menu-trigger {
+    width: auto;
+    padding: 0 10px;
+  }
+
+  .batch-menu-trigger span,
+  .batch-menu-trigger .menu-chevron {
+    display: inline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .refresh-icon {
+    transition-duration: 0ms;
+  }
+}

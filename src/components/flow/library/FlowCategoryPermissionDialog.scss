@@ -1,0 +1,43 @@
+.permission-titlebar {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  margin: -20px -20px 0;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--border, #303038);
+  font-size: 16px;
+}
+
+.permission-titlebar button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted, #8b8d98);
+  cursor: pointer;
+}
+
+.permission-titlebar button:hover {
+  background: var(--bg-hover, #292a30);
+  color: var(--text-primary, #fff);
+}
+
+.permission-dialog-content {
+  padding-top: 14px;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.dialog-header :deep(.el-button) {
+  gap: 5px;
+}

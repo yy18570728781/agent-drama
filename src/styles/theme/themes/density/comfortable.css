@@ -1,0 +1,10 @@
+:root,
+html[data-density='comfortable'] {
+  --sys-control-height-sm: 30px;
+  --sys-control-height-md: 36px;
+  --sys-control-height-lg: 40px;
+  --sys-panel-padding: 20px;
+  --sys-toolbar-gap: 12px;
+  --sys-toolbar-padding-x: 16px;
+  --sys-toolbar-padding-y: 12px;
+}

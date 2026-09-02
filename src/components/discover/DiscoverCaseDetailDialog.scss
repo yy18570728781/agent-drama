@@ -1,0 +1,333 @@
+:global(.discover-case-detail-overlay) {
+  padding: 24px;
+  background: rgba(3, 5, 7, 0.6);
+  backdrop-filter: blur(6px) saturate(1);
+}
+
+:global(.discover-case-detail-dialog.el-dialog) {
+  position: relative;
+  width: min(1000px, calc(100vw - 48px));
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--discover-accent) 22%, var(--sys-border-default));
+  border-radius: var(--sys-radius-lg) !important;
+  background: var(--sys-surface-panel) !important;
+  box-shadow:
+    0 32px 96px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(255, 255, 255, 0.025) inset;
+}
+
+:global(.discover-case-detail-dialog .el-dialog__header) {
+  display: none !important;
+}
+
+:global(.discover-case-detail-dialog .el-dialog__body) {
+  padding: 0 !important;
+}
+
+.discover-case-detail__header {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 4;
+}
+
+.discover-case-detail__header button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--sys-radius-md);
+  background: rgba(10, 12, 14, 0.62);
+  color: color-mix(in srgb, var(--sys-text-primary) 68%, transparent);
+  cursor: pointer;
+  place-items: center;
+  backdrop-filter: blur(12px);
+  transition:
+    border-color var(--sys-duration-normal) ease,
+    background-color var(--sys-duration-normal) ease,
+    color var(--sys-duration-normal) ease,
+    transform var(--sys-duration-fast) ease;
+}
+
+.discover-case-detail__body {
+  display: grid;
+  height: clamp(500px, 74dvh, 560px);
+  max-height: calc(100dvh - 48px);
+  grid-template-columns: minmax(0, 1.55fr) minmax(370px, 1fr);
+  overflow: hidden;
+}
+
+.discover-case-detail__content {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  padding: 68px 38px 30px;
+  overflow-y: auto;
+  flex-direction: column;
+  background:
+    radial-gradient(circle at 100% 0, rgba(32, 215, 235, 0.065), transparent 36%),
+    var(--sys-surface-panel);
+  scrollbar-gutter: stable;
+}
+
+.discover-case-detail__eyebrow {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  gap: var(--sys-space-3);
+}
+
+.discover-case-detail__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-space-2);
+  color: var(--discover-accent-300);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+
+.discover-case-detail__verified::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: var(--discover-accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--discover-accent) 70%, transparent);
+  content: '';
+}
+
+.discover-case-detail__recommendation,
+.discover-case-detail__recommendation-status {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--sys-radius-pill);
+  background: rgba(255, 255, 255, 0.04);
+  color: color-mix(in srgb, var(--sys-text-primary) 78%, transparent);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.discover-case-detail__recommendation {
+  cursor: pointer;
+  transition:
+    border-color var(--sys-duration-normal) ease,
+    background-color var(--sys-duration-normal) ease,
+    color var(--sys-duration-normal) ease,
+    transform var(--sys-duration-fast) ease;
+}
+
+.discover-case-detail__recommendation.is-active,
+.discover-case-detail__recommendation-status {
+  border-color: color-mix(in srgb, var(--discover-accent) 30%, rgba(255, 255, 255, 0.08));
+  background: color-mix(in srgb, var(--discover-accent) 10%, rgba(10, 12, 14, 0.76));
+  color: var(--discover-accent-300);
+}
+
+.discover-case-detail__recommendation:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.discover-case-detail__spinner {
+  animation: discover-case-detail-spin 0.8s linear infinite;
+}
+
+@keyframes discover-case-detail-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.discover-case-detail__content h2 {
+  margin: 16px 0 8px;
+  color: var(--sys-text-primary);
+  font-size: clamp(24px, 2.3vw, 29px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discover-case-detail__description {
+  margin: 0;
+  color: color-mix(in srgb, var(--sys-text-primary) 58%, transparent);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.discover-case-detail__content dl {
+  margin: 30px 0 24px;
+  padding: 4px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--sys-radius-md);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.discover-case-detail__content dl div {
+  display: grid;
+  min-height: 44px;
+  align-items: center;
+  grid-template-columns: minmax(76px, auto) minmax(0, 1fr);
+  gap: var(--sys-space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.discover-case-detail__content dl div:last-child {
+  border-bottom: 0;
+}
+
+.discover-case-detail__content dt {
+  color: color-mix(in srgb, var(--sys-text-primary) 48%, transparent);
+  font-size: 12px;
+}
+
+.discover-case-detail__content dd {
+  margin: 0;
+  overflow: hidden;
+  color: color-mix(in srgb, var(--sys-text-primary) 82%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discover-case-detail__recommendation:active:not(:disabled),
+.discover-case-detail__header button:active {
+  transform: scale(0.98);
+}
+
+.discover-case-detail__header button:focus-visible,
+.discover-case-detail__recommendation:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--discover-accent) 34%, transparent);
+}
+
+.discover-case-detail__action-error {
+  margin: 0 0 var(--sys-space-3);
+  color: var(--sys-error);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.discover-case-detail__state {
+  display: grid;
+  height: clamp(420px, 68dvh, 520px);
+  padding: var(--sys-space-8);
+  color: var(--sys-text-secondary);
+  font-size: 13px;
+  place-items: center;
+}
+
+.discover-case-detail__state.is-error {
+  color: var(--sys-error);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .discover-case-detail__close:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(34, 38, 42, 0.9);
+    color: var(--sys-text-primary);
+  }
+
+  .discover-case-detail__recommendation:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--discover-accent) 42%, rgba(255, 255, 255, 0.08));
+    background: color-mix(in srgb, var(--discover-accent) 13%, rgba(10, 12, 14, 0.82));
+    color: var(--discover-accent-300);
+  }
+
+}
+
+@media (max-width: 900px) {
+  :global(.discover-case-detail-overlay) {
+    padding: 16px;
+  }
+
+  :global(.discover-case-detail-dialog.el-dialog) {
+    width: min(720px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+  }
+
+  .discover-case-detail__body {
+    display: block;
+    height: auto;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+  }
+
+  .discover-case-detail__content {
+    min-height: 360px;
+    padding: 36px 32px 28px;
+    overflow: visible;
+  }
+
+  .discover-case-detail__content h2 {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 600px) {
+  :global(.discover-case-detail-overlay) {
+    padding: 12px;
+  }
+
+  :global(.discover-case-detail-dialog.el-dialog) {
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+    border-radius: var(--sys-radius-lg) !important;
+  }
+
+  .discover-case-detail__header {
+    top: 8px;
+    right: 8px;
+  }
+
+  .discover-case-detail__body {
+    max-height: calc(100dvh - 24px);
+  }
+
+  .discover-case-detail__content {
+    min-height: 340px;
+    padding: 30px 20px 20px;
+  }
+
+  .discover-case-detail__content h2 {
+    margin-top: 14px;
+    font-size: 23px;
+  }
+
+  .discover-case-detail__content dl {
+    margin-block: 24px 20px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .discover-case-detail__header button,
+  .discover-case-detail__recommendation {
+    transition: none;
+  }
+
+  .discover-case-detail__recommendation:active:not(:disabled),
+  .discover-case-detail__header button:active {
+    transform: none;
+  }
+
+  .discover-case-detail__spinner {
+    animation: none;
+  }
+}

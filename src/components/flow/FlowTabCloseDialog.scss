@@ -1,0 +1,89 @@
+.flow-tab-close-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.flow-tab-close-dialog {
+  width: 320px;
+  padding: 20px;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  background: #18181b;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.5);
+}
+
+.flow-tab-close-dialog header {
+  margin-bottom: 16px;
+  color: #f4f4f5;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.flow-tab-close-dialog p {
+  margin: 0 0 16px;
+  color: #a1a1aa;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.flow-tab-close-dialog footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.flow-tab-close-dialog button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.flow-tab-close-dialog .cancel {
+  border: 1px solid #3f3f46;
+  background: transparent;
+  color: #a1a1aa;
+}
+
+.flow-tab-close-dialog .cancel:hover {
+  background: #27272a;
+  color: #f4f4f5;
+}
+
+.flow-tab-close-dialog .confirm {
+  border: 0;
+  background: #0e9fb8;
+  color: #fff;
+}
+
+.flow-tab-close-dialog .confirm:hover {
+  background: #12b8d2;
+}
+
+.flow-tab-close-dialog .secondary {
+  border: 0;
+  background: #52525b;
+  color: #fff;
+}
+
+.flow-tab-close-dialog .secondary:hover {
+  background: #62626d;
+}
+
+.flow-tab-close-fade-enter-active,
+.flow-tab-close-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.flow-tab-close-fade-enter-from,
+.flow-tab-close-fade-leave-to {
+  opacity: 0;
+}

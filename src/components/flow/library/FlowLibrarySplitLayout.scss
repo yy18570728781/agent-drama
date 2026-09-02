@@ -1,0 +1,95 @@
+.flow-library-split {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.flow-library-split__sidebar {
+  width: var(--flow-sidebar-width);
+  min-width: 0;
+  flex: 0 0 var(--flow-sidebar-width);
+  overflow: hidden;
+  transition: width .2s ease, flex-basis .2s ease;
+}
+
+.flow-library-split.is-collapsed .flow-library-split__sidebar {
+  width: 0;
+  flex-basis: 0;
+}
+
+.flow-library-split__content {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.flow-library-split__resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--flow-sidebar-width) - 3px);
+  z-index: 8;
+  width: 7px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: ew-resize;
+}
+
+.flow-library-split__resizer::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 1px;
+  background: transparent;
+  content: '';
+}
+
+.flow-library-split__resizer:hover::before,
+.flow-library-split.is-resizing .flow-library-split__resizer::before {
+  background: var(--accent, #22d3ee);
+}
+
+.flow-library-split.is-resizing,
+.flow-library-split.is-resizing * {
+  cursor: ew-resize !important;
+  user-select: none;
+}
+
+.flow-library-split.is-resizing .flow-library-split__sidebar {
+  transition: none;
+}
+
+.flow-library-split__toggle {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--flow-sidebar-width) - 7px);
+  z-index: 9;
+  display: grid;
+  width: 14px;
+  height: 40px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border, #303038);
+  border-radius: 7px;
+  background: var(--bg-elevated, #16171b);
+  color: var(--text-muted, #71717a);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: left .2s ease, color .16s ease, background .16s ease;
+}
+
+.flow-library-split__toggle:hover {
+  background: var(--bg-hover, #27272a);
+  color: var(--text-primary, #fff);
+}
+
+.flow-library-split__toggle.is-collapsed {
+  left: 0;
+  border-left: 0;
+  border-radius: 0 7px 7px 0;
+}

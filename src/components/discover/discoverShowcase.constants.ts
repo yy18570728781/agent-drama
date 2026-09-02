@@ -1,0 +1,73 @@
+import type { DiscoverShowcaseItem } from './discover.types'
+
+export const DISCOVER_SHOWCASE_ITEMS = [
+  {
+    id: 'long-video',
+    image: '/discover/liblib-showcase/long-video.webp',
+    imageAlt: '粉色片场中被举起的电影场记板',
+    video: '/discover/liblib-showcase/long-video.webm',
+    badges: [
+      { label: '长视频' },
+      { label: '独家', tone: 'exclusive' },
+    ],
+    title: '直出电影级动态',
+    description: '一张参考图展开完整视觉叙事',
+    prompt: '东方玄幻巨兽玄麟在暴风雪原疾驰，电影级动态镜头，冷蓝色光影。',
+  },
+  {
+    id: 'character-lock',
+    image: '/discover/liblib-showcase/segment-remake.webp',
+    imageAlt: '两名黑衣人物从汽车后备箱上方向下看',
+    video: '/discover/liblib-showcase/segment-remake.webm',
+    badges: [{ label: '角色一致性' }],
+    title: '稳定角色',
+    description: '锁定角色特征，专业级可控编辑',
+    prompt: '设计一位白衣女侠的完整角色设定，保持正面、侧面和背面造型一致。',
+  },
+  {
+    id: 'world-building',
+    image: '/discover/liblib-showcase/smart-continuation.webp',
+    imageAlt: '戴护目镜的人物飞越现代城市',
+    video: '/discover/liblib-showcase/smart-continuation.webm',
+    badges: [
+      { label: '智能引用' },
+      { label: '独家', tone: 'exclusive' },
+    ],
+    title: '一张画布展开世界',
+    description: '基于参考内容自动匹配角色与场景',
+    prompt: '构建雨夜中的东方幻想古城，层叠屋檐、灯火与石桥形成完整世界观。',
+  },
+  {
+    id: 'video-analysis',
+    image: '/discover/liblib-showcase/video-analysis.webp',
+    imageAlt: '蓝绿色背景中的东方古画人物拼贴',
+    video: '/discover/liblib-showcase/video-analysis.mp4',
+    badges: [{ label: '讲解视频' }],
+    title: '自动配画面',
+    description: '识别文案节奏，快速生成完整讲解片',
+    prompt: '未来机械腕表悬浮在深空信标装置中，冷色聚光与金属细节广告镜头。',
+  },
+  {
+    id: 'material-mix',
+    image: '/discover/liblib-showcase/director-guide.webp',
+    imageAlt: '聚光灯下悬浮的银白色运动鞋',
+    video: '/discover/liblib-showcase/director-guide.webm',
+    badges: [{ label: '素材混剪' }],
+    title: '多素材一键成片',
+    description: '让画面、节奏与音乐自动对齐',
+    prompt: '重建长安雨夜古城，旅人站在石桥中央，万家灯火倒映在河面。',
+  },
+  {
+    id: 'shot-analysis',
+    image: '/discover/liblib-showcase/multi-reference.webp',
+    imageAlt: '粉色更衣室中拿着电话的女孩',
+    video: '/discover/liblib-showcase/multi-reference.webm',
+    badges: [
+      { label: '逐帧拉片' },
+      { label: '独家', tone: 'exclusive' },
+    ],
+    title: '智能提取视频亮点',
+    description: '拆解镜头语言，复用成熟叙事节奏',
+    prompt: '探索深海遗迹中的潮汐之门，巨型守护生物从风暴海面冲出。',
+  },
+] as const satisfies readonly DiscoverShowcaseItem[]

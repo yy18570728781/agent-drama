@@ -1,0 +1,132 @@
+.app-shell :where(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  [role='button'],
+  .el-button
+) {
+  background-image: none !important;
+}
+
+.app-shell:not(.is-discover-route) :where(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  [role='button'],
+  .el-button
+) {
+  box-shadow: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+.app-shell :where(
+  button,
+  [role='button'],
+  .el-button
+)::before,
+.app-shell :where(
+  button,
+  [role='button'],
+  .el-button
+)::after {
+  background-image: none !important;
+}
+
+.app-shell:not(.is-discover-route) :where(
+  button,
+  [role='button'],
+  .el-button
+)::before,
+.app-shell:not(.is-discover-route) :where(
+  button,
+  [role='button'],
+  .el-button
+)::after {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.app-shell:not(.is-discover-route) :where(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  [role='button'],
+  .el-button
+):focus-visible {
+  outline: 2px solid var(--sys-action-primary-emphasis) !important;
+  outline-offset: 2px !important;
+}
+
+.app-shell:not(.is-discover-route) :where(
+  button:disabled,
+  input[type='button']:disabled,
+  input[type='submit']:disabled,
+  input[type='reset']:disabled,
+  [role='button'][aria-disabled='true'],
+  .el-button.is-disabled
+) {
+  cursor: not-allowed !important;
+  opacity: 0.48;
+}
+
+.app-shell :where(
+  .compare-align-btn,
+  .endpoint-vendor-option,
+  .thumbnail-item
+) {
+  background-color: var(--sys-surface-elevated) !important;
+}
+
+.app-shell .compare-align-btn:hover,
+.app-shell .endpoint-vendor-option:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--sys-action-primary-bg) 10%,
+    var(--sys-surface-elevated)
+  ) !important;
+}
+
+.app-shell .endpoint-vendor-option.is-active {
+  background-color: color-mix(
+    in srgb,
+    var(--sys-action-primary-bg) 18%,
+    var(--sys-surface-elevated)
+  ) !important;
+}
+
+.app-shell :where(
+  button.bg-gradient-to-r,
+  #deploy-layout-btn,
+  .director-screenshot-button
+) {
+  background-color: var(--sys-action-primary-bg) !important;
+  border-color: var(--sys-action-primary-bg) !important;
+  color: var(--sys-action-primary-fg) !important;
+}
+
+.app-shell :where(
+  button.bg-gradient-to-r:not(:disabled),
+  #deploy-layout-btn,
+  .director-screenshot-button
+):hover {
+  background-color: var(--sys-action-primary-hover) !important;
+  border-color: var(--sys-action-primary-hover) !important;
+}
+
+.app-shell button.bg-gradient-to-r:disabled {
+  background-color: var(--sys-surface-active) !important;
+  border-color: var(--sys-border-default) !important;
+  color: var(--sys-text-muted) !important;
+}
+
+.app-shell .viewfinder-exit-button {
+  background-color: rgba(239, 68, 68, 0.18) !important;
+}
+
+.app-shell .viewfinder-exit-button:hover {
+  background-color: rgba(239, 68, 68, 0.28) !important;
+}

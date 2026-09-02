@@ -1,0 +1,99 @@
+.table-shell {
+  height: 100%;
+  overflow: hidden;
+}
+
+.cost {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cost-danger { color: var(--error); }
+.cost-success { color: var(--success); }
+.text-muted { color: var(--record-text-muted, var(--text-muted)); }
+
+.date-cell {
+  color: var(--record-text-secondary, var(--text-secondary));
+}
+
+.date-cell {
+  font-variant-numeric: tabular-nums;
+}
+
+.record-empty {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: var(--sys-space-1);
+  color: var(--record-text-secondary, var(--text-secondary));
+}
+
+.record-empty strong {
+  color: var(--record-text, var(--text-primary));
+  font-size: 14px;
+}
+
+.record-empty span { font-size: 12px; }
+
+:deep(.el-table) {
+  --el-table-border-color: var(--record-border-muted, var(--border-light));
+  --el-table-header-bg-color: var(--record-table-head-bg, var(--bg-elevated));
+  --el-table-row-hover-bg-color: var(--record-hover-bg, var(--bg-hover));
+  --el-table-tr-bg-color: var(--record-panel-bg, var(--bg-surface));
+  color: var(--record-text, var(--text-primary));
+  font-size: 13px;
+  background: var(--record-panel-bg, var(--bg-surface));
+}
+
+:deep(.el-table__inner-wrapper) {
+  background: var(--record-panel-bg, var(--bg-surface));
+}
+
+:deep(.el-table th.el-table__cell) {
+  height: 44px;
+  color: var(--record-text-secondary, var(--text-secondary));
+  font-size: 12px;
+  font-weight: 650;
+  background: var(--record-table-head-bg, var(--bg-elevated)) !important;
+}
+
+:deep(.el-table td.el-table__cell) {
+  height: 46px;
+  background: var(--record-panel-bg, var(--bg-surface)) !important;
+  border-bottom-color: var(--record-border-muted, var(--border-light));
+}
+
+:deep(.el-table__body tr:nth-child(even) td.el-table__cell) {
+  background: var(--record-table-even-bg, var(--bg-base)) !important;
+}
+
+:deep(.el-table__body tr:hover td.el-table__cell) {
+  background: var(--record-hover-bg, var(--bg-hover)) !important;
+}
+
+:deep(.el-table .cell) {
+  padding-right: var(--sys-space-4);
+  padding-left: var(--sys-space-4);
+}
+
+:deep(.el-tag) {
+  height: 24px;
+  padding: 0 9px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: var(--sys-radius-pill);
+}
+
+:deep(.el-button.is-link) {
+  height: auto;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+:deep(.el-scrollbar__thumb) {
+  background: color-mix(in srgb, var(--record-text-secondary, var(--text-secondary)) 42%, transparent);
+  border-radius: var(--sys-radius-pill);
+}
+
+:deep(.el-table::before) { display: none; }

@@ -1,0 +1,97 @@
+.discover-view {
+  --discover-background: #fff;
+  --discover-panel: #f5f5f5;
+  --discover-surface: #f5f5f5;
+  --discover-surface-strong: #ededed;
+  --discover-card-hover: #f5f5f5;
+  --discover-border: rgba(20, 20, 20, 0.08);
+  --discover-border-strong: rgba(20, 20, 20, 0.12);
+  --discover-text: #141414;
+  --discover-text-soft: #4d4d4d;
+  --discover-muted: #737373;
+  --discover-overlay: rgba(20, 20, 20, 0.06);
+  --discover-input-background: #fff;
+  --discover-input-border: #d4d4d4;
+  --discover-input-placeholder: #737373;
+  --discover-accent: #20d7eb;
+  --discover-accent-soft: rgba(32, 215, 235, 0.11);
+  --discover-accent-ink: #061115;
+  --discover-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --discover-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --discover-content-max-width: 1400px;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  color: var(--discover-text);
+  background: var(--discover-background);
+  font-family: var(--font-family);
+  scrollbar-width: none;
+}
+
+:global(html.dark .discover-view) {
+  --discover-background: #141414;
+  --discover-panel: #1c1c1c;
+  --discover-surface: #1c1c1c;
+  --discover-surface-strong: #222;
+  --discover-card-hover: rgba(31, 31, 31, 0.85);
+  --discover-border: rgba(255, 255, 255, 0.08);
+  --discover-border-strong: rgba(255, 255, 255, 0.12);
+  --discover-text: #f5f6f8;
+  --discover-text-soft: #c5c9d1;
+  --discover-muted: #858a94;
+  --discover-overlay: rgba(255, 255, 255, 0.06);
+  --discover-input-background: #171717;
+  --discover-input-border: #525252;
+  --discover-input-placeholder: rgba(255, 255, 255, 0.3);
+}
+
+.discover-view::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.discover-view__content {
+  min-height: 100%;
+  padding: 36px 40px 72px;
+}
+
+.discover-view :deep(.discover-sr-only) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.discover-view :deep(button:not(:disabled)) {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.discover-view :deep(button:focus-visible),
+.discover-view :deep(input:focus-visible) {
+  outline: 2px solid var(--discover-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1420px) {
+  .discover-view__content {
+    padding-inline: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .discover-view__content {
+    padding: 24px 20px 56px;
+  }
+}

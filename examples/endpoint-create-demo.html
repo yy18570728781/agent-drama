@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新增终端 Demo</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --panel-soft: #f8fafc;
+      --line: #d9e1ec;
+      --line-strong: #c6d0dd;
+      --text: #1f2937;
+      --muted: #667085;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --tag-bg: #eef4ff;
+      --tag-text: #315ea8;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.06), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
+    }
+
+    .hero {
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .dialog {
+      background: var(--panel);
+      border: 1px solid rgba(198, 208, 221, 0.75);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(8px);
+    }
+
+    .dialog-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .dialog-body {
+      padding: 24px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .column {
+      min-width: 0;
+      height: 100%;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .column-title {
+      margin: 0 0 16px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .model-head {
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+      margin-bottom: 14px;
+    }
+
+    .model-title {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .model-sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-family: Consolas, monospace;
+      word-break: break-all;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .meta-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .meta-item {
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+    }
+
+    .meta-label {
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .block {
+      margin-bottom: 16px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel-soft);
+    }
+
+    .block:last-child { margin-bottom: 0; }
+
+    .block-label {
+      margin: 0 0 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .vendor-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .vendor-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: white;
+      color: #334155;
+      font-size: 12px;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .vendor-chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .vendor-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .vendor-option {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      background: white;
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .vendor-option:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .vendor-option.is-active {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18);
+    }
+
+    .generated-name {
+      display: flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      font-size: 13px;
+      color: var(--text);
+      font-family: Consolas, monospace;
+    }
+
+    .fields {
+      display: grid;
+      gap: 14px;
+      flex: 1;
+      align-content: start;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #344054;
+    }
+
+    .field-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .field-head label {
+      margin-bottom: 0;
+    }
+
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: white;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .ghost-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      background: white;
+      padding: 10px 12px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: .15s ease;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .field textarea {
+      min-height: 238px;
+      resize: vertical;
+      font-family: Consolas, monospace;
+      line-height: 1.6;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .dialog-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 18px 24px 24px;
+      border-top: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+
+    .btn {
+      min-width: 96px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--line-strong);
+      background: white;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+    }
+
+    @media (max-width: 1120px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <h1>新增终端 Demo</h1>
+      <p>只看布局和信息层级：左模型，中终端，右参数；已有厂商是简单标签列表，终端名称自动生成。</p>
+    </div>
+
+    <div class="dialog">
+      <div class="dialog-header">
+        <h2>新增终端</h2>
+        <span class="hint">Demo 预览，不接真实接口</span>
+      </div>
+
+      <div class="dialog-body">
+        <div class="layout">
+          <section class="column">
+            <div class="column-title">模型</div>
+
+            <div class="model-head">
+              <div class="model-title">豆包 Seedream Pro</div>
+              <p class="model-sub">doubao-seedream-5-0-pro-260628</p>
+              <p class="model-sub">模型 ID: 55</p>
+            </div>
+
+            <div class="meta-list">
+              <div class="meta-item">
+                <div class="meta-label">发布者</div>
+                <div class="meta-value">ByteDance</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">能力</div>
+                <div class="tag-row" style="margin-bottom: 0;">
+                  <span class="tag">图片生成</span>
+                </div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">模式</div>
+                <div class="tag-row" style="margin-bottom: 0;">
+                  <span class="tag">图生图</span>
+                  <span class="tag">文生图</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="column">
+            <div class="column-title">终端</div>
+
+            <div class="block">
+              <div class="block-label">已有厂商</div>
+              <div class="vendor-list">
+                <button class="vendor-chip" type="button" data-code="minimax" data-name="MiniMax">MiniMax</button>
+                <button class="vendor-chip" type="button" data-code="volcengine" data-name="火山引擎">火山引擎</button>
+                <button class="vendor-chip" type="button" data-code="openai" data-name="OpenAI">OpenAI</button>
+              </div>
+            </div>
+
+            <div class="block">
+              <div class="block-label">厂商</div>
+              <div id="vendorPicker" class="vendor-picker">
+                <button class="vendor-option" type="button" data-code="minimax">MiniMax (minimax)</button>
+                <button class="vendor-option" type="button" data-code="volcengine">火山引擎 (volcengine)</button>
+                <button class="vendor-option" type="button" data-code="openai">OpenAI (openai)</button>
+                <button class="vendor-option" type="button" data-code="siliconflow">SiliconFlow (siliconflow)</button>
+                <button class="vendor-option" type="button" data-code="zhipu">智谱 (zhipu)</button>
+              </div>
+            </div>
+
+            <p class="hint">厂商直接加载全量列表。上面已有厂商只是帮助判断当前模型已经挂了哪些厂商。</p>
+          </section>
+
+          <section class="column">
+            <div class="column-title">参数</div>
+
+            <div class="fields">
+              <div class="field">
+                <label>终端名称</label>
+                <div class="generated-name" id="generatedName">doubao-seedream-5-0-pro-260628</div>
+              </div>
+
+              <div class="three-col">
+                <div class="field">
+                  <label>最大并发</label>
+                  <input type="number" value="2" />
+                </div>
+                <div class="field">
+                  <label>超时时间（秒）</label>
+                  <input type="number" value="30" />
+                </div>
+                <div class="field">
+                  <label>权重</label>
+                  <input type="number" value="100" />
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-head">
+                  <label>params</label>
+                  <button id="fillModelParams" class="ghost-btn" type="button">填充模型参数</button>
+                </div>
+                <textarea></textarea>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="dialog-footer">
+        <button class="btn" type="button">取消</button>
+        <button class="btn btn-primary" type="button">创建终端</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modelName = 'doubao-seedream-5-0-pro-260628'
+    const generatedName = document.getElementById('generatedName')
+    const paramsTextarea = document.querySelector('textarea')
+    const fillModelParamsButton = document.getElementById('fillModelParams')
+    const vendorChips = document.querySelectorAll('.vendor-chip')
+    const vendorOptions = document.querySelectorAll('.vendor-option')
+    let activeVendorCode = ''
+    const modelParamsTemplate = `{
+  "image_generation": {
+    "image2image": {
+      "params": {
+        "file_urls": {
+          "name": "url",
+          "label": "参考图"
+        },
+        "prompt": {
+          "name": "prompt",
+          "label": "提示词"
+        }
+      }
+    },
+    "text2image": {
+      "params": {
+        "prompt": {
+          "name": "prompt",
+          "label": "提示词"
+        }
+      }
+    }
+  }
+}`
+
+    function renderName(code) {
+      generatedName.textContent = code ? `${modelName}-${code}` : modelName
+    }
+
+    function setActiveVendor(code) {
+      activeVendorCode = code || ''
+      vendorOptions.forEach((node) => {
+        node.classList.toggle('is-active', node.getAttribute('data-code') === activeVendorCode)
+      })
+      renderName(activeVendorCode)
+    }
+
+    vendorChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const code = chip.getAttribute('data-code') || ''
+        setActiveVendor(code)
+      })
+    })
+
+    vendorOptions.forEach((node) => {
+      node.addEventListener('click', () => {
+        const code = node.getAttribute('data-code') || ''
+        setActiveVendor(code)
+      })
+    })
+
+    fillModelParamsButton.addEventListener('click', () => {
+      paramsTextarea.value = modelParamsTemplate
+    })
+  </script>
+</body>
+</html>

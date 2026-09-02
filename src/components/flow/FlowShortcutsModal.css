@@ -1,0 +1,181 @@
+.shortcuts-panel {
+  position: absolute;
+  left: 24px;
+  top: 80px;
+  bottom: 24px;
+  z-index: 150;
+  width: min(320px, calc(100% - 48px));
+  display: flex;
+  flex-direction: column;
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.shortcuts-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid #27272a;
+}
+
+.shortcuts-panel__title {
+  color: #a1a1aa;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.shortcuts-panel__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shortcuts-panel__reset {
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 5px;
+  background: transparent;
+  border: 1px solid #3f3f46;
+  color: #a1a1aa;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.shortcuts-panel__close {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+  color: #71717a;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.shortcuts-panel__reset:hover,
+.shortcuts-panel__close:hover {
+  background: #27272a;
+  color: #fff;
+}
+
+.shortcuts-panel__body {
+  flex: 1;
+  min-height: 0;
+  padding: 6px;
+  overflow-y: auto;
+}
+
+.shortcuts-panel .shortcut-group {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 8px 10px;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  background: #1c1c1f;
+  box-sizing: border-box;
+}
+
+.shortcuts-panel .shortcut-group__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.shortcuts-panel .shortcut-group__header h4 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #a1a1aa;
+}
+
+.shortcuts-panel .shortcut-group__header span {
+  color: #52525b;
+  font-size: 10px;
+}
+
+.shortcuts-panel .shortcut-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 32px;
+  border-top: 1px solid rgba(63, 63, 70, 0.45);
+}
+
+.shortcuts-panel .shortcut-label {
+  min-width: 0;
+  color: #d4d4d8;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.shortcuts-panel .shortcut-item kbd {
+  min-width: 70px;
+  max-width: 112px;
+  padding: 4px 7px;
+  overflow: hidden;
+  border: 1px solid #3f3f46;
+  border-radius: 5px;
+  background: #27272a;
+  color: #a1a1aa;
+  font-family: monospace;
+  font-size: 10px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.shortcuts-panel .shortcut-item kbd:hover {
+  background: #3f3f46;
+  color: #d4d4d8;
+}
+
+.shortcuts-panel .shortcut-item kbd.readonly,
+.shortcuts-panel .shortcut-item kbd.readonly:hover {
+  background: #27272a;
+  color: #a1a1aa;
+  cursor: default;
+  opacity: 0.72;
+}
+
+.shortcuts-panel .shortcut-item.editing kbd,
+.shortcuts-panel .shortcut-item kbd.editing {
+  border-color: #6366f1;
+  color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12);
+}
+
+.shortcuts-panel .shortcut-key .edit-hint {
+  color: #6366f1;
+}
+
+.shortcuts-panel .shortcut-tips {
+  padding: 8px 12px;
+  border-top: 1px solid #27272a;
+  color: #52525b;
+  font-size: 10px;
+  text-align: center;
+}
+
+.shortcuts-slide-enter-active,
+.shortcuts-slide-leave-active {
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.shortcuts-slide-enter-from,
+.shortcuts-slide-leave-to {
+  transform: translateX(-20px);
+  opacity: 0;
+}

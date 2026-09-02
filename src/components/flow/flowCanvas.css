@@ -1,0 +1,435 @@
+.flow-canvas-wrapper {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  background: var(--bg-base, #161625);
+}
+
+.flow-canvas-wrapper.is-space-pan-mode {
+  cursor: grab;
+  cursor: -webkit-grab;
+}
+
+.flow-canvas-wrapper.is-space-pan-mode:active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.flow-canvas-wrapper.is-space-pan-mode :deep(.vue-flow__pane),
+.flow-canvas-wrapper.is-space-pan-mode :deep(.vue-flow__viewport),
+.flow-canvas-wrapper.is-space-pan-mode :deep(.vue-flow__nodes),
+.flow-canvas-wrapper.is-space-pan-mode :deep(.vue-flow__node),
+.flow-canvas-wrapper.is-space-pan-mode :deep(.vue-flow__pane *) {
+  cursor: grab !important;
+  cursor: -webkit-grab !important;
+}
+
+.flow-canvas-wrapper.is-space-pan-mode:active :deep(.vue-flow__pane),
+.flow-canvas-wrapper.is-space-pan-mode:active :deep(.vue-flow__viewport),
+.flow-canvas-wrapper.is-space-pan-mode:active :deep(.vue-flow__nodes),
+.flow-canvas-wrapper.is-space-pan-mode:active :deep(.vue-flow__node),
+.flow-canvas-wrapper.is-space-pan-mode:active :deep(.vue-flow__pane *) {
+  cursor: grabbing !important;
+  cursor: -webkit-grabbing !important;
+}
+
+.toolbox-placement-hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 6px 6px 20px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.9);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  white-space: nowrap;
+}
+
+.toolbox-placement-cancel {
+  pointer-events: auto;
+  padding: 4px 14px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.toolbox-placement-cancel:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+.point-overview-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__edge),
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__edge-path),
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__connection-path),
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__edge-marker),
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__connectionline) {
+  opacity: 0 !important;
+  stroke: transparent !important;
+  fill: transparent !important;
+  filter: none !important;
+  pointer-events: none !important;
+}
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__node) {
+  filter: none !important;
+}
+
+.flow-canvas-wrapper.is-viewport-canvas-preview-mode :deep(.vue-flow__transformationpane) {
+  contain: strict !important;
+  content-visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.flow-canvas-wrapper[data-viewport-restore="true"].is-viewport-canvas-preview-mode :deep(.vue-flow__transformationpane) {
+  content-visibility: visible !important;
+  opacity: 0.001 !important;
+  will-change: opacity;
+}
+.flow-canvas-wrapper.is-viewport-canvas-preview-mode :deep(.vue-flow__connectionline),
+.flow-canvas-wrapper.is-viewport-canvas-preview-mode :deep(.vue-flow__selection),
+.flow-canvas-wrapper.is-viewport-canvas-preview-mode :deep(.vue-flow__background) {
+  display: none !important;
+}
+
+.point-selection-rect {
+  position: absolute;
+  z-index: 45;
+  pointer-events: none;
+  border: 1px solid rgba(129, 140, 248, 0.95);
+  background: rgba(99, 102, 241, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(191, 219, 254, 0.18);
+}
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__node.is-selection-related),
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__node.is-selection-upstream),
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__node.is-selection-downstream),
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__node.is-connecting-source),
+.flow-canvas-wrapper.is-ultra-light-mode :deep(.vue-flow__node:not(.vue-flow__node-groupNode):has(.vue-flow__handle-right:hover)) {
+  box-shadow: none !important;
+  filter: none !important;
+}
+.flow-canvas-wrapper.is-ultra-light-mode .multi-selection-connector-hotspot,
+.flow-canvas-wrapper.is-ultra-light-mode .multi-selection-drag-line {
+  display: none !important;
+}
+
+/* vue-flow 暗色主题覆盖 */
+:deep(.vue-flow) {
+  background: var(--bg-base, #161625);
+}
+:deep(.vue-flow__edge-path) {
+  stroke: #6366f1;
+  stroke-width: 2;
+}
+:deep(.vue-flow__edge.animated path) {
+  stroke-dasharray: 5;
+  animation: dash 1s linear infinite;
+  /* 性能优化：告知浏览器动画属性 */
+  will-change: stroke-dashoffset;
+}
+@keyframes dash {
+  to { stroke-dashoffset: -10; }
+}
+@keyframes flow-edge-dash {
+  to { stroke-dashoffset: -12; }
+}
+@keyframes flow-edge-pulse {
+  0% { opacity: 1; }
+  100% { opacity: 0.32; }
+}
+@keyframes flow-edge-blink {
+  50% { opacity: 0; }
+}
+:deep(.vue-flow__handle) {
+  width: 24px !important;
+  height: 24px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 50% !important;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 30 30'%3E%3Ccircle cx='15' cy='15' r='8.5' fill='none' stroke='rgba(129,140,248,0.42)' stroke-width='1.5'/%3E%3Cpath d='M15 9.5v11M9.5 15h11' stroke='%23818cf8' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='15' cy='15' r='2.5' fill='%2338bdf8' fill-opacity='0.95'/%3E%3C/svg%3E") 24 24, crosshair !important;
+}
+:deep(.vue-flow__handle)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background-color: var(--bg-surface, #1e1e2e);
+  border: 2px solid #6366f1;
+  border-radius: 50%;
+  transition: all 0.25s ease;
+}
+:deep(.vue-flow__handle-left)::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  bottom: -60px;
+  left: -12px;
+  right: 0;
+}
+:deep(.vue-flow__handle-right)::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  bottom: -60px;
+  left: 0;
+  right: -12px;
+}
+:deep(.vue-flow__handle:hover)::after {
+  background: #6366f1;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+}
+:deep(.vue-flow__background) {
+  --vf-bg-color: var(--bg-base, #161625);
+  --vf-bg-pattern-color: rgba(255,255,255,.04);
+}
+
+/* 框选区域可接收拖拽事件以触发框选 */
+:deep(.vue-flow__selection-pane) {
+  pointer-events: all;
+}
+:deep(.vue-flow__pane) {
+  pointer-events: all;
+}
+:deep(.vue-flow__viewport) {
+  pointer-events: all;
+}
+/* 节点框选框不阻止节点内部点击 */
+:deep(.vue-flow__nodesselection) {
+  pointer-events: none !important;
+}
+:deep(.vue-flow__nodesselection-rect) {
+  pointer-events: none !important;
+}
+/* 确保节点本身可以接收点击 */
+:deep(.vue-flow__node) {
+  pointer-events: all !important;
+}
+:deep(.vue-flow__node.vue-flow__node-groupNode) {
+  z-index: 0 !important;
+}
+:deep(.vue-flow__node.vue-flow__node-groupNode .vue-flow__node) {
+  z-index: 1 !important;
+}
+/* 组节点在 Shift 框选模式下，背景不拦截事件，允许框选子节点 */
+.group-select-mode :deep(.vue-flow__node.vue-flow__node-groupNode) {
+  pointer-events: none !important;
+}
+/* 组节点内的子节点和 pane 在框选模式下仍可接收事件 */
+.group-select-mode :deep(.vue-flow__node.vue-flow__node-groupNode .vue-flow__node) {
+  pointer-events: all !important;
+}
+.group-select-mode :deep(.vue-flow__node.vue-flow__node-groupNode .vue-flow__pane) {
+  pointer-events: all !important;
+}
+
+.connection-intent,
+.connection-intent * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 30 30'%3E%3Ccircle cx='15' cy='15' r='8.5' fill='none' stroke='rgba(129,140,248,0.42)' stroke-width='1.5'/%3E%3Cpath d='M15 9.5v11M9.5 15h11' stroke='%23818cf8' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='15' cy='15' r='2.5' fill='%2338bdf8' fill-opacity='0.95'/%3E%3C/svg%3E") 24 24, crosshair !important;
+}
+:deep(.vue-flow__node.is-connecting-source) {
+  box-shadow:
+    0 0 0 2px rgba(129, 140, 248, 0.62),
+    0 0 18px rgba(129, 140, 248, 0.35),
+    0 0 38px rgba(56, 189, 248, 0.34),
+    0 0 64px rgba(56, 189, 248, 0.18);
+  filter: brightness(1.08) saturate(1.05);
+}
+:deep(.vue-flow__node:not(.vue-flow__node-groupNode):has(.vue-flow__handle-right:hover)) {
+  box-shadow:
+    0 0 0 2px rgba(129, 140, 248, 0.62),
+    0 0 18px rgba(129, 140, 248, 0.35),
+    0 0 38px rgba(56, 189, 248, 0.34),
+    0 0 64px rgba(56, 189, 248, 0.18);
+  filter: brightness(1.08) saturate(1.05);
+}
+:deep(.vue-flow__node.vue-flow__node-groupNode.is-connecting-source) {
+  box-shadow:
+    0 0 0 2px rgba(129, 140, 248, 0.56),
+    0 0 24px rgba(129, 140, 248, 0.3),
+    0 0 44px rgba(56, 189, 248, 0.28),
+    0 0 72px rgba(56, 189, 248, 0.16);
+  filter: brightness(1.06) saturate(1.04);
+}
+:deep(.vue-flow__node.is-selection-related) {
+  box-shadow:
+    0 0 0 2px rgba(147, 197, 253, 0.72),
+    0 0 18px rgba(147, 197, 253, 0.42),
+    0 0 34px rgba(59, 130, 246, 0.32),
+    0 0 58px rgba(56, 189, 248, 0.18);
+  filter: brightness(1.1) saturate(1.08) contrast(1.08);
+}
+:deep(.vue-flow__node.is-selection-upstream) {
+  box-shadow:
+    0 0 0 2px rgba(110, 231, 183, 0.74),
+    0 0 18px rgba(52, 211, 153, 0.42),
+    0 0 34px rgba(16, 185, 129, 0.28),
+    0 0 58px rgba(16, 185, 129, 0.16);
+}
+:deep(.vue-flow__node.is-selection-downstream) {
+  box-shadow:
+    0 0 0 2px rgba(196, 181, 253, 0.74),
+    0 0 18px rgba(167, 139, 250, 0.42),
+    0 0 34px rgba(139, 92, 246, 0.28),
+    0 0 58px rgba(139, 92, 246, 0.16);
+}
+:deep(.vue-flow__node[style*='--node-highlight-color']) {
+  box-shadow:
+    0 0 0 3px var(--node-highlight-color, #ec4899),
+    0 0 12px 2px color-mix(in srgb, var(--node-highlight-color, #ec4899) 85%, transparent),
+    0 0 24px 5px color-mix(in srgb, var(--node-highlight-color, #ec4899) 55%, transparent),
+    0 0 44px 10px color-mix(in srgb, var(--node-highlight-color, #ec4899) 30%, transparent) !important;
+}
+
+/* VueFlow 框选框样式 - 确保框选区域可见且不阻止事件 */
+:deep(.vue-flow__selection) {
+  pointer-events: none !important;
+}
+/* 确保 transformationpane 允许事件穿透以支持组内框选 */
+:deep(.vue-flow__transformationpane) {
+  pointer-events: none !important;
+}
+/* VueFlow 节点容器确保事件穿透 */
+:deep(.vue-flow__nodes) {
+  pointer-events: none;
+}
+/* transformationpane 确保事件穿透 */
+:deep(.vue-flow__transformationpane) {
+  pointer-events: none !important;
+}
+
+/* 工作流画布默认使用箭头，避免出现误导性的手型/抓手 */
+:deep(.vue-flow__pane),
+:deep(.vue-flow__viewport),
+:deep(.vue-flow__node),
+:deep(.vue-flow__edge),
+:deep(.vue-flow__edge-path),
+:deep(.vue-flow__edge-interaction) {
+  cursor: default !important;
+}
+
+:deep(.vue-flow__node-image_generation),
+:deep(.vue-flow__node-video_generation),
+:deep(.vue-flow__node-text_generation),
+:deep(.vue-flow__node-model_generation) {
+  cursor: grab !important;
+}
+
+.is-dragging-node :deep(.vue-flow__node-image_generation),
+.is-dragging-node :deep(.vue-flow__node-image_generation *),
+.is-dragging-node :deep(.vue-flow__node-video_generation),
+.is-dragging-node :deep(.vue-flow__node-video_generation *),
+.is-dragging-node :deep(.vue-flow__node-text_generation),
+.is-dragging-node :deep(.vue-flow__node-text_generation *),
+.is-dragging-node :deep(.vue-flow__node-model_generation),
+.is-dragging-node :deep(.vue-flow__node-model_generation *) {
+  cursor: grabbing !important;
+}
+
+/* 节点入场动画 */
+@keyframes node-enter {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+:deep(.animate-node-enter) {
+  animation: node-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 拖拽节点时的性能优化 */
+.is-dragging-node :deep(.backdrop-blur-md),
+.is-dragging-node :deep(.backdrop-blur-sm) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: rgba(24, 24, 27, 0.95) !important;
+}
+
+.is-dragging-node :deep(.transition-colors),
+.is-dragging-node :deep(.transition-all),
+.is-dragging-node :deep(.transition-\[border-color\,box-shadow\,background-color\]) {
+  transition: none !important;
+}
+
+/* 自定义节点 Resizer 样式 */
+:deep(.vue-flow__resize-control.line) {
+  border-color: transparent !important;
+  transition: border-color 0.2s ease;
+  pointer-events: none !important;
+}
+
+:deep(.vue-flow__resize-control.line:hover) {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+:deep(.vue-flow__resize-control.handle) {
+  background-color: transparent !important;
+  border: none !important;
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 2px !important;
+  transition: background-color 0.2s ease;
+  pointer-events: auto !important;
+}
+
+:deep(.vue-flow__resize-control.handle:hover) {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.cut-mode :deep(.vue-flow__edge:hover .vue-flow__edge-path) {
+  stroke: #ef4444 !important;
+  stroke-width: 4 !important;
+}
+
+:deep(.vue-flow__edge.cut-preview .vue-flow__edge-path) {
+  stroke: #ef4444 !important;
+  stroke-width: 4.5 !important;
+  filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.45));
+}
+
+:deep(.vue-flow__edge.cut-preview .vue-flow__edge-interaction) {
+  stroke-width: 18 !important;
+}
+
+.cut-mode,
+.cut-mode :deep(*) {
+  cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle cx='9' cy='9' r='4.5' stroke='%23ef4444' stroke-width='2.2'/%3E%3Cpath d='M12.5 12.5 L22 22' stroke='%23ef4444' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M6.5 19.5 L22 4' stroke='%23ef4444' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M3 24 H17' stroke='%23ef4444' stroke-width='2.2' stroke-linecap='round' stroke-dasharray='2.8 2.8'/%3E%3C/g%3E%3C/svg%3E") 8 20, crosshair !important;
+}
+
+.cut-mode :deep(.vue-flow__pane),
+.cut-mode :deep(.vue-flow__node.parent),
+.cut-mode :deep(.vue-flow__node.parent .group-node),
+.cut-mode :deep(.vue-flow__node.parent .vue-flow__pane),
+.cut-mode :deep(.vue-flow__node),
+.cut-mode :deep(.vue-flow__edge),
+.cut-mode :deep(.vue-flow__edge *),
+.cut-mode :deep(.vue-flow__edge-path),
+.cut-mode :deep(.vue-flow__edge-interaction) {
+  cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle cx='9' cy='9' r='4.5' stroke='%23ef4444' stroke-width='2.2'/%3E%3Cpath d='M12.5 12.5 L22 22' stroke='%23ef4444' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M6.5 19.5 L22 4' stroke='%23ef4444' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M3 24 H17' stroke='%23ef4444' stroke-width='2.2' stroke-linecap='round' stroke-dasharray='2.8 2.8'/%3E%3C/g%3E%3C/svg%3E") 8 20, crosshair !important;
+}
+
+:deep(.vue-flow__node.is-collapsed-by-group) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+
+

@@ -1,0 +1,15 @@
+.subject-library-page {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  background: var(--bg-base, #0b0c0f);
+}
+
+.subject-library {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  background: var(--bg-base, #0b0c0f);
+  color: var(--text-primary, #f4f4f5);
+}

@@ -1,0 +1,66 @@
+.flow-editor-more {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: #a7abb4;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  place-items: center;
+}
+
+.flow-editor-more:hover,
+.flow-editor-more:focus-visible,
+.flow-editor-more[aria-expanded="true"] {
+  color: #eef0f4;
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+
+.flow-editor-more__icon {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3.2;
+}
+
+.flow-editor-more-popper.el-popper {
+  width: 176px;
+  padding: 6px;
+  border: 1px solid #3a3d46;
+  border-radius: 8px;
+  background: #24262d;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.42);
+}
+
+.flow-editor-more-popper .el-popper__arrow::before {
+  border-color: #3a3d46;
+  background: #24262d;
+}
+
+.flow-editor-more-menu.el-dropdown-menu {
+  padding: 0;
+  background: transparent;
+}
+
+.flow-editor-more-menu .el-dropdown-menu__item {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  min-height: 34px;
+  padding: 0 10px;
+  gap: 8px;
+  color: #e1e3e8;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.flow-editor-more-menu .el-dropdown-menu__item:not(.is-disabled):focus,
+.flow-editor-more-menu .el-dropdown-menu__item:not(.is-disabled):hover {
+  color: #fff;
+  background: #3a3d45;
+}

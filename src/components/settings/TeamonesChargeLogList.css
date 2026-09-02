@@ -1,0 +1,96 @@
+.charge-log-page {
+  --record-page-bg:
+    radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 30%),
+    linear-gradient(180deg, var(--bg-surface) 0%, color-mix(in srgb, var(--bg-surface) 84%, var(--bg-base) 16%) 46%, var(--bg-base) 100%);
+  --record-panel-bg: var(--bg-surface);
+  --record-table-even-bg: color-mix(in srgb, var(--bg-surface) 92%, var(--bg-base) 8%);
+  --record-table-head-bg: linear-gradient(180deg, color-mix(in srgb, var(--bg-surface) 96%, var(--bg-elevated) 4%), color-mix(in srgb, var(--bg-surface) 86%, var(--bg-base) 14%));
+  --record-hover-bg: color-mix(in srgb, var(--accent-dim) 52%, var(--bg-surface) 48%);
+  --record-border: var(--border);
+  --record-border-muted: var(--border-light);
+  --record-text: var(--text-primary);
+  --record-text-secondary: var(--text-secondary);
+  --record-text-muted: var(--text-muted);
+  --record-button-bg: var(--bg-surface);
+  --record-button-hover: var(--accent-dim);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  gap: var(--sys-space-4);
+  padding: var(--sys-panel-padding);
+  overflow: hidden;
+  color: var(--record-text);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.page-alert {
+  flex: none;
+  border-radius: var(--sys-radius-sm);
+}
+
+.table-card {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--record-panel-bg);
+  border: 1px solid var(--record-border);
+  border-radius: var(--sys-radius-md);
+  box-shadow: var(--sys-shadow-surface);
+}
+
+.page-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--sys-control-height-md);
+  padding: 0 var(--sys-space-2);
+}
+
+.footer-summary {
+  color: var(--record-text-secondary);
+  font-size: 12px;
+}
+
+.footer-summary strong {
+  color: var(--record-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+:deep(.el-pagination) {
+  --el-pagination-bg-color: transparent;
+  --el-pagination-button-bg-color: var(--bg-elevated);
+  --el-pagination-button-disabled-bg-color: var(--bg-surface);
+  --el-pagination-hover-color: var(--accent);
+  gap: var(--sys-space-1);
+}
+
+:deep(.el-pagination .el-select .el-select__wrapper),
+:deep(.el-pagination .btn-prev),
+:deep(.el-pagination .btn-next),
+:deep(.el-pagination .el-pager li) {
+  border: 1px solid var(--record-border);
+  border-radius: var(--sys-radius-xs);
+}
+
+:deep(.el-pagination.is-background .el-pager li.is-active) {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+@media (max-width: 760px) {
+  .charge-log-page {
+    padding: var(--sys-space-4);
+  }
+
+  .page-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--sys-space-2);
+  }
+}

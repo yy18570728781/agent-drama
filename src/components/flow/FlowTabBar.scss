@@ -1,0 +1,108 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.rename-modal {
+  width: 320px;
+  padding: 20px;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  background: #18181b;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.5);
+}
+
+.rename-header {
+  margin-bottom: 16px;
+  color: #f4f4f5;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rename-input {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  color: #f4f4f5;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  outline: none;
+  background: #09090b;
+  font-size: 13px;
+}
+
+.rename-input:focus {
+  border-color: #12bed9;
+}
+
+.rename-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.rename-actions.duplicate-actions {
+  flex-wrap: wrap;
+}
+
+.rename-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.rename-btn.cancel {
+  color: #a1a1aa;
+  border: 1px solid #3f3f46;
+  background: transparent;
+}
+
+.rename-btn.cancel:hover {
+  color: #f4f4f5;
+  background: #27272a;
+}
+
+.rename-btn.confirm {
+  color: #fff;
+  border: 0;
+  background: #0e9fb8;
+}
+
+.rename-btn.confirm:hover {
+  background: #12b8d2;
+}
+
+.rename-btn.secondary {
+  color: #fff;
+  border: 0;
+  background: #52525b;
+}
+
+.rename-btn.secondary:hover {
+  background: #62626d;
+}
+
+.duplicate-hint {
+  margin: 0 0 16px;
+  color: #a1a1aa;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

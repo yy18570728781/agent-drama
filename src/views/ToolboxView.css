@@ -1,0 +1,166 @@
+.toolbox-view {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 32% 30%, rgba(19, 79, 91, 0.16), transparent 34%),
+    #090b0f;
+}
+
+.toolbox-header {
+  display: flex;
+  align-items: center;
+  min-height: 60px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.exit-btn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: #a1a1aa;
+  font-size: 20px;
+  cursor: pointer;
+  background: rgba(24, 24, 27, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  transition: background 0.15s;
+}
+
+.exit-btn:hover {
+  color: #fff;
+  background: rgba(63, 63, 70, 0.9);
+}
+
+.toolbox-title {
+  margin: 0;
+  color: #f7fbff;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.tool-group {
+  padding: 30px 18px 0;
+}
+
+.tool-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 300px));
+  gap: 12px;
+}
+
+.tool-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 112px;
+  padding: 20px 20px 18px;
+  overflow: hidden;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: #151a21;
+  border: 1px solid rgba(122, 151, 176, 0.22);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+
+.tool-item::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: rgba(0, 217, 239, 0.06);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.tool-item:hover:not(:disabled) {
+  background: #152a30;
+  border-color: rgba(0, 217, 239, 0.42);
+  transform: translateY(-1px);
+}
+
+.tool-item:hover:not(:disabled)::after {
+  opacity: 1;
+}
+
+.tool-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.tool-visual {
+  position: absolute;
+  top: 50%;
+  left: 32px;
+  z-index: 1;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  color: rgba(8, 226, 255, 0.72);
+  font-size: 44px;
+  line-height: 1;
+  place-items: center;
+  transform: translateY(-50%);
+}
+
+.tool-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tool-label {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.tool-desc {
+  color: #b9c5d6;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.tool-arrow {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: rgba(184, 194, 205, 0.7);
+  font-size: 17px;
+}
+
+@media (max-width: 840px) {
+  .tool-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,106 @@
+.flow-document-tabs {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  height: 48px;
+  gap: 6px;
+  padding: 0 12px 0 10px;
+  overflow-x: auto;
+  border-bottom: 1px solid #202227;
+  background: #111216;
+  scrollbar-width: none;
+}
+
+.flow-document-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.flow-document-tab {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 1 180px;
+  min-width: 112px;
+  max-width: 220px;
+  height: 32px;
+  gap: 8px;
+  padding: 0 8px 0 12px;
+  color: #9296a0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  transition: border-color 0.16s, background 0.16s, color 0.16s;
+}
+
+.flow-document-tab:hover,
+.flow-document-tab:focus-visible {
+  color: #d7d9df;
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.flow-document-tab.active {
+  color: #d9faff;
+  border-color: transparent;
+  background: rgba(18, 190, 218, 0.14);
+  box-shadow: none;
+}
+
+.flow-library-tab {
+  flex: 0 0 auto;
+  min-width: 116px;
+}
+
+.flow-document-tab__name {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flow-document-tab__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  color: #717680;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.flow-document-tab__close:hover {
+  color: #f4f4f5;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.flow-document-tabs__create {
+  display: inline-grid;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: #9296a0;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  place-items: center;
+}
+
+.flow-document-tabs__create:hover,
+.flow-document-tabs__create:focus-visible {
+  color: #e4e6eb;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: transparent;
+}

@@ -1,0 +1,75 @@
+.canvas-tree-leaf {
+  margin: 0;
+  padding: 0 0 0 24px;
+  list-style: none;
+}
+
+.canvas-tree-item {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  min-width: 0;
+  min-height: 34px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px 0 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  outline: 0;
+  color: var(--text-secondary, #a1a1aa);
+  cursor: pointer;
+}
+
+.canvas-tree-item:hover,
+.canvas-tree-item:focus-visible {
+  background: var(--bg-hover, #202126);
+  color: var(--text-primary, #fff);
+}
+
+.canvas-tree-item.active {
+  border-color: color-mix(in srgb, var(--accent, #22d3ee) 45%, transparent);
+  background: color-mix(in srgb, var(--accent, #22d3ee) 12%, transparent);
+  color: var(--accent, #22d3ee);
+}
+
+.canvas-tree-item > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.canvas-tree-item__icon {
+  color: currentColor;
+}
+
+.canvas-tree-actions {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+}
+
+.canvas-tree-item:hover .canvas-tree-actions,
+.canvas-tree-actions:focus-within {
+  opacity: 1;
+}
+
+.canvas-tree-action {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted, #71717a);
+  cursor: pointer;
+}
+
+.canvas-tree-action:hover {
+  background: var(--bg-elevated, #16171b);
+  color: var(--text-primary, #fff);
+}
+
+:global(.flow-canvas-tree-actions-popper .flow-canvas-tree-delete-item) {
+  color: var(--el-color-danger, #f56c6c);
+}

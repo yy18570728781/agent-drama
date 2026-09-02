@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 主体库 Demo</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus@2.9.5/dist/index.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #303133; }
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px; padding: 0 24px; background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08); position: relative; z-index: 10;
+    }
+    .app-header h1 { font-size: 18px; font-weight: 600; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .login-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.5);
+      display: flex; align-items: center; justify-content: center; z-index: 999;
+    }
+    .login-card {
+      width: 380px; padding: 32px; background: #fff; border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.15);
+    }
+    .login-card h2 { text-align: center; margin-bottom: 24px; font-size: 20px; }
+    .layout { display: flex; height: calc(100vh - 56px); }
+    .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 24px; background: #fff; border-bottom: 1px solid #ebeef5;
+    }
+    .toolbar-left { display: flex; align-items: center; gap: 16px; }
+    .stat-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; background: #ecf5ff; border-radius: 6px;
+      color: #409eff; font-size: 14px; font-weight: 500;
+    }
+    .group-bar {
+      display: flex; align-items: center; gap: 4px;
+      padding: 8px 24px; background: #fff; border-bottom: 1px solid #ebeef5;
+    }
+    .group-tab {
+      padding: 6px 18px; border-radius: 16px; cursor: pointer; font-size: 14px;
+      transition: all .15s; user-select: none; color: #606266;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .group-tab:hover { background: #f5f7fa; }
+    .group-tab.active { background: #409eff; color: #fff; }
+    .group-tab .count { font-size: 12px; opacity: .8; }
+    .group-bar-count { margin-left: auto; font-size: 13px; color: #909399; }
+    .card-grid {
+      flex: 1; overflow-y: auto; padding: 16px 24px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px; align-content: start;
+    }
+    .subject-card {
+      position: relative;
+      background: #fff; border-radius: 8px; cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s;
+      border: 2px solid transparent;
+    }
+    .subject-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.12); transform: translateY(-2px); }
+    .subject-card.active { border-color: #409eff; }
+    .card-actions {
+      position: absolute; bottom: 6px; right: 6px; z-index: 5;
+      display: flex; gap: 2px;
+      background: rgba(255,255,255,.9); border-radius: 4px; padding: 2px;
+    }
+    .card-actions .el-button { padding: 4px; }
+    .card-thumb {
+      width: 100%; aspect-ratio: 1; object-fit: cover; background: #f5f7fa;
+      display: flex; align-items: center; justify-content: center; color: #c0c4cc;
+    }
+    .card-thumb img, .card-thumb video { width: 100%; height: 100%; object-fit: cover; }
+    .card-body { padding: 10px 12px; }
+    .card-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-desc { font-size: 12px; color: #909399; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .detail-panel {
+      width: 360px; background: #fff; border-left: 1px solid #ebeef5;
+      display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
+    }
+    .detail-header { padding: 16px 20px; border-bottom: 1px solid #ebeef5; }
+    .detail-name { font-size: 18px; font-weight: 600; }
+    .detail-meta { font-size: 12px; color: #909399; margin-top: 6px; }
+    .detail-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .detail-desc { font-size: 14px; color: #606266; line-height: 1.6; margin-bottom: 16px; }
+    .detail-media-label { font-size: 13px; font-weight: 600; color: #606266; margin-bottom: 8px; }
+    .detail-media-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .media-thumb {
+      aspect-ratio: 1; border-radius: 6px; overflow: hidden; background: #f5f7fa;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .media-thumb img, .media-thumb video { width: 100%; height: 100%; object-fit: cover; }
+    .detail-footer { padding: 12px 20px; border-top: 1px solid #ebeef5; display: flex; gap: 8px; }
+    .empty-state {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 80px 0; color: #909399; grid-column: 1 / -1;
+    }
+    .pagination-wrapper { display: flex; justify-content: flex-end; padding: 12px 24px; background: #fff; border-top: 1px solid #ebeef5; }
+    .token-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 4px; font-size: 12px;
+    }
+    .token-tag.ok { background: #f0f9eb; color: #67c23a; }
+    .token-tag.no { background: #fef0f0; color: #f56c6c; }
+    .dialog-media-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .dialog-media-item { position: relative; width: 100px; height: 100px; border-radius: 4px; overflow: hidden; border: 2px solid transparent; }
+    .dialog-media-item.is-cover { border-color: #67c23a; }
+    .dialog-media-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+    .dialog-media-item .media-del-btn { position: absolute; top: 2px; right: 2px; z-index: 2; opacity: 0; transition: opacity .15s; width: 28px; height: 28px; min-height: 28px; padding: 0; pointer-events: none; }
+    .dialog-media-item .cover-badge { position: absolute; top: 2px; left: 2px; background: #67c23a; color: #fff; font-size: 10px; padding: 1px 5px; border-radius: 2px; z-index: 1; }
+    .dialog-media-item .set-cover-btn { position: absolute; bottom: 2px; left: 2px; background: rgba(0,0,0,.55); color: #fff; border: none; font-size: 11px; padding: 2px 6px; border-radius: 3px; cursor: pointer; opacity: 0; transition: opacity .15s; }
+    .dialog-media-item:hover .set-cover-btn { opacity: 1; }
+    .dialog-media-item:hover .media-del-btn { opacity: 1; pointer-events: auto; }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <div class="app-header">
+    <h1>🎭 AI 主体库 Demo</h1>
+    <div class="header-right">
+      <span :class="['token-tag', isLoggedIn ? 'ok' : 'no']">
+        {{ isLoggedIn ? '✓ 已登录' : '✗ 未登录' }}
+      </span>
+      <el-button v-if="isLoggedIn" size="small" @click="logout">退出登录</el-button>
+    </div>
+  </div>
+
+  <div class="login-overlay" v-if="!isLoggedIn">
+    <div class="login-card">
+      <h2>登录边车</h2>
+      <div style="margin-bottom: 16px; text-align: center;">
+        <el-tag :type="sidecarOnline ? 'success' : 'danger'" size="small" effect="light">
+          {{ sidecarChecking ? '检测中...' : (sidecarOnline ? '边车在线 ✓' : '边车未连接 ✗') }}
+        </el-tag>
+        <el-button text size="small" @click="checkSidecar" style="margin-left: 8px;">重新检测</el-button>
+      </div>
+      <el-form label-position="top" @submit.prevent="doLogin">
+        <el-form-item label="用户名（手机号）">
+          <el-input v-model="loginForm.username" placeholder="输入手机号" />
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="loginForm.password" type="password" placeholder="输入密码" show-password />
+        </el-form-item>
+        <el-checkbox v-model="rememberLogin" style="margin: 0 0 16px;">记住登录</el-checkbox>
+        <el-button type="primary" style="width: 100%" :loading="loginLoading" :disabled="!sidecarOnline" @click="doLogin">
+          {{ sidecarOnline ? '登 录' : '请先启动边车' }}
+        </el-button>
+      </el-form>
+      <div style="margin-top: 16px; font-size: 12px; color: #909399; text-align: center; line-height: 1.6;">
+        需先启动边车：<code style="background:#f5f7fa; padding:2px 6px; border-radius:3px;">ai_sidecar --env dev</code><br>
+        边车地址：<code style="background:#f5f7fa; padding:2px 6px; border-radius:3px;">http://localhost:8000</code>
+      </div>
+    </div>
+  </div>
+
+  <template v-if="isLoggedIn">
+    <div class="layout">
+      <div class="main-area">
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <span class="stat-badge">
+              <el-icon><Files /></el-icon>
+              总数: {{ totalCount }}
+            </span>
+            <el-input
+              v-model="searchName"
+              placeholder="按名称搜索"
+              style="width: 200px"
+              clearable
+              @clear="loadList"
+              @input="onSearchInput"
+            />
+          </div>
+          <div style="display:flex; gap: 8px;">
+            <el-button @click="loadList" :icon="Refresh">刷新</el-button>
+            <el-button type="primary" @click="openCreateDialog" :icon="Plus">新建主体</el-button>
+          </div>
+        </div>
+
+        <div class="group-bar">
+          <div class="group-tab" :class="{ active: !activeGroup }" @click="selectGroup(null)">
+            全部 <span class="count">{{ allItemsCache.length }}</span>
+          </div>
+          <div class="group-tab" :class="{ active: activeGroup === 'tongyong' }" @click="selectGroup('tongyong')">
+            通用 <span class="count">{{ groupCounts.tongyong }}</span>
+          </div>
+          <div class="group-tab" :class="{ active: activeGroup === 'juese' }" @click="selectGroup('juese')">
+            角色 <span class="count">{{ groupCounts.juese }}</span>
+          </div>
+        </div>
+
+        <div class="card-grid" v-loading="listLoading">
+          <template v-if="subjects.length">
+            <div
+              v-for="item in subjects"
+              :key="item.id"
+              class="subject-card"
+              :class="{ active: activeSubjectId === item.id }"
+              @click="openDetail(item)"
+            >
+              <div class="card-thumb">
+                <img v-if="item.thumb" :src="item.thumb" :alt="item.name" />
+                <el-icon v-else :size="40" color="#c0c4cc"><Picture /></el-icon>
+              </div>
+              <div class="card-body">
+                <div class="card-name">{{ item.name }}</div>
+                <div class="card-desc">{{ item.description || '暂无描述' }}</div>
+              </div>
+              <div class="card-actions" @click.stop>
+                <el-button text size="small" :icon="Edit" @click="openEditDialog(item)" title="编辑" />
+                <el-button text size="small" :icon="Delete" type="danger" @click="confirmDelete(item)" title="删除" />
+              </div>
+            </div>
+          </template>
+          <div v-if="!subjects.length && !listLoading" class="empty-state">
+            <el-icon :size="40" color="#c0c4cc"><FolderOpened /></el-icon>
+            <p style="margin-top: 12px;">暂无主体数据</p>
+          </div>
+        </div>
+
+        <div class="pagination-wrapper">
+          <el-pagination
+            v-model:current-page="currentPage"
+            v-model:page-size="pageSize"
+            :total="totalCount"
+            :page-sizes="[12, 24, 48, 96]"
+            layout="total, sizes, prev, pager, next"
+            @size-change="loadList"
+            @current-change="loadList"
+          />
+        </div>
+      </div>
+
+      <div class="detail-panel" v-if="detailData">
+        <div class="detail-header">
+          <div class="detail-name">{{ detailData.name }}</div>
+          <div class="detail-meta">
+            ID: {{ detailData.id }}
+            <span v-if="detailData.code"> · Code: {{ detailData.code }}</span>
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="detail-desc">{{ detailData.description || '暂无描述' }}</div>
+          <div class="detail-media-label">媒体 ({{ detailMedia.length }})</div>
+          <div class="detail-media-grid" v-if="detailMedia.length">
+            <div class="media-thumb" v-for="m in detailMedia" :key="m.id">
+              <video v-if="isVideo(m.thumb || m.path)" :src="m.thumb || m.path" controls muted></video>
+              <img v-else-if="m.thumb || m.path" :src="m.thumb || m.path" />
+              <el-icon v-else :size="24" color="#c0c4cc"><Picture /></el-icon>
+            </div>
+          </div>
+          <div v-else style="color: #c0c4cc; font-size: 13px; text-align: center; padding: 20px;">暂无媒体</div>
+        </div>
+      </div>
+    </div>
+
+    <el-dialog
+      v-model="dialogVisible"
+      :title="dialogMode === 'create' ? '新建主体' : '编辑主体'"
+      width="560px"
+      :close-on-click-modal="false"
+      @closed="resetDialog"
+    >
+      <el-form label-position="top">
+        <el-form-item label="名称">
+          <el-input v-model="dialogForm.name" placeholder="输入主体名称" />
+        </el-form-item>
+        <el-form-item v-if="dialogMode === 'create'" label="分组">
+          <el-cascader
+            v-model="dialogForm.groupPath"
+            :options="groupCascader"
+            :props="{ checkStrictly: true, expandTrigger: 'hover' }"
+            placeholder="选择分组"
+            style="width: 100%"
+          />
+        </el-form-item>
+        <el-form-item v-if="dialogMode === 'create'" label="Code（自动生成，可修改）">
+          <el-input v-model="dialogForm.code" placeholder="资产 code" />
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input v-model="dialogForm.description" type="textarea" :rows="4" placeholder="输入描述" />
+        </el-form-item>
+        <el-form-item label="图片（首张为封面）">
+          <div v-if="dialogMode === 'edit' && editMediaList.length" class="dialog-media-list">
+            <div
+              v-for="m in editMediaList"
+              :key="m.id"
+              class="dialog-media-item"
+              :class="{ 'is-cover': m.is_cover }"
+            >
+              <img :src="m.thumb" />
+              <span v-if="m.is_cover" class="cover-badge">封面</span>
+              <el-button size="small" type="danger" circle :icon="Delete" class="media-del-btn" @click.stop="removeMedia(m)" />
+              <button v-if="!m.is_cover" class="set-cover-btn" @click.stop="setAsCover(m)">设为封面</button>
+            </div>
+          </div>
+          <el-upload
+            :auto-upload="false"
+            accept="image/*"
+            list-type="picture-card"
+            :on-change="onImageSelect"
+            :on-remove="onImageRemove"
+          >
+            <el-icon><Plus /></el-icon>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" :loading="dialogLoading" @click="submitDialog">
+          {{ dialogMode === 'create' ? '创建' : '保存' }}
+        </el-button>
+      </template>
+    </el-dialog>
+  </template>
+</div>
+
+<script src="https://unpkg.com/vue@3.5.13/dist/vue.global.prod.js"></script>
+<script src="https://unpkg.com/element-plus@2.9.5/dist/index.full.min.js"></script>
+<script src="https://unpkg.com/@element-plus/icons-vue@2.3.1/dist/index.iife.min.js"></script>
+<script src="https://unpkg.com/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js"></script>
+<script src="https://unpkg.com/spark-md5@3.0.2/spark-md5.min.js"></script>
+
+<script>
+const { createApp, ref, reactive, computed, onMounted } = Vue
+
+const TOKEN_KEY = 'teamones_access_token'
+const SIDECAR_BASE = 'http://localhost:8000'
+const TEAMONES_BASE = 'http://10.168.30.23:32701'
+const CATEGORY_TYPE = 9
+const DEVICE_UNIQUE_CODE = '76eb7469fa51c652c7fd58e18c4c65e6'
+const CLIENT_ID = '818aeb54172a95a8073dbc56dd8ec675'
+
+// ── Token ──
+function getToken() {
+  return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY)
+}
+function storeToken(token, remember) {
+  if (remember) { localStorage.setItem(TOKEN_KEY, token); sessionStorage.removeItem(TOKEN_KEY) }
+  else { sessionStorage.setItem(TOKEN_KEY, token); localStorage.removeItem(TOKEN_KEY) }
+}
+function clearToken() {
+  localStorage.removeItem(TOKEN_KEY); sessionStorage.removeItem(TOKEN_KEY)
+}
+
+// ── API ──
+async function apiRequest(path, body = {}, proxyTarget = TEAMONES_BASE, signal) {
+  const token = getToken()
+  const resp = await fetch(path, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Proxy-Target': proxyTarget,
+      ...(token ? { Authorization: 'Bearer ' + token } : {}),
+    },
+    body: JSON.stringify(body),
+    signal,
+  })
+  const text = await resp.text()
+  let data
+  try { data = JSON.parse(text) } catch { data = {} }
+  if (!resp.ok) {
+    const httpMsg = {
+      400: '请求参数错误', 401: '登录已过期，请重新登录', 403: '无权访问此资源',
+      404: '请求的资源不存在', 500: '服务器内部错误', 502: '网关错误', 503: '服务暂时不可用',
+    }[resp.status] || `请求失败(${resp.status})`
+    throw new Error(data.msg || data.detail || httpMsg)
+  }
+  if (data.code !== undefined && data.code !== 0) {
+    throw new Error(data.msg || '请求处理失败')
+  }
+  return data
+}
+
+async function checkSidecarHealth() {
+  try {
+    const resp = await fetch('/api/auth/login_by_password', {
+      method: 'OPTIONS', headers: { 'X-Proxy-Target': SIDECAR_BASE },
+    })
+    return resp.status === 204 || resp.status === 200
+  } catch { return false }
+}
+
+const API = {
+  async login(username, password) {
+    return apiRequest('/api/auth/login_by_password', { username, password }, SIDECAR_BASE)
+  },
+  async getCount(filter, signal) {
+    const param = { category_type: CATEGORY_TYPE }
+    if (filter && Object.keys(filter).length) param.filter = filter
+    const res = await apiRequest('/api_assets/asset/get_count', { param }, undefined, signal)
+    return res.data ?? 0
+  },
+  async getList(page, pageSize, filter, signal) {
+    const param = { category_type: CATEGORY_TYPE, page: [page, pageSize], extend_fields: 'asset.content' }
+    if (filter && Object.keys(filter).length) param.filter = filter
+    const res = await apiRequest('/api_assets/asset/get_list', { param }, undefined, signal)
+    return res.data || []
+  },
+  async getThumbs(assetIds) {
+    if (!assetIds.length) return {}
+    const res = await apiRequest('/api_assets/asset/get_asset_thumb', { param: { asset_ids: assetIds } })
+    return res.data || {}
+  },
+  async getDetail(id) {
+    const res = await apiRequest('/api_assets/asset/get_detail', { param: { asset_id: id, filter: { id: id } } })
+    return res.data || null
+  },
+  async getMedia(id) {
+    const res = await apiRequest('/api_assets/asset/get_asset_media', { param: { asset_id: id, filter: { asset_id: id } } })
+    const d = res.data
+    if (!d) return []
+    return Array.isArray(d) ? d : [d]
+  },
+  async create(name, code, description) {
+    return apiRequest('/api_assets/asset/create', {
+      data: {
+        asset: {
+          name, code, size: '0.25', star: 0, grade: '',
+          content: { description: description || '' },
+        },
+        category_id: 1725,
+      },
+    })
+  },
+  async update(id, name, description) {
+    return apiRequest('/api_assets/asset/update', {
+      data: { asset: { id, name, content: { description: description || '' } } },
+    })
+  },
+  async delete(id) {
+    return apiRequest('/api_assets/asset/delete', { param: { filter: { id: ['in', [id]] } } })
+  },
+  async getCosCredential() {
+    return apiRequest('/api_media/cos/generate_temp_secret_key', {
+      device_unique_code: DEVICE_UNIQUE_CODE,
+      client_id: CLIENT_ID,
+    })
+  },
+  async attachMedia(assetId, mediaItem) {
+    return apiRequest('/api_assets/asset/update_asset_media', {
+      data: { asset_id: assetId, media: { add: [mediaItem], delete: [] } },
+    })
+  },
+  async detachMedia(assetId, mediaId) {
+    return apiRequest('/api_assets/asset/update_asset_media', {
+      data: { asset_id: assetId, media: { add: [], delete: [mediaId] } },
+    })
+  },
+  async changeCover(assetId, mediaId) {
+    return apiRequest('/api_assets/asset/change_asset_cover', {
+      data: { asset_id: assetId, media_id: mediaId },
+    })
+  },
+}
+
+// ── COS Upload Helpers ──
+
+/** 从已有缩略图 URL 提取租户名 */
+function extractTenantName(thumbMap) {
+  for (const key in thumbMap) {
+    const entry = thumbMap[key]
+    const url = typeof entry === 'string' ? entry : entry?.thumb || ''
+    const match = url.match(/\.myqcloud\.com\/([^/]+)\//)
+    if (match) return decodeURIComponent(match[1])
+  }
+  return ''
+}
+
+/** 计算文件 MD5 */
+function calcFileMd5(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const md5 = SparkMD5.ArrayBuffer.hash(e.target.result)
+        resolve(md5)
+      } catch (err) { reject(err) }
+    }
+    reader.onerror = () => reject(new Error('文件读取失败'))
+    reader.readAsArrayBuffer(file)
+  })
+}
+
+/** 获取图片宽高 */
+function getImageSize(file) {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight })
+    img.onerror = () => resolve({ width: 0, height: 0 })
+    img.src = URL.createObjectURL(file)
+  })
+}
+
+/** 上传文件到 COS，返回媒体信息 */
+async function uploadToCos(file, tenantName) {
+  const md5 = await calcFileMd5(file)
+  const credRes = await API.getCosCredential()
+  const cred = credRes.data || {}
+  const cr = cred.cr || {}
+  const credentials = cr.Credentials || {}
+  const bucket = cred.bucket
+  const region = cred.region
+
+  const cos = new COS({
+    getAuthorization: (options, callback) => {
+      callback({
+        TmpSecretId: credentials.TmpSecretId,
+        TmpSecretKey: credentials.TmpSecretKey,
+        SecurityToken: credentials.Token,
+        ExpiredTime: cr.ExpiredTime,
+      })
+    },
+  })
+
+  const ext = (file.name.split('.').pop() || 'png').toLowerCase()
+  const key = `${tenantName}/asset/static/image/${md5}/${md5}_origin.${ext}`
+
+  await new Promise((resolve, reject) => {
+    cos.putObject({
+      Bucket: bucket, Region: region, Key: key,
+      Body: file, ContentType: file.type || 'image/' + ext,
+    }, (err) => err ? reject(err) : resolve())
+  })
+
+  const { width, height } = await getImageSize(file)
+  const thumbUrl = `https://${bucket}.cos.${region}.myqcloud.com/${key}`
+
+  return {
+    type: 'image', md5_name: md5, md5, folder: md5,
+    path: `${tenantName}/asset/static/image/${md5}/`,
+    size: 'origin', file_size: file.size,
+    width, height, duration: '', rate: '',
+    name_prefix: md5, ext, thumb: thumbUrl,
+    is_cover: '0', upload_type: 'client',
+  }
+}
+
+// ── Utils ──
+function cleanError(err) {
+  const msg = String(err?.message || err || '').trim()
+  if (!msg) return '未知错误'
+  const dict = [
+    { from: /unauthorized/i, to: '登录已过期，请重新登录' },
+    { from: /not found/i, to: '请求的资源不存在' },
+    { from: /internal server error/i, to: '服务器内部错误' },
+    { from: /network error|failed to fetch/i, to: '网络连接失败' },
+    { from: /timed? ?out/i, to: '请求超时' },
+  ]
+  for (const { from, to } of dict) { if (from.test(msg)) return to }
+  return msg.length > 80 ? msg.slice(0, 80) + '...' : msg
+}
+
+const GROUP_LABELS = { juese: '角色', tongyong: '通用', other: '其他' }
+function parseCodePrefix(code) {
+  if (!code) return 'other'
+  const match = String(code).match(/^([a-z]+)_/i)
+  return match ? match[1] : 'other'
+}
+function groupLabel(key) { return GROUP_LABELS[key] || key }
+
+function genCode(group) {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
+  let s = ''
+  for (let i = 0; i < 8; i++) s += chars[Math.floor(Math.random() * chars.length)]
+  return (group || 'tongyong') + '_' + s
+}
+
+function resolveThumbUrl(thumbMap, id) {
+  const val = thumbMap[id]
+  if (!val) return null
+  return typeof val === 'string' ? val : (val.thumb || null)
+}
+
+function isVideo(url) {
+  return /\.(mp4|webm|ogg)$/i.test((url || '').split('?')[0])
+}
+
+// ── App ──
+const app = createApp({
+  setup() {
+    const sidecarOnline = ref(false)
+    const sidecarChecking = ref(false)
+    async function checkSidecar() {
+      sidecarChecking.value = true
+      try { sidecarOnline.value = await checkSidecarHealth() }
+      catch { sidecarOnline.value = false }
+      finally { sidecarChecking.value = false }
+    }
+
+    // ── Login ──
+    const isLoggedIn = ref(!!getToken())
+    const loginLoading = ref(false)
+    const loginForm = reactive({ username: '', password: '' })
+    const rememberLogin = ref(true)
+
+    async function doLogin() {
+      if (!loginForm.username || !loginForm.password) {
+        ElementPlus.ElMessage.warning('请输入用户名和密码'); return
+      }
+      loginLoading.value = true
+      try {
+        const res = await API.login(loginForm.username, loginForm.password)
+        if (res.code !== 0) { ElementPlus.ElMessage.error(res.msg || '登录失败'); return }
+        const payload = res.data || {}
+        const nested = payload.data || {}
+        const token =
+          payload.teamones_access_token || nested.teamones_access_token ||
+          payload.access_token || nested.access_token
+        if (!token) { ElementPlus.ElMessage.error('登录响应中未找到 token'); return }
+        storeToken(token, rememberLogin.value)
+        isLoggedIn.value = true
+        ElementPlus.ElMessage.success('登录成功')
+        loadList()
+      } catch (e) {
+        ElementPlus.ElMessage.error('登录失败：' + cleanError(e))
+      } finally { loginLoading.value = false }
+    }
+
+    function logout() {
+      clearToken()
+      isLoggedIn.value = false
+      subjects.value = []
+      allItemsCache.value = []
+      detailData.value = null
+    }
+
+    function handleAuthError(err) {
+      const msg = String(err?.message || '')
+      if (msg.includes('401') || msg.includes('过期') || msg.includes('403')) {
+        clearToken(); isLoggedIn.value = false
+        ElementPlus.ElMessage.error('登录已过期，请重新登录')
+        return true
+      }
+      return false
+    }
+
+    // ── Groups (computed from all items cache) ──
+    const allItemsCache = ref([])
+    const activeGroup = ref(null)
+
+    const groupCounts = computed(() => {
+      let tongyong = 0, juese = 0
+      for (const item of allItemsCache.value) {
+        const prefix = parseCodePrefix(item.code)
+        if (prefix === 'juese') { juese++; tongyong++ }
+        else if (prefix === 'tongyong') tongyong++
+        else tongyong++
+      }
+      return { tongyong, juese }
+    })
+
+    function selectGroup(groupKey) {
+      activeGroup.value = groupKey
+      detailData.value = null
+      currentPage.value = 1
+      loadList()
+    }
+
+    // ── Subject List ──
+    const subjects = ref([])
+    const totalCount = ref(0)
+    const listLoading = ref(false)
+    const currentPage = ref(1)
+    const pageSize = ref(24)
+    const searchName = ref('')
+    const searchTimer = ref(null)
+    const currentAbort = ref(null)
+    const activeSubjectId = ref(null)
+    let thumbMapCache = {}
+
+    function onSearchInput() {
+      clearTimeout(searchTimer.value)
+      searchTimer.value = setTimeout(loadList, 300)
+    }
+
+    async function loadList() {
+      currentAbort.value?.abort()
+      const controller = new AbortController()
+      currentAbort.value = controller
+      const signal = controller.signal
+      listLoading.value = true
+      try {
+        const filter = {}
+        if (activeGroup.value === 'juese') filter.code = ['-lk', 'juese_%']
+        if (searchName.value) filter['asset.name'] = ['-lk', '%' + searchName.value + '%']
+
+        const [items, count] = await Promise.all([
+          API.getList(currentPage.value, pageSize.value, filter, signal),
+          API.getCount(filter, signal),
+        ])
+        if (signal.aborted) return
+
+        allItemsCache.value = items
+
+        const ids = items.map(i => i.id)
+        let thumbMap = {}
+        try { thumbMap = await API.getThumbs(ids); thumbMapCache = thumbMap } catch {}
+        if (signal.aborted) return
+
+        subjects.value = items.map(item => {
+          const desc = item.content?.description ?? item.asset?.content?.description ?? ''
+          const thumb = resolveThumbUrl(thumbMap, item.id)
+          return {
+            id: item.id,
+            name: item.name ?? '',
+            description: typeof desc === 'string' ? desc : '',
+            code: item.code ?? '',
+            thumb: thumb ? (isVideo(thumb) ? thumb : thumb + '?imageView2/3/w/256/h/256/q/85') : null,
+          }
+        })
+        totalCount.value = count
+      } catch (e) {
+        if (e.name === 'AbortError') return
+        if (!handleAuthError(e)) ElementPlus.ElMessage.error('加载列表失败：' + cleanError(e))
+        subjects.value = []
+      } finally { listLoading.value = false }
+    }
+
+    // ── Detail ──
+    const detailData = ref(null)
+    const detailMedia = ref([])
+
+    async function openDetail(item) {
+      activeSubjectId.value = item.id
+      detailData.value = { name: item.name, description: item.description, id: item.id, code: item.code }
+      detailMedia.value = []
+      try {
+        const [detail, media] = await Promise.all([
+          API.getDetail(item.id), API.getMedia(item.id),
+        ])
+        const desc = detail?.content?.description ?? item.description ?? ''
+        const coverId = detail?.media?.cover || null
+        detailData.value = {
+          name: detail?.name ?? item.name,
+          description: typeof desc === 'string' ? desc : '',
+          id: detail?.id ?? item.id,
+          code: detail?.code ?? item.code ?? '',
+        }
+        detailMedia.value = (Array.isArray(media) ? media : []).map(m => ({
+          id: m.id,
+          thumb: m.thumb || '',
+          path: m.path || '',
+          isCover: coverId ? String(m.id) === String(coverId) : m.is_cover === '1',
+        }))
+      } catch (e) {
+        if (!handleAuthError(e)) ElementPlus.ElMessage.error('加载详情失败：' + cleanError(e))
+      }
+    }
+
+    // ── Create / Edit Dialog ──
+    const dialogVisible = ref(false)
+    const dialogMode = ref('create')
+    const dialogLoading = ref(false)
+    const dialogForm = reactive({ id: null, name: '', code: '', groupPath: ['tongyong'], description: '' })
+    const selectedImages = ref([])
+    const editMediaList = ref([])
+    const removedMediaIds = ref([])
+
+    const groupCascader = [
+      {
+        value: 'tongyong', label: '通用',
+        children: [{ value: 'juese', label: '角色' }],
+      },
+    ]
+
+    function getGroupFromPath(path) {
+      if (!path || !path.length) return 'tongyong'
+      return path[path.length - 1]
+    }
+
+    function onImageSelect(uploadFile) {
+      selectedImages.value.push(uploadFile.raw)
+    }
+    function onImageRemove(uploadFile) {
+      const idx = selectedImages.value.indexOf(uploadFile.raw)
+      if (idx !== -1) selectedImages.value.splice(idx, 1)
+    }
+
+    function removeMedia(m) {
+      removedMediaIds.value.push(m.id)
+      editMediaList.value = editMediaList.value.filter(x => x.id !== m.id)
+    }
+
+    async function setAsCover(m) {
+      try {
+        await API.changeCover(dialogForm.id, m.id)
+        editMediaList.value.forEach(x => { x.is_cover = (x.id === m.id) })
+        ElementPlus.ElMessage.success('已设为封面')
+      } catch (e) {
+        ElementPlus.ElMessage.error('设置封面失败：' + cleanError(e))
+      }
+    }
+
+    function openCreateDialog() {
+      dialogMode.value = 'create'
+      dialogForm.id = null
+      dialogForm.name = ''
+      const group = activeGroup.value || 'tongyong'
+      dialogForm.groupPath = group === 'juese' ? ['tongyong', 'juese'] : ['tongyong']
+      dialogForm.code = genCode(group)
+      dialogForm.description = ''
+      selectedImages.value = []
+      editMediaList.value = []
+      removedMediaIds.value = []
+      dialogVisible.value = true
+    }
+
+    async function openEditDialog(item) {
+      dialogMode.value = 'edit'
+      dialogForm.id = item.id
+      dialogForm.name = item.name
+      dialogForm.code = item.code || ''
+      const prefix = parseCodePrefix(item.code)
+      dialogForm.groupPath = prefix === 'juese' ? ['tongyong', 'juese'] : ['tongyong']
+      dialogForm.description = item.description || ''
+      selectedImages.value = []
+      removedMediaIds.value = []
+      try {
+        const media = await API.getMedia(item.id)
+        editMediaList.value = (Array.isArray(media) ? media : []).map(m => ({
+          id: m.id, thumb: m.thumb || '', is_cover: m.is_cover === '1' || m.is_cover === 1,
+        }))
+      } catch { editMediaList.value = [] }
+      dialogVisible.value = true
+    }
+
+    function resetDialog() {
+      dialogForm.id = null
+      dialogForm.name = ''
+      dialogForm.code = ''
+      dialogForm.groupPath = ['tongyong']
+      dialogForm.description = ''
+      selectedImages.value = []
+      editMediaList.value = []
+      removedMediaIds.value = []
+    }
+
+    async function submitDialog() {
+      if (!dialogForm.name.trim()) { ElementPlus.ElMessage.warning('请输入名称'); return }
+      dialogLoading.value = true
+      try {
+        if (dialogMode.value === 'create') {
+          const group = getGroupFromPath(dialogForm.groupPath)
+          const code = dialogForm.code || genCode(group)
+          const res = await API.create(dialogForm.name.trim(), code, dialogForm.description.trim())
+          const assetId = res?.data?.id
+
+          if (assetId && selectedImages.value.length) {
+            const tenant = extractTenantName(thumbMapCache) || ''
+            if (!tenant) throw new Error('无法确定租户名，请先加载列表')
+            for (let i = 0; i < selectedImages.value.length; i++) {
+              const mediaItem = await uploadToCos(selectedImages.value[i], tenant)
+              mediaItem.is_cover = i === 0 ? '1' : '0'
+              await API.attachMedia(assetId, mediaItem)
+            }
+          }
+          ElementPlus.ElMessage.success('创建成功')
+        } else {
+          await API.update(dialogForm.id, dialogForm.name.trim(), dialogForm.description.trim())
+
+          const tenant = extractTenantName(thumbMapCache) || ''
+
+          for (const mediaId of removedMediaIds.value) {
+            await API.detachMedia(dialogForm.id, mediaId)
+          }
+
+          if (selectedImages.value.length && tenant) {
+            const hasCover = editMediaList.value.some(m => m.is_cover)
+            for (let i = 0; i < selectedImages.value.length; i++) {
+              const mediaItem = await uploadToCos(selectedImages.value[i], tenant)
+              mediaItem.is_cover = (!hasCover && i === 0) ? '1' : '0'
+              await API.attachMedia(dialogForm.id, mediaItem)
+            }
+          }
+          ElementPlus.ElMessage.success('保存成功')
+        }
+        dialogVisible.value = false
+        await loadList()
+        if (dialogMode.value === 'edit' && detailData.value?.id === dialogForm.id) {
+          await openDetail({ id: dialogForm.id, name: dialogForm.name, description: dialogForm.description, code: dialogForm.code })
+        }
+      } catch (e) {
+        if (!handleAuthError(e)) ElementPlus.ElMessage.error((dialogMode.value === 'create' ? '创建失败：' : '保存失败：') + cleanError(e))
+      } finally { dialogLoading.value = false }
+    }
+
+    // ── Delete ──
+    async function confirmDelete(item) {
+      try {
+        await ElementPlus.ElMessageBox.confirm(
+          '确定删除主体「' + item.name + '」吗？此操作不可恢复。', '删除确认',
+          { type: 'warning', confirmButtonText: '删除', cancelButtonText: '取消' },
+        )
+        await API.delete(item.id)
+        ElementPlus.ElMessage.success('删除成功')
+        if (detailData.value?.id === item.id) detailData.value = null
+        await loadList()
+      } catch (e) {
+        if (e !== 'cancel' && e?.message !== 'cancel') {
+          if (!handleAuthError(e)) ElementPlus.ElMessage.error('删除失败：' + cleanError(e))
+        }
+      }
+    }
+
+    function handleCardCommand(command, item) {
+      if (command === 'edit') openEditDialog(item)
+      else if (command === 'delete') confirmDelete(item)
+    }
+
+    onMounted(() => {
+      checkSidecar()
+      if (isLoggedIn.value) loadList()
+    })
+
+    return {
+      sidecarOnline, sidecarChecking, checkSidecar,
+      isLoggedIn, loginLoading, loginForm, rememberLogin, doLogin, logout,
+      activeGroup, groupCounts, allItemsCache, selectGroup,
+      subjects, totalCount, listLoading, currentPage, pageSize, searchName, onSearchInput, loadList,
+      activeSubjectId, detailData, detailMedia, openDetail, isVideo,
+      dialogVisible, dialogMode, dialogLoading, dialogForm,
+      groupCascader, editMediaList, removeMedia, setAsCover,
+      openCreateDialog, openEditDialog, resetDialog, submitDialog,
+      onImageSelect, onImageRemove,
+      confirmDelete, openEditDialog,
+      Refresh: ElementPlusIconsVue.Refresh,
+      Plus: ElementPlusIconsVue.Plus,
+      Edit: ElementPlusIconsVue.Edit,
+      Delete: ElementPlusIconsVue.Delete,
+    }
+  },
+})
+
+app.use(ElementPlus)
+for (const [key, comp] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, comp)
+}
+app.mount('#app')
+</script>
+
+</body>
+</html>

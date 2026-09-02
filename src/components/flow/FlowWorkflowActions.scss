@@ -1,0 +1,115 @@
+.workflow-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.workflow-action-wrap {
+  position: static;
+}
+
+.workflow-action-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  z-index: 20;
+  width: auto;
+  overflow: hidden;
+  border: 1px solid #3f3f46;
+  border-radius: 12px;
+  background: rgba(24, 24, 27, 0.98);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.52);
+  backdrop-filter: blur(14px);
+}
+
+.workflow-popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 0 14px;
+  border-bottom: 1px solid #27272a;
+  color: #e4e4e7;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.workflow-popover-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+}
+
+.workflow-name-input {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+  outline: none;
+  background: #111113;
+  color: #f4f4f5;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.workflow-name-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.18);
+}
+
+.workflow-popover-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.workflow-primary-btn,
+.workflow-secondary-btn {
+  min-height: 30px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.workflow-primary-btn {
+  background: #4f46e5;
+  color: #fff;
+}
+
+.workflow-primary-btn:hover:not(:disabled) {
+  background: #6366f1;
+}
+
+.workflow-primary-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.workflow-secondary-btn {
+  border-color: #3f3f46;
+  background: #27272a;
+  color: #a1a1aa;
+}
+
+.workflow-secondary-btn:hover {
+  color: #f4f4f5;
+  background: #3f3f46;
+}
+
+.workflow-popover-enter-active,
+.workflow-popover-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.workflow-popover-enter-from,
+.workflow-popover-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}

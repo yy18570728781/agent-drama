@@ -1,0 +1,101 @@
+.subject-tree-node,
+.subject-tree-children {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subject-tree-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  min-height: 40px;
+}
+
+.subject-tree-toggle {
+  display: grid;
+  width: 24px;
+  height: 32px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted, #71717a);
+  cursor: pointer;
+}
+
+.subject-tree-toggle.hidden { visibility: hidden; }
+.subject-tree-toggle svg { transition: transform .16s ease; }
+.subject-tree-toggle svg.expanded { transform: rotate(90deg); }
+
+.subject-folder-item {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 8px 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--text-secondary, #a1a1aa);
+  cursor: pointer;
+}
+
+.subject-folder-item > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subject-tree-input {
+  width: 100%;
+  min-width: 0;
+  height: 26px;
+  padding: 0 7px;
+  border: 1px solid var(--accent, #22d3ee);
+  border-radius: 5px;
+  outline: none;
+  background: var(--bg-elevated, #16171b);
+  color: var(--text-primary, #fff);
+  font: inherit;
+}
+
+.subject-folder-item:hover {
+  background: var(--bg-hover, #202126);
+  color: var(--text-primary, #fff);
+}
+
+.subject-folder-item.active {
+  border-color: color-mix(in srgb, var(--accent, #22d3ee) 45%, transparent);
+  background: color-mix(in srgb, var(--accent, #22d3ee) 12%, transparent);
+  color: var(--accent, #22d3ee);
+}
+
+.subject-tree-actions {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+}
+
+.subject-tree-row:hover .subject-tree-actions,
+.subject-tree-actions:focus-within { opacity: 1; }
+
+.subject-tree-action {
+  display: grid;
+  width: 25px;
+  height: 26px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted, #71717a);
+}
+
+.subject-tree-action:hover {
+  background: var(--bg-elevated, #16171b);
+  color: var(--text-primary, #fff);
+}
+
+.subject-tree-children { padding-left: 18px; }

@@ -1,0 +1,92 @@
+.discover-case-actions {
+  display: grid;
+  margin-top: auto;
+  padding-top: var(--sys-space-6);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sys-space-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.discover-case-actions button {
+  display: inline-flex;
+  min-width: 0;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-space-2);
+  padding: 0 16px;
+  border-radius: var(--sys-radius-sm);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    border-color var(--sys-duration-normal) ease,
+    background-color var(--sys-duration-normal) ease,
+    box-shadow var(--sys-duration-normal) ease,
+    color var(--sys-duration-normal) ease,
+    filter var(--sys-duration-normal) ease,
+    transform var(--sys-duration-fast) ease;
+}
+
+.discover-case-actions .is-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.035);
+  color: color-mix(in srgb, var(--sys-text-primary) 88%, transparent);
+}
+
+.discover-case-actions .is-primary {
+  border: 1px solid var(--discover-accent);
+  background: var(--discover-accent);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--discover-accent) 16%, transparent);
+  color: var(--discover-accent-ink);
+}
+
+.discover-case-actions button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.discover-case-actions button:disabled {
+  cursor: wait;
+  filter: saturate(0.55);
+  opacity: 0.5;
+}
+
+.discover-case-actions button:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--discover-accent) 34%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .discover-case-actions .is-secondary:hover:not(:disabled) {
+    border-color: rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.075);
+    color: var(--sys-text-primary);
+  }
+
+  .discover-case-actions .is-primary:hover:not(:disabled) {
+    filter: brightness(1.06);
+  }
+
+}
+
+@media (max-width: 600px) {
+  .discover-case-actions {
+    padding-top: var(--sys-space-5);
+    gap: var(--sys-space-2);
+  }
+
+  .discover-case-actions button {
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .discover-case-actions button {
+    transition: none;
+  }
+
+  .discover-case-actions button:active:not(:disabled) {
+    transform: none;
+  }
+
+}

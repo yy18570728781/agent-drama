@@ -1,0 +1,90 @@
+.subject-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(4, 4, 7, 0.74);
+  backdrop-filter: blur(6px);
+}
+
+.subject-dialog {
+  width: min(620px, 100%);
+  max-height: min(820px, calc(100vh - 48px));
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--border) 86%, white 14%);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--bg-elevated) 96%, white 4%);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
+}
+
+.dialog-header,
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+}
+
+.dialog-header { border-bottom: 1px solid var(--border); }
+.dialog-footer { border-top: 1px solid var(--border); }
+.dialog-heading { display: flex; align-items: center; gap: 12px; }
+.dialog-heading h2 { margin: 0; color: var(--text-primary); font-size: 18px; }
+.dialog-heading p { margin: 4px 0 0; color: var(--text-muted); font-size: 12px; }
+.dialog-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--accent-light); background: var(--accent-dim); }
+.icon-button { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; color: var(--text-muted); }
+.icon-button:hover { color: var(--text-primary); background: var(--bg-hover); }
+
+.dialog-body { display: flex; flex-direction: column; gap: 20px; max-height: calc(100vh - 220px); padding: 22px 24px; overflow-y: auto; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-field { position: relative; display: flex; flex-direction: column; gap: 8px; color: var(--text-primary); font-size: 13px; font-weight: 550; }
+.form-field em { color: #f87171; font-style: normal; }
+.form-field i { margin-left: 6px; color: var(--text-muted); font-size: 11px; font-style: normal; font-weight: 400; }
+.form-field > small { position: absolute; right: 10px; bottom: 8px; color: var(--text-muted); font-size: 10px; font-weight: 400; }
+.form-field input,
+.form-field select,
+.form-field textarea { border: 1px solid var(--border); border-radius: 10px; outline: none; background: var(--bg-surface); color: var(--text-primary); font: inherit; font-weight: 400; transition: border-color .18s, box-shadow .18s; }
+.form-field input,
+.form-field select { height: 42px; padding: 0 12px; }
+.form-field textarea { min-height: 84px; padding: 11px 12px 24px; resize: vertical; }
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+
+.upload-label { display: flex; justify-content: space-between; }
+.upload-label small { color: var(--text-muted); font-weight: 400; }
+.upload-dropzone { display: grid; justify-items: center; gap: 5px; padding: 20px; border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--border)); border-radius: 12px; background: color-mix(in srgb, var(--accent-dim) 42%, transparent); cursor: pointer; }
+.upload-dropzone:hover { border-color: var(--accent); background: var(--accent-dim); }
+.upload-dropzone input { display: none; }
+.upload-dropzone strong { color: var(--text-primary); font-size: 13px; }
+.upload-dropzone p { margin: 0; color: var(--text-muted); font-size: 11px; font-weight: 400; }
+.upload-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; color: var(--accent-light); background: var(--bg-elevated); }
+.upload-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+.upload-preview figure { position: relative; aspect-ratio: 1; margin: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 9px; background: var(--bg-surface); }
+.upload-preview img,
+.upload-preview video { width: 100%; height: 100%; object-fit: cover; }
+.upload-preview figcaption { position: absolute; left: 5px; bottom: 5px; padding: 2px 6px; border-radius: 5px; color: white; background: var(--accent); font-size: 10px; }
+.upload-preview button { position: absolute; top: 5px; right: 5px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; color: white; background: rgba(0, 0, 0, .62); }
+.upload-progress { display: flex; align-items: center; gap: 6px; color: var(--accent-light); font-size: 12px; }
+
+.secondary-button,
+.primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 92px; height: 38px; padding: 0 16px; border-radius: 9px; font-size: 13px; font-weight: 600; }
+.secondary-button { border: 1px solid var(--border); color: var(--text-primary); background: var(--bg-surface); }
+.secondary-button:hover { background: var(--bg-hover); }
+.primary-button { color: white; background: var(--accent); box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 24%, transparent); }
+.primary-button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+.spin { animation: subject-spin .8s linear infinite; }
+.subject-dialog-fade-enter-active,
+.subject-dialog-fade-leave-active { transition: opacity .18s ease; }
+.subject-dialog-fade-enter-from,
+.subject-dialog-fade-leave-to { opacity: 0; }
+@keyframes subject-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 640px) {
+  .subject-dialog-overlay { padding: 12px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .dialog-header,
+  .dialog-footer { padding: 16px; }
+  .dialog-body { padding: 18px 16px; }
+}

@@ -1,0 +1,103 @@
+.flow-folder-header {
+  display: flex;
+  height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 14px 0 20px;
+  border-bottom: 1px solid var(--border, #27272a);
+  font-size: 14px;
+}
+
+.flow-folder-header > strong {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.flow-folder-header__actions {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.folder-header-action {
+  display: grid;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary, #a1a1aa);
+  cursor: pointer;
+}
+
+.folder-header-action:hover,
+.folder-header-action.active {
+  background: var(--bg-hover, #27272a);
+  color: var(--text-primary, #fff);
+}
+
+.app-shell:not(.is-discover-route) .flow-folder-header .folder-header-action:focus,
+.app-shell:not(.is-discover-route) .flow-folder-header .folder-header-action:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+
+.folder-header-action.active {
+  color: var(--accent, #22d3ee);
+}
+
+.folder-header-action:disabled {
+  cursor: wait;
+  opacity: .6;
+}
+
+.folder-search-field {
+  display: flex;
+  box-sizing: border-box;
+  flex: 1 1 142px;
+  min-width: 0;
+  width: 142px;
+  height: 30px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  border: 1px solid var(--accent, #22d3ee);
+  border-radius: 7px;
+  background: var(--bg-elevated, #16171b);
+  color: var(--text-muted, #71717a);
+}
+
+.folder-search-field input {
+  min-width: 0;
+  flex: 1;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-primary, #fff);
+  font: inherit;
+  font-size: 12px;
+}
+
+.folder-search-field input::placeholder {
+  color: var(--text-muted, #71717a);
+}
+
+.flow-folder-header .spin {
+  animation: flow-folder-header-spin .8s linear infinite;
+}
+
+.flow-root-actions-popper .el-dropdown-menu__item .iconify {
+  margin-right: 7px;
+}
+
+@keyframes flow-folder-header-spin {
+  to { transform: rotate(360deg); }
+}

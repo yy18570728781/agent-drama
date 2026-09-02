@@ -1,0 +1,105 @@
+/* 视频参考编辑器 Shell 样式（遮罩层 + 头部） */
+
+.video-ref-editor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+  animation: fade-in 0.18s ease;
+}
+
+.video-ref-editor-modal {
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  width: min(1296px, 98vw);
+  height: min(92vh, 860px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+  overflow: hidden;
+}
+
+/* 头部 */
+.video-ref-editor-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  gap: 10px;
+}
+
+.video-ref-editor-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e4e4e7;
+  flex: 1;
+}
+
+.video-ref-editor-index {
+  font-size: 12px;
+  color: #71717a;
+  font-weight: 400;
+}
+
+.video-ref-editor-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.video-ref-editor-nav-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #a1a1aa;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.video-ref-editor-nav-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.13);
+  color: #fff;
+}
+
+.video-ref-editor-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.video-ref-editor-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: #a1a1aa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.video-ref-editor-close:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

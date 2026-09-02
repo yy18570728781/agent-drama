@@ -1,0 +1,216 @@
+.multiline-ref-list {
+  container: multiline-list / inline-size;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.multiline-ref-list__header,
+.multiline-ref-list__row {
+  display: grid;
+  grid-template-columns: 32px 136px minmax(0, 1fr) 38px;
+  gap: 10px;
+  align-items: center;
+}
+
+.multiline-ref-list__header {
+  min-height: 24px;
+  padding: 0 10px;
+  color: var(--generator-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.multiline-ref-list__header span:last-child { text-align: center; }
+
+.multiline-ref-list__table {
+  display: grid;
+  min-width: 0;
+  max-height: 296px;
+  gap: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: color-mix(in srgb, var(--generator-text-muted) 42%, transparent) transparent;
+  scrollbar-width: thin;
+}
+
+.multiline-ref-list--expanded .multiline-ref-list__table {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+}
+
+.multiline-ref-list__table::-webkit-scrollbar { width: 5px; }
+.multiline-ref-list__table::-webkit-scrollbar-track { background: transparent; }
+.multiline-ref-list__table::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--generator-text-muted) 42%, transparent);
+}
+
+.multiline-ref-list__row {
+  min-width: 0;
+  min-height: 92px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--generator-border-muted) 76%, transparent);
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--generator-surface-muted) 34%, transparent);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.multiline-ref-list__row:hover {
+  background: color-mix(in srgb, var(--generator-surface-hover) 40%, transparent);
+}
+
+.multiline-ref-list__row:focus-within {
+  border-color: color-mix(in srgb, var(--generator-accent) 34%, var(--generator-border-muted));
+  background: color-mix(in srgb, var(--generator-surface-hover) 48%, transparent);
+}
+
+.multiline-ref-list__index {
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  place-items: center;
+  justify-self: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--generator-surface-muted) 78%, transparent);
+  color: var(--generator-text-secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.multiline-ref-list__row:focus-within .multiline-ref-list__index {
+  background: var(--generator-accent-soft);
+  color: var(--generator-accent);
+}
+
+.multiline-ref-list__refs-panel,
+.multiline-ref-list__prompt { min-width: 0; }
+
+.multiline-ref-list__prompt {
+  min-height: 74px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--generator-surface) 72%, transparent);
+  transition: background 160ms ease;
+}
+
+.multiline-ref-list__prompt:focus-within {
+  background: color-mix(in srgb, var(--generator-surface) 86%, transparent);
+}
+
+.multiline-ref-list__prompt :deep(.prompt-input-wrap),
+.multiline-ref-list__prompt :deep(.prompt-input-main-row) {
+  min-height: 74px;
+  height: 100%;
+}
+
+.multiline-ref-list__prompt :deep(.prompt-editor) {
+  min-height: 74px !important;
+  max-height: 140px !important;
+  padding: 8px 10px !important;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.multiline-ref-list__prompt :deep(.prompt-editor:empty::before) {
+  color: color-mix(in srgb, var(--generator-text-secondary) 76%, transparent);
+}
+
+.multiline-ref-list__row-remove,
+.multiline-ref-list__add,
+.multiline-ref-list__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.multiline-ref-list__row-remove {
+  width: 36px;
+  height: 36px;
+  justify-self: center;
+  background: transparent;
+  color: var(--generator-text-muted);
+}
+
+.multiline-ref-list__row-remove:hover,
+.multiline-ref-list__clear:hover {
+  background: color-mix(in srgb, var(--error) 12%, transparent);
+  color: var(--error);
+}
+
+.multiline-ref-list__actions {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 2px;
+}
+
+.multiline-ref-list__summary {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.multiline-ref-list__add,
+.multiline-ref-list__clear {
+  min-height: 36px;
+  gap: 6px;
+  padding: 0 11px;
+  background: transparent;
+  color: var(--generator-text-secondary);
+  font-size: 12px;
+}
+
+.multiline-ref-list__add {
+  background: color-mix(in srgb, var(--generator-surface-muted) 76%, transparent);
+  color: var(--generator-text-primary);
+}
+
+.multiline-ref-list__add:hover { background: var(--generator-surface-hover); }
+.multiline-ref-list__count { color: var(--generator-text-secondary); font-size: 12px; white-space: nowrap; }
+.multiline-ref-list__row-remove:focus-visible,
+.multiline-ref-list__add:focus-visible,
+.multiline-ref-list__clear:focus-visible { outline: 2px solid var(--generator-accent); outline-offset: 2px; }
+
+@container multiline-list (max-width: 620px) {
+  .multiline-ref-list__header { display: none; }
+  .multiline-ref-list__row {
+    grid-template-areas: "index refs remove" ". prompt prompt";
+    grid-template-columns: 32px minmax(0, 1fr) 44px;
+    gap: 8px;
+    padding: 10px;
+  }
+  .multiline-ref-list__index { grid-area: index; }
+  .multiline-ref-list__refs-panel { grid-area: refs; }
+  .multiline-ref-list__prompt { grid-area: prompt; }
+  .multiline-ref-list__row-remove { grid-area: remove; width: 44px; height: 44px; }
+}
+
+@container multiline-list (max-width: 420px) {
+  .multiline-ref-list__actions { align-items: stretch; }
+  .multiline-ref-list__summary { margin-left: auto; }
+  .multiline-ref-list__count { display: none; }
+}
+
+@media (max-width: 720px), (any-pointer: coarse) {
+  .multiline-ref-list__add,
+  .multiline-ref-list__clear { min-height: 44px; padding-inline: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .multiline-ref-list__row,
+  .multiline-ref-list__index,
+  .multiline-ref-list__prompt { transition: none; }
+}

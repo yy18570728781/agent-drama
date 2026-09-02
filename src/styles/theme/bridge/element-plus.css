@@ -1,0 +1,50 @@
+:root {
+  --el-color-primary: var(--sys-action-primary-bg);
+  --el-color-primary-light-3: var(--brand-primary-400);
+  --el-color-primary-light-5: var(--brand-primary-300);
+  --el-color-primary-light-7: var(--brand-primary-soft);
+  --el-color-primary-light-9: var(--brand-primary-soft);
+  --el-color-primary-dark-2: var(--sys-action-primary-hover);
+
+  --el-bg-color: var(--sys-surface-panel);
+  --el-bg-color-overlay: var(--sys-surface-elevated);
+  --el-bg-color-page: var(--sys-surface-page);
+
+  --el-border-color: var(--sys-border-default);
+  --el-border-color-light: var(--sys-border-muted);
+
+  --el-text-color-primary: var(--sys-text-primary);
+  --el-text-color-regular: var(--sys-text-secondary);
+  --el-text-color-secondary: var(--sys-text-muted);
+  --el-text-color-placeholder: var(--sys-text-muted);
+
+  --el-fill-color-blank: var(--sys-surface-elevated);
+  --el-fill-color: var(--sys-surface-hover);
+  --el-fill-color-light: var(--sys-surface-active);
+}
+
+.el-button--primary {
+  --el-button-bg-color: var(--sys-action-primary-bg);
+  --el-button-border-color: var(--sys-action-primary-bg);
+  --el-button-text-color: var(--sys-action-primary-fg);
+  --el-button-hover-bg-color: var(--sys-action-primary-hover);
+  --el-button-hover-border-color: var(--sys-action-primary-hover);
+  --el-button-hover-text-color: var(--sys-action-primary-fg);
+  --el-button-active-bg-color: var(--sys-action-primary-hover);
+  --el-button-active-border-color: var(--sys-action-primary-hover);
+  --el-button-active-text-color: var(--sys-action-primary-fg);
+  --el-button-disabled-bg-color: var(--sys-action-primary-soft);
+  --el-button-disabled-border-color: var(--sys-action-primary-soft);
+  --el-button-disabled-text-color: var(--sys-action-primary-emphasis);
+}
+
+.el-popper.is-dark {
+  --el-popper-bg-color-dark: var(--sys-surface-elevated);
+  border-color: var(--sys-border-default);
+  color: var(--sys-text-primary);
+  box-shadow: var(--sys-shadow-surface);
+}
+
+.el-popper.is-dark > .el-popper__arrow::before {
+  border-color: var(--sys-border-default);
+}

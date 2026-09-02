@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>画布资产管理 Demo</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus@2.9.5/dist/index.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #303133; }
+
+    /* ── Header ── */
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px; padding: 0 24px; background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08); position: relative; z-index: 10;
+    }
+    .app-header h1 { font-size: 18px; font-weight: 600; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+
+    /* ── Login Overlay ── */
+    .login-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.5);
+      display: flex; align-items: center; justify-content: center; z-index: 999;
+    }
+    .login-card {
+      width: 380px; padding: 32px; background: #fff; border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.15);
+    }
+    .login-card h2 { text-align: center; margin-bottom: 24px; font-size: 20px; }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px; background: #fff; border-bottom: 1px solid #ebeef5;
+    }
+    .toolbar-left { display: flex; align-items: center; gap: 16px; }
+    .stat-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; background: #ecf5ff; border-radius: 6px;
+      color: #409eff; font-size: 14px; font-weight: 500;
+    }
+
+    /* ── Main ── */
+    .main-container { padding: 16px 24px; }
+    .table-wrapper {
+      background: #fff; border-radius: 8px; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    }
+
+    /* ── Layout (card grid + detail panel) ── */
+    .layout { display: flex; height: calc(100vh - 56px); }
+    .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .card-grid-wrapper { flex: 1; overflow-y: auto; padding: 16px 24px; position: relative; }
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px; align-content: start;
+    }
+    .canvas-card {
+      position: relative; background: #fff; border-radius: 8px; cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s;
+      border: 2px solid transparent;
+    }
+    .canvas-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.12); transform: translateY(-2px); }
+    .canvas-card.active { border-color: #409eff; }
+    .card-thumb {
+      width: 100%; aspect-ratio: 16/9; background: #f5f7fa;
+      display: flex; align-items: center; justify-content: center; color: #c0c4cc;
+      border-radius: 8px 8px 0 0; overflow: hidden;
+    }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .card-body { padding: 10px 12px; }
+    .card-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-info { font-size: 12px; color: #909399; margin-top: 4px; }
+    .card-actions {
+      position: absolute; bottom: 6px; right: 6px; z-index: 5;
+      display: flex; gap: 2px; opacity: 0; transition: opacity .15s;
+      background: rgba(255,255,255,.9); border-radius: 4px; padding: 2px;
+    }
+    .canvas-card:hover .card-actions { opacity: 1; }
+    .card-actions .el-button { padding: 4px; }
+    .detail-panel {
+      width: 360px; background: #fff; border-left: 1px solid #ebeef5;
+      display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
+    }
+    .detail-header { padding: 16px 20px; border-bottom: 1px solid #ebeef5; }
+    .detail-name { font-size: 18px; font-weight: 600; }
+    .detail-meta { font-size: 12px; color: #909399; margin-top: 6px; }
+    .detail-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .detail-field { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f5f7fa; }
+    .detail-field:last-child { border-bottom: none; }
+    .detail-label { font-size: 13px; color: #909399; }
+    .detail-value { font-size: 13px; color: #303133; font-weight: 500; }
+    .detail-section-label { font-size: 13px; font-weight: 600; color: #606266; margin: 16px 0 8px; }
+    .detail-content {
+      background: #f5f7fa; border-radius: 6px; padding: 12px;
+      font-size: 12px; line-height: 1.5; max-height: 240px; overflow: auto;
+      font-family: 'Cascadia Code', Consolas, monospace; white-space: pre-wrap;
+    }
+    .detail-footer { padding: 12px 20px; border-top: 1px solid #ebeef5; display: flex; gap: 8px; }
+
+    /* ── JSON Editor (keep for dialog) ── */
+    .json-editor {
+      width: 100%; min-height: 200px; padding: 12px;
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+      font-size: 13px; border: 1px solid #dcdfe6; border-radius: 6px;
+      resize: vertical; outline: none; transition: border-color .2s;
+    }
+    .json-editor:focus { border-color: #409eff; }
+    .json-editor.error { border-color: #f56c6c; }
+
+    /* ── Pagination ── */
+    .pagination-wrapper {
+      display: flex; justify-content: flex-end;
+      padding: 12px 24px; background: #fff; border-top: 1px solid #ebeef5;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; color: #909399;
+    }
+
+    /* ── Token Tag ── */
+    .token-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 4px; font-size: 12px;
+    }
+    .token-tag.ok { background: #f0f9eb; color: #67c23a; }
+    .token-tag.no { background: #fef0f0; color: #f56c6c; }
+
+    /* ── Drag Active ── */
+    .card-grid-wrapper.drag-active {
+      border: 2px dashed #409eff;
+      background: rgba(64, 158, 255, 0.06);
+      position: relative;
+    }
+    .card-grid-wrapper.drag-active::after {
+      content: '松开导入 JSON 文件';
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 600; color: #409eff;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: 5; pointer-events: none;
+    }
+
+    /* ── Dialog Media ── */
+    .dialog-media-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .dialog-media-item { position: relative; width: 100px; height: 100px; }
+    .dialog-media-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+    .dialog-media-item .media-del-btn {
+      position: absolute; top: -8px; right: -8px;
+      width: 22px; height: 22px; min-height: 22px; padding: 0;
+    }
+    .dialog-media-item.is-cover { border: 2px solid #67c23a; border-radius: 4px; }
+    .dialog-media-item .cover-badge {
+      position: absolute; top: 2px; left: 2px; background: #67c23a;
+      color: #fff; font-size: 10px; padding: 1px 5px; border-radius: 2px; z-index: 1;
+    }
+    .dialog-media-item .set-cover-btn {
+      position: absolute; bottom: 2px; left: 2px; background: rgba(0,0,0,.55);
+      color: #fff; border: none; font-size: 11px; padding: 2px 6px;
+      border-radius: 3px; cursor: pointer; opacity: 0; transition: opacity .15s;
+    }
+    .dialog-media-item:hover .set-cover-btn { opacity: 1; }
+
+    /* ── Detail Media ── */
+    .detail-media-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px;
+    }
+    .detail-media-grid img {
+      width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px;
+      cursor: pointer; border: 1px solid #ebeef5;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <!-- ── Header ── -->
+  <div class="app-header">
+    <h1>🎨 画布资产管理 Demo</h1>
+    <div class="header-right">
+      <span :class="['token-tag', isLoggedIn ? 'ok' : 'no']">
+        {{ isLoggedIn ? '✓ 已登录' : '✗ 未登录' }}
+      </span>
+      <el-button v-if="isLoggedIn" size="small" @click="logout">退出登录</el-button>
+    </div>
+  </div>
+
+  <!-- ── Login Overlay ── -->
+  <div class="login-overlay" v-if="!isLoggedIn">
+    <div class="login-card">
+      <h2>登录边车</h2>
+
+      <!-- Sidecar status badge -->
+      <div style="margin-bottom: 16px; text-align: center;">
+        <el-tag :type="sidecarOnline ? 'success' : 'danger'" size="small" effect="light">
+          {{ sidecarChecking ? '检测中...' : (sidecarOnline ? '边车在线 ✓' : '边车未连接 ✗') }}
+        </el-tag>
+        <el-button text size="small" @click="checkSidecar" style="margin-left: 8px;">重新检测</el-button>
+      </div>
+
+      <el-form label-position="top" @submit.prevent="doLogin">
+        <el-form-item label="用户名（手机号）">
+          <el-input v-model="loginForm.username" placeholder="输入手机号" />
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="loginForm.password" type="password" placeholder="输入密码" show-password />
+        </el-form-item>
+        <el-checkbox v-model="rememberLogin" style="margin: 0 0 16px;">记住登录</el-checkbox>
+        <el-button type="primary" style="width: 100%" :loading="loginLoading" :disabled="!sidecarOnline" @click="doLogin">
+          {{ sidecarOnline ? '登 录' : '请先启动边车' }}
+        </el-button>
+      </el-form>
+      <div style="margin-top: 16px; font-size: 12px; color: #909399; text-align: center; line-height: 1.6;">
+        需先启动边车：<code style="background:#f5f7fa; padding:2px 6px; border-radius:3px;">ai_sidecar --env dev</code><br>
+        边车地址：<code style="background:#f5f7fa; padding:2px 6px; border-radius:3px;">http://localhost:8000</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main Content ── -->
+  <template v-if="isLoggedIn">
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <span class="stat-badge">
+          <el-icon><Files /></el-icon>
+          总数: {{ totalCount }}
+        </span>
+        <el-input
+          v-model="searchName"
+          placeholder="按名称搜索"
+          style="width: 200px"
+          clearable
+          @clear="loadList"
+          @input="onSearchInput"
+        />
+        <el-switch v-model="myOnly" size="small" @change="loadList" />
+        <span style="font-size:13px; white-space:nowrap;">仅我的画布</span>
+      </div>
+      <div style="display:flex; gap: 8px;">
+        <el-button @click="loadList" :icon="Refresh">刷新</el-button>
+        <el-button @click="triggerFileInput" :icon="Upload" :loading="importLoading">导入画布</el-button>
+        <el-button type="primary" @click="openCreateDialog" :icon="Plus">新建画布</el-button>
+      </div>
+      <input ref="fileInputRef" type="file" accept=".json" multiple style="display:none" @change="handleFileSelect" />
+    </div>
+
+    <!-- Layout: Card Grid + Detail Panel -->
+    <div class="layout">
+      <div class="main-area">
+        <div
+          class="card-grid-wrapper"
+          :class="{ 'drag-active': isDragging }"
+          @dragover.prevent="onDragOver"
+          @dragleave.prevent="onDragLeave"
+          @drop.prevent="handleDrop"
+        >
+          <div class="card-grid" v-loading="loading">
+            <div
+              v-for="item in canvases"
+              :key="item.id"
+              class="canvas-card"
+              :class="{ active: detailItem?.id === item.id }"
+              @click="openDetail(item)"
+            >
+              <div class="card-thumb">
+                <img v-if="item._thumb" :src="item._thumb + '?imageView2/3/w/240/h/180/q/85'" :alt="item.name" />
+                <el-icon v-else :size="36" color="#c0c4cc"><Picture /></el-icon>
+              </div>
+              <div class="card-body">
+                <div class="card-name">{{ item.name }}</div>
+                <div class="card-info">
+                  <el-tooltip :content="item.created || '-'" placement="top" :disabled="!item.created">
+                    <span>{{ formatRelativeTime(item.created) }}</span>
+                  </el-tooltip>
+                </div>
+              </div>
+              <div class="card-actions" @click.stop>
+                <el-button text size="small" :icon="Edit" @click="openEditDialog(item)" title="编辑" />
+                <el-button text size="small" :icon="Delete" type="danger" @click="confirmDelete(item)" title="删除" />
+              </div>
+            </div>
+          </div>
+          <div v-if="!canvases.length && !loading" class="empty-state">
+            <el-icon :size="40" color="#c0c4cc"><FolderOpened /></el-icon>
+            <p style="margin-top: 12px;">暂无画布数据</p>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-wrapper">
+          <el-pagination
+            v-model:current-page="currentPage"
+            v-model:page-size="pageSize"
+            :total="totalCount"
+            :page-sizes="[12, 24, 48, 96]"
+            layout="total, sizes, prev, pager, next"
+            @size-change="loadList"
+            @current-change="loadList"
+          />
+        </div>
+      </div>
+
+      <!-- Detail Panel -->
+      <div class="detail-panel" v-if="detailItem">
+        <div class="detail-header">
+          <div class="detail-name">{{ detailItem.name }}</div>
+          <div class="detail-meta">
+            ID: {{ detailItem.id }}
+            <span v-if="detailItem.code"> · Code: {{ detailItem.code }}</span>
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="detail-field">
+            <span class="detail-label">创建时间</span>
+            <span class="detail-value">{{ detailItem.created || '-' }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">更新时间</span>
+            <span class="detail-value">{{ detailItem.updated || '-' }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">节点数</span>
+            <span class="detail-value">{{ detailItem._nodeCount }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">连线数</span>
+            <span class="detail-value">{{ detailItem._edgeCount }}</span>
+          </div>
+          <div class="detail-section-label">Content</div>
+          <pre class="detail-content">{{ detailItem._contentPreview }}</pre>
+          <template v-if="detailMediaList.length">
+            <div class="detail-section-label">图片</div>
+            <div class="detail-media-grid">
+              <img v-for="m in detailMediaList" :key="m.id" :src="m.thumb" @click="openImagePreview(m.thumb)" />
+            </div>
+          </template>
+        </div>
+        <div class="detail-footer">
+          <el-button size="small" :icon="Edit" @click="openEditDialog(detailItem)">编辑</el-button>
+          <el-button size="small" :icon="Delete" type="danger" @click="confirmDelete(detailItem)">删除</el-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Create / Edit Dialog ── -->
+    <el-dialog
+      v-model="dialogVisible"
+      :title="dialogMode === 'create' ? '新建画布' : '编辑画布'"
+      width="640px"
+      :close-on-click-modal="false"
+      @closed="resetDialog"
+    >
+      <el-form label-position="top">
+        <el-form-item label="名称">
+          <el-input v-model="dialogForm.name" placeholder="输入画布名称" />
+        </el-form-item>
+
+        <el-form-item v-if="dialogMode === 'create'" label="Code（自动生成，可修改）">
+          <el-input v-model="dialogForm.code" placeholder="资产 code" />
+        </el-form-item>
+
+        <el-form-item label="图片（首张为封面）">
+          <div v-if="dialogMode === 'edit' && editMediaList.length" class="dialog-media-list">
+            <div v-for="m in editMediaList" :key="m.id" class="dialog-media-item" :class="{ 'is-cover': m.is_cover }">
+              <img :src="m.thumb" />
+              <span v-if="m.is_cover" class="cover-badge">封面</span>
+              <el-button size="small" type="danger" circle :icon="Delete" class="media-del-btn" @click.stop="removeMedia(m)" />
+              <button v-if="!m.is_cover" class="set-cover-btn" @click.stop="setAsCover(m)">设为封面</button>
+            </div>
+          </div>
+          <el-upload
+            :auto-upload="false"
+            accept="image/*"
+            list-type="picture-card"
+            :on-change="onImageSelect"
+            :on-remove="onImageRemove"
+            :file-list="uploadFileList"
+          >
+            <el-icon><Plus /></el-icon>
+          </el-upload>
+        </el-form-item>
+
+        <el-form-item label="Content (JSON)">
+          <textarea
+            v-model="dialogForm.contentText"
+            class="json-editor"
+            :class="{ error: contentError }"
+            placeholder='{ "nodes": [], "edges": [] }'
+            @blur="validateContent"
+          ></textarea>
+          <div v-if="contentError" style="color:#f56c6c; font-size:12px; margin-top:4px;">
+            {{ contentError }}
+          </div>
+        </el-form-item>
+      </el-form>
+
+      <template #footer>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" :loading="dialogLoading" @click="submitDialog">
+          {{ dialogMode === 'create' ? '创建' : '保存' }}
+        </el-button>
+      </template>
+    </el-dialog>
+  </template>
+
+</div>
+
+<script src="https://unpkg.com/vue@3.5.13/dist/vue.global.prod.js"></script>
+<script src="https://unpkg.com/element-plus@2.9.5/dist/index.full.min.js"></script>
+<script src="https://unpkg.com/@element-plus/icons-vue@2.3.1/dist/index.iife.min.js"></script>
+<script src="https://unpkg.com/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js"></script>
+<script src="https://unpkg.com/spark-md5@3.0.2/spark-md5.min.js"></script>
+
+<script>
+const { createApp, ref, reactive, computed, onMounted } = Vue
+
+const TOKEN_KEY = 'teamones_access_token'
+
+// 边车地址：登录通过边车，CRUD 直连 Teamones 服务器
+const SIDECAR_BASE = 'http://localhost:8000'
+const TEAMONES_BASE = 'http://10.168.30.23:32701'
+
+// COS 上传配置
+const DEVICE_UNIQUE_CODE = '76eb7469fa51c652c7fd58e18c4c65e6'
+const CLIENT_ID = '818aeb54172a95a8073dbc56dd8ec675'
+
+// ── API 工具函数 ──────────────────────────────────
+
+function getToken() {
+  return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY)
+}
+
+function storeToken(token, remember) {
+  if (remember) {
+    localStorage.setItem(TOKEN_KEY, token)
+    sessionStorage.removeItem(TOKEN_KEY)
+  } else {
+    sessionStorage.setItem(TOKEN_KEY, token)
+    localStorage.removeItem(TOKEN_KEY)
+  }
+}
+
+function clearToken() {
+  localStorage.removeItem(TOKEN_KEY)
+  sessionStorage.removeItem(TOKEN_KEY)
+}
+
+/** 检测边车是否在线 */
+async function checkSidecarHealth() {
+  try {
+    const resp = await fetch('/api/auth/login_by_password', {
+      method: 'OPTIONS',
+      headers: { 'X-Proxy-Target': SIDECAR_BASE },
+    })
+    return resp.status === 204 || resp.status === 200 || resp.status === 405
+  } catch {
+    return false
+  }
+}
+
+/** 统一 API 请求（通过 Vite proxy 走 X-Proxy-Target 转发到目标服务） */
+async function apiRequest(path, body = {}, proxyTarget = TEAMONES_BASE, signal) {
+  const token = getToken()
+  const resp = await fetch(path, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Proxy-Target': proxyTarget,
+      ...(token ? { Authorization: 'Bearer ' + token } : {}),
+    },
+    body: JSON.stringify(body),
+    signal,
+  })
+  const text = await resp.text()
+  let data
+  try { data = JSON.parse(text) } catch { data = {} }
+  if (!resp.ok) {
+    const httpMsg = {
+      400: '请求参数错误',
+      401: '登录已过期，请重新登录',
+      403: '无权访问此资源',
+      404: '请求的资源不存在',
+      409: '数据冲突',
+      422: '请求参数格式有误',
+      500: '服务器内部错误，请联系管理员',
+      502: '网关错误',
+      503: '服务暂时不可用',
+    }[resp.status] || `请求失败(${resp.status})`
+    throw new Error(data.msg || data.detail || data.detail?.[0]?.msg || httpMsg)
+  }
+  if (data.code !== undefined && data.code !== 0) {
+    throw new Error(data.msg || '请求处理失败，请重试')
+  }
+  return data
+}
+
+// ── API 封装 ──────────────────────────────────────
+
+const API = {
+  /** 登录边车（仅登录走边车，获取双 token） */
+  async login(username, password) {
+    return apiRequest('/api/auth/login_by_password', { username, password }, SIDECAR_BASE)
+  },
+
+  /** 获取资产个数（直连 Teamones） */
+  async getCount(filter = {}, signal) {
+    const res = await apiRequest('/api_assets/asset/get_count', {
+      param: { category_type: 11, ...filter },
+    }, undefined, signal)
+    return res.data ?? 0
+  },
+
+  /** 获取资产列表（直连 Teamones） */
+  async getList(page = 1, pageSize = 20, filter = {}, signal) {
+    const res = await apiRequest('/api_assets/asset/get_list', {
+      param: {
+        category_type: 11,
+        page: [page, pageSize],
+        extend_fields: 'asset.content',
+        ...(Object.keys(filter).length ? { filter } : {}),
+      },
+    }, undefined, signal)
+    return (res.data || []).map(item => ({
+      ...item,
+      name: item.name ?? item.asset?.name ?? '',
+      code: item.code ?? item.asset?.code ?? '',
+      content: item.content ?? item.asset?.content ?? '',
+    }))
+  },
+
+  /** 创建画布（直连 Teamones） */
+  async create(name, code, content) {
+    return apiRequest('/api_assets/asset/create_asset_and_category', {
+      data: {
+        asset: { name, code, content },
+        category_type: 11,
+      },
+    })
+  },
+
+  /** 更新画布（直连 Teamones，仅改 name + content） */
+  async update(id, name, content) {
+    return apiRequest('/api_assets/asset/update', {
+      data: {
+        asset: { id, name, content },
+      },
+    })
+  },
+
+  /** 删除画布（直连 Teamones） */
+  async delete(id) {
+    return apiRequest('/api_assets/asset/delete', {
+      param: {
+        filter: { id: ['in', [id]] },
+      },
+    })
+  },
+
+  /** 获取缩略图映射（通用资产接口） */
+  async getThumbs(assetIds) {
+    if (!assetIds.length) return {}
+    const res = await apiRequest('/api_assets/asset/get_asset_thumb', {
+      param: { asset_ids: assetIds },
+    })
+    return res.data || {}
+  },
+
+  /** 获取 COS 临时密钥 */
+  async getCosCredential() {
+    return apiRequest('/api_media/cos/generate_temp_secret_key', {
+      device_unique_code: DEVICE_UNIQUE_CODE,
+      client_id: CLIENT_ID,
+    })
+  },
+
+  /** 获取资产关联的媒体列表 */
+  async getMedia(assetId) {
+    const res = await apiRequest('/api_assets/asset/get_asset_media', {
+      param: { asset_id: assetId, filter: { asset_id: assetId } },
+    })
+    const d = res.data
+    return !d ? [] : Array.isArray(d) ? d : [d]
+  },
+
+  /** 添加媒体到资产 */
+  async attachMedia(assetId, mediaItem) {
+    return apiRequest('/api_assets/asset/update_asset_media', {
+      data: { asset_id: assetId, media: { add: [mediaItem], delete: [] } },
+    })
+  },
+
+  /** 从资产移除媒体 */
+  async detachMedia(assetId, mediaId) {
+    return apiRequest('/api_assets/asset/update_asset_media', {
+      data: { asset_id: assetId, media: { add: [], delete: [mediaId] } },
+    })
+  },
+
+  /** 切换资产封面 */
+  async changeCover(assetId, mediaId) {
+    return apiRequest('/api_assets/asset/change_asset_cover', {
+      data: { asset_id: assetId, media_id: mediaId },
+    })
+  },
+}
+
+// ── 工具函数 ──────────────────────────────────────
+
+/** 并发控制：每批 limit 个并行，全部执行完后返回汇总结果 */
+async function runConcurrent(items, limit, fn) {
+  let ok = 0, fail = 0, errors = []
+  for (let i = 0; i < items.length; i += limit) {
+    const batch = items.slice(i, i + limit)
+    const results = await Promise.allSettled(batch.map(item => fn(item)))
+    for (const r of results) {
+      if (r.status === 'fulfilled') ok++
+      else { fail++; errors.push(r.reason?.message || String(r.reason)) }
+    }
+  }
+  return { ok, fail, errors }
+}
+
+/** 将技术错误消息转为用户友好的中文描述 */
+function cleanError(err) {
+  if (!err) return '未知错误'
+  const msg = String(err.message || err).trim()
+  if (!msg) return '未知错误'
+
+  // 映射常见后端英文消息 → 中文
+  const dict = [
+    { from: /user not found/i, to: '用户名或密码错误' },
+    { from: /unauthorized/i, to: '登录已过期，请重新登录' },
+    { from: /not found/i, to: '请求的资源不存在' },
+    { from: /internal server error/i, to: '服务器内部错误' },
+    { from: /network error/i, to: '网络连接失败，请检查网络' },
+    { from: /failed to fetch/i, to: '网络连接失败，请检查网络' },
+    { from: /data\.asset require/i, to: '画布数据格式有误' },
+    { from: /data require/i, to: '缺少必要参数' },
+    { from: /route do not exist/i, to: '接口地址有误' },
+    { from: /already exists/i, to: '该画布编码已存在，请检查是否重复导入' },
+    { from: /invalid (username|password)/i, to: '用户名或密码错误' },
+    { from: /timed? ?out/i, to: '请求超时，请重试' },
+    { from: /teamones.*service.*unavailable/i, to: '后端服务暂时不可用' },
+  ]
+  for (const { from, to } of dict) {
+    if (from.test(msg)) return to
+  }
+
+  // 截断过长消息（保留前 80 字）
+  return msg.length > 80 ? msg.slice(0, 80) + '...' : msg
+}
+
+/** 生成随机 code */
+function genCode() {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
+  let suffix = ''
+  for (let i = 0; i < 8; i++) {
+    suffix += chars[Math.floor(Math.random() * chars.length)]
+  }
+  return 'canvas_' + suffix
+}
+
+/** 解析 content 为可编辑文本 */
+function contentToText(content) {
+  if (!content) return '{}'
+  if (typeof content === 'string') return content
+  try { return JSON.stringify(content, null, 2) } catch { return '{}' }
+}
+
+/** 格式化为相对时间，hover 可看完整时间 */
+function formatRelativeTime(timeStr) {
+  if (!timeStr) return '-'
+  const date = new Date(String(timeStr).replace(/-/g, '/'))
+  if (isNaN(date.getTime())) return timeStr
+  const diff = Date.now() - date.getTime()
+  const sec = Math.floor(diff / 1000)
+  if (sec < 60) return '刚刚'
+  const min = Math.floor(sec / 60)
+  if (min < 60) return min + ' 分钟前'
+  const hr = Math.floor(min / 60)
+  if (hr < 24) return hr + ' 小时前'
+  if (hr < 48) return '昨天'
+  const day = Math.floor(hr / 24)
+  if (day < 30) return day + ' 天前'
+  return String(timeStr).slice(0, 10)
+}
+
+/** 从缩略图映射中提取 URL */
+function resolveThumbUrl(thumbMap, id) {
+  const val = thumbMap[id]
+  if (!val) return null
+  return typeof val === 'string' ? val : (val.thumb || null)
+}
+
+/** 从已有缩略图映射中提取租户名 */
+function extractTenantName(thumbMap) {
+  for (const key in thumbMap) {
+    const entry = thumbMap[key]
+    const url = typeof entry === 'string' ? entry : entry?.thumb || ''
+    const match = url.match(/\.myqcloud\.com\/([^/]+)\//)
+    if (match) return decodeURIComponent(match[1])
+  }
+  return ''
+}
+
+/** 计算文件 MD5 */
+function calcFileMd5(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try { resolve(SparkMD5.ArrayBuffer.hash(e.target.result)) }
+      catch (err) { reject(err) }
+    }
+    reader.onerror = () => reject(new Error('文件读取失败'))
+    reader.readAsArrayBuffer(file)
+  })
+}
+
+/** 获取图片宽高 */
+function getImageSize(file) {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight })
+    img.onerror = () => resolve({ width: 0, height: 0 })
+    img.src = URL.createObjectURL(file)
+  })
+}
+
+/** 上传图片到 COS，返回媒体信息对象 */
+async function uploadToCos(file, tenantName) {
+  const md5 = await calcFileMd5(file)
+  const credRes = await API.getCosCredential()
+  const cred = credRes.data || {}
+  const cr = cred.cr || {}
+  const credentials = cr.Credentials || {}
+
+  const cos = new COS({
+    getAuthorization: (options, callback) => {
+      callback({
+        TmpSecretId: credentials.TmpSecretId,
+        TmpSecretKey: credentials.TmpSecretKey,
+        SecurityToken: credentials.Token,
+        ExpiredTime: cr.ExpiredTime,
+      })
+    },
+  })
+
+  const ext = (file.name.split('.').pop() || 'png').toLowerCase()
+  const key = `${tenantName}/asset/static/image/${md5}/${md5}_origin.${ext}`
+
+  await new Promise((resolve, reject) => {
+    cos.putObject({
+      Bucket: cred.bucket, Region: cred.region, Key: key,
+      Body: file, ContentType: file.type || 'image/' + ext,
+    }, (err) => err ? reject(err) : resolve())
+  })
+
+  const { width, height } = await getImageSize(file)
+  const thumbUrl = `https://${cred.bucket}.cos.${cred.region}.myqcloud.com/${key}`
+
+  return {
+    type: 'image', md5_name: md5, md5, folder: md5,
+    path: `${tenantName}/asset/static/image/${md5}/`,
+    size: 'origin', file_size: file.size,
+    width, height, duration: '', rate: '',
+    name_prefix: md5, ext, thumb: thumbUrl,
+    is_cover: '0', upload_type: 'client',
+  }
+}
+
+// ── Vue App ───────────────────────────────────────
+
+const app = createApp({
+  setup() {
+    // ── 边车健康检测 ──
+    const sidecarOnline = ref(false)
+    const sidecarChecking = ref(false)
+
+    async function checkSidecar() {
+      sidecarChecking.value = true
+      try {
+        sidecarOnline.value = await checkSidecarHealth()
+      } catch {
+        sidecarOnline.value = false
+      } finally {
+        sidecarChecking.value = false
+      }
+    }
+
+    // ── 登录状态 ──
+    const isLoggedIn = ref(!!getToken())
+    const loginLoading = ref(false)
+    const loginForm = reactive({ username: '', password: '' })
+    const rememberLogin = ref(true)
+
+    async function doLogin() {
+      if (!loginForm.username || !loginForm.password) {
+        ElementPlus.ElMessage.warning('请输入用户名和密码')
+        return
+      }
+      loginLoading.value = true
+      try {
+        const res = await API.login(loginForm.username, loginForm.password)
+        if (res.code !== 0) {
+          ElementPlus.ElMessage.error(res.msg || '登录失败')
+          return
+        }
+        // 兼容多种返回结构：res.data.xxx 或 res.data.data.xxx
+        const payload = res.data || {}
+        const nested = payload.data || {}
+        const token =
+          payload.teamones_access_token ||
+          nested.teamones_access_token ||
+          payload.access_token ||
+          nested.access_token
+        if (!token) {
+          console.error('[login] 完整响应:', res)
+          ElementPlus.ElMessage.error('登录异常，请检查边车服务是否已启动')
+          return
+        }
+        storeToken(token, rememberLogin.value)
+        currentUserId.value = payload.user_id || nested.user_id || null
+        isLoggedIn.value = true
+        ElementPlus.ElMessage.success('登录成功')
+        loadList()
+      } catch (e) {
+        ElementPlus.ElMessage.error('登录失败：' + cleanError(e))
+      } finally {
+        loginLoading.value = false
+      }
+    }
+
+    function logout() {
+      clearToken()
+      isLoggedIn.value = false
+      canvases.value = []
+      totalCount.value = 0
+      currentUserId.value = null
+      detailItem.value = null
+    }
+
+    /** token 过期 → 自动登出 */
+    function handleAuthError(err) {
+      const msg = String(err?.message || '')
+      if (msg.includes('401') || msg.includes('Unauthorized') || msg.includes('Not Found') || msg.includes('403')) {
+        clearToken()
+        isLoggedIn.value = false
+        canvases.value = []
+        totalCount.value = 0
+        detailItem.value = null
+        ElementPlus.ElMessage.error('登录已过期或无权访问，请重新登录')
+        return true
+      }
+      return false
+    }
+
+    // ── 列表状态 ──
+    const canvases = ref([])
+    const totalCount = ref(0)
+    const loading = ref(false)
+    const currentPage = ref(1)
+    const pageSize = ref(24)
+    const searchName = ref('')
+    const searchTimer = ref(null)
+    const currentAbort = ref(null)
+    const myOnly = ref(false)
+    const currentUserId = ref(null)
+
+    function onSearchInput() {
+      clearTimeout(searchTimer.value)
+      searchTimer.value = setTimeout(loadList, 300)
+    }
+
+    async function loadList() {
+      currentAbort.value?.abort()
+      const controller = new AbortController()
+      currentAbort.value = controller
+      const signal = controller.signal
+      loading.value = true
+      try {
+        const filter = {}
+        if (searchName.value) filter['asset.name'] = ['-lk', '%' + searchName.value + '%']
+        if (myOnly.value && currentUserId.value) filter['asset.user_id'] = Number(currentUserId.value)
+        const [items, count] = await Promise.all([
+          API.getList(currentPage.value, pageSize.value, filter, signal),
+          API.getCount(filter, signal),
+        ])
+        if (signal.aborted) return
+
+        // 获取缩略图
+        let thumbMap = {}
+        try {
+          thumbMap = await API.getThumbs(items.map(i => i.id))
+        } catch {}
+        thumbMapCache = thumbMap || {}
+        if (signal.aborted) return
+
+        // 解析节点数和连线数
+        function parseContentStats(content) {
+          if (!content) return { nodeCount: 0, edgeCount: 0 }
+          const c = typeof content === 'string' ? (() => { try { return JSON.parse(content) } catch { return null } })() : content
+          if (!c) return { nodeCount: 0, edgeCount: 0 }
+          return {
+            nodeCount: Array.isArray(c.nodes) ? c.nodes.length : 0,
+            edgeCount: Array.isArray(c.edges) ? c.edges.length : 0,
+          }
+        }
+
+        canvases.value = items.map(item => {
+          const stats = parseContentStats(item.content)
+          const preview = item.content ? JSON.stringify(item.content) : ''
+          return {
+            ...item,
+            _thumb: resolveThumbUrl(thumbMap, item.id),
+            _nodeCount: stats.nodeCount,
+            _edgeCount: stats.edgeCount,
+            _contentPreview: preview.length > 300 ? preview.slice(0, 300) + '...' : preview || '(空)',
+          }
+        })
+        totalCount.value = count
+      } catch (e) {
+        if (e.name === 'AbortError') return
+        if (!handleAuthError(e)) ElementPlus.ElMessage.error('加载画布列表失败：' + cleanError(e))
+        canvases.value = []
+      } finally {
+        loading.value = false
+      }
+    }
+
+    // ── 详情面板 ──
+    const detailItem = ref(null)
+
+    function openDetail(item) {
+      detailItem.value = item
+      detailMediaList.value = []
+      loadDetailMedia(item.id)
+    }
+
+    async function loadDetailMedia(assetId) {
+      try {
+        detailMediaList.value = await API.getMedia(assetId)
+      } catch {}
+    }
+
+    function openImagePreview(url) {
+      ElementPlus.ElMessageBox({
+        message: `<img src="${url}" style="max-width:100%;max-height:70vh;" />`,
+        dangerouslyUseHTMLString: true,
+        showConfirmButton: false,
+        closeOnClickModal: true,
+      }).catch(() => {})
+    }
+
+    function closeDetail() {
+      detailItem.value = null
+    }
+
+    // ── Create / Edit Dialog ──
+    const dialogVisible = ref(false)
+    const dialogMode = ref('create')
+    const dialogLoading = ref(false)
+    const contentError = ref('')
+    const dialogForm = reactive({
+      id: null,
+      name: '',
+      code: '',
+      contentText: '{}',
+    })
+
+    // ── Media State ──
+    const selectedImages = ref([])
+    const uploadFileList = ref([])
+    const editMediaList = ref([])
+    const removedMediaIds = ref([])
+    const detailMediaList = ref([])
+    let thumbMapCache = {}
+
+    function openCreateDialog(prefillData) {
+      dialogMode.value = 'create'
+      dialogForm.id = null
+      if (prefillData) {
+        dialogForm.name = prefillData.name || ''
+        dialogForm.contentText = contentToText(prefillData.content || prefillData)
+      } else {
+        dialogForm.name = ''
+        dialogForm.contentText = JSON.stringify({ nodes: [], edges: [] }, null, 2)
+      }
+      dialogForm.code = genCode()
+      contentError.value = ''
+      selectedImages.value = []
+      uploadFileList.value = []
+      dialogVisible.value = true
+    }
+
+    async function openEditDialog(row) {
+      dialogMode.value = 'edit'
+      dialogForm.id = row.id
+      dialogForm.name = row.name
+      dialogForm.code = row.code || ''
+      dialogForm.contentText = contentToText(row.content)
+      contentError.value = ''
+      selectedImages.value = []
+      uploadFileList.value = []
+      editMediaList.value = []
+      removedMediaIds.value = []
+      dialogVisible.value = true
+      try {
+        const media = await API.getMedia(row.id)
+        editMediaList.value = (Array.isArray(media) ? media : []).map(m => ({
+          id: m.id, thumb: m.thumb || '',
+          is_cover: m.is_cover === '1' || m.is_cover === 1,
+        }))
+      } catch {}
+    }
+
+    function resetDialog() {
+      dialogForm.id = null
+      dialogForm.name = ''
+      dialogForm.code = ''
+      dialogForm.contentText = '{}'
+      contentError.value = ''
+      selectedImages.value = []
+      uploadFileList.value = []
+      editMediaList.value = []
+      removedMediaIds.value = []
+    }
+
+    function onImageSelect(uploadFile) {
+      if (uploadFile.raw) selectedImages.value.push(uploadFile.raw)
+      uploadFileList.value.push(uploadFile)
+    }
+
+    function onImageRemove(uploadFile) {
+      const idx = uploadFileList.value.indexOf(uploadFile)
+      if (idx > -1) uploadFileList.value.splice(idx, 1)
+      const imgIdx = selectedImages.value.indexOf(uploadFile.raw)
+      if (imgIdx > -1) selectedImages.value.splice(imgIdx, 1)
+    }
+
+    function removeMedia(m) {
+      const idx = editMediaList.value.indexOf(m)
+      if (idx > -1) editMediaList.value.splice(idx, 1)
+      removedMediaIds.value.push(m.id)
+    }
+
+    async function setAsCover(m) {
+      try {
+        await API.changeCover(dialogForm.id, m.id)
+        editMediaList.value.forEach(x => { x.is_cover = (x.id === m.id) })
+        ElementPlus.ElMessage.success('已设为封面')
+      } catch (e) {
+        ElementPlus.ElMessage.error('设置封面失败：' + cleanError(e))
+      }
+    }
+
+    function validateContent() {
+      try {
+        JSON.parse(dialogForm.contentText || '{}')
+        contentError.value = ''
+        return true
+      } catch (e) {
+        contentError.value = 'JSON 格式错误: ' + e.message
+        return false
+      }
+    }
+
+    async function submitDialog() {
+      if (!dialogForm.name.trim()) {
+        ElementPlus.ElMessage.warning('请输入画布名称')
+        return
+      }
+      if (!validateContent()) {
+        ElementPlus.ElMessage.warning('画布内容 JSON 格式有误，请检查')
+        return
+      }
+      dialogLoading.value = true
+      try {
+        const content = JSON.parse(dialogForm.contentText)
+        if (dialogMode.value === 'create') {
+          const res = await API.create(dialogForm.name.trim(), dialogForm.code, content)
+          await uploadMediaForAsset(extractCreatedId(res))
+          ElementPlus.ElMessage.success('创建成功')
+        } else {
+          await API.update(dialogForm.id, dialogForm.name.trim(), content)
+          await syncEditMedia(dialogForm.id)
+          ElementPlus.ElMessage.success('更新成功')
+        }
+        dialogVisible.value = false
+        await loadList()
+      } catch (e) {
+        if (!handleAuthError(e)) ElementPlus.ElMessage.error((dialogMode.value === 'create' ? '创建画布失败：' : '更新画布失败：') + cleanError(e))
+      } finally {
+        dialogLoading.value = false
+      }
+    }
+
+    /** 从创建接口响应中提取资产 ID */
+    function extractCreatedId(res) {
+      const d = res?.data || {}
+      return d.id ?? d.asset?.id ?? null
+    }
+
+    /** 创建后上传图片，首张标记为封面 */
+    async function uploadMediaForAsset(assetId) {
+      if (!selectedImages.value.length) return
+      const tenantName = extractTenantName(thumbMapCache) || 'default'
+      for (let i = 0; i < selectedImages.value.length; i++) {
+        const mediaItem = await uploadToCos(selectedImages.value[i], tenantName)
+        mediaItem.is_cover = i === 0 ? '1' : '0'
+        await API.attachMedia(assetId, mediaItem)
+      }
+    }
+
+    /** 编辑后：删除已移除的媒体 + 上传新选择的图片（当前无封面时首张为封面） */
+    async function syncEditMedia(assetId) {
+      for (const mediaId of removedMediaIds.value) {
+        await API.detachMedia(assetId, mediaId)
+      }
+      if (selectedImages.value.length) {
+        const tenantName = extractTenantName(thumbMapCache) || 'default'
+        const hasCover = editMediaList.value.some(m => m.is_cover)
+        for (let i = 0; i < selectedImages.value.length; i++) {
+          const mediaItem = await uploadToCos(selectedImages.value[i], tenantName)
+          mediaItem.is_cover = (!hasCover && i === 0) ? '1' : '0'
+          await API.attachMedia(assetId, mediaItem)
+        }
+      }
+    }
+
+    // ── Delete ──
+    async function confirmDelete(row) {
+      try {
+        await ElementPlus.ElMessageBox.confirm(
+          '确定删除画布「' + row.name + '」吗？此操作不可恢复。',
+          '删除确认',
+          { type: 'warning', confirmButtonText: '删除', cancelButtonText: '取消' },
+        )
+        await API.delete(Number(row.id))
+        ElementPlus.ElMessage.success('删除成功')
+        if (canvases.value.length === 1 && currentPage.value > 1) {
+          currentPage.value--
+        }
+        await loadList()
+      } catch (e) {
+        if (e !== 'cancel' && e?.message !== 'cancel') {
+          if (!handleAuthError(e)) ElementPlus.ElMessage.error('删除画布失败：' + cleanError(e))
+        }
+      }
+    }
+
+    // ── Import (file select + drag-drop) ──
+    const fileInputRef = ref(null)
+    const importLoading = ref(false)
+    const isDragging = ref(false)
+
+    function triggerFileInput() {
+      fileInputRef.value && fileInputRef.value.click()
+    }
+
+    function handleFileSelect(e) {
+      const files = Array.from(e.target.files || [])
+      if (files.length) handleFiles(files)
+      e.target.value = ''
+    }
+
+    function onDragOver() {
+      isDragging.value = true
+    }
+
+    function onDragLeave(e) {
+      if (e.target === e.currentTarget) isDragging.value = false
+    }
+
+    function handleDrop(e) {
+      isDragging.value = false
+      const files = Array.from(e.dataTransfer.files || []).filter(f =>
+        f.name.toLowerCase().endsWith('.json'),
+      )
+      if (!files.length) {
+        ElementPlus.ElMessage.warning('请拖入 .json 文件')
+        return
+      }
+      handleFiles(files)
+    }
+
+    async function handleFiles(files) {
+      if (files.length === 1) {
+        const prefill = await parseImportFile(files[0])
+        if (prefill) {
+          openCreateDialog(prefill)
+        } else {
+          ElementPlus.ElMessage.error('文件 JSON 解析失败，无法导入')
+        }
+        return
+      }
+      importLoading.value = true
+      const { ok, fail, errors } = await runConcurrent(files, 5, async (file) => {
+        await importOneFile(file)
+      })
+      importLoading.value = false
+      if (ok) ElementPlus.ElMessage.success('成功导入 ' + ok + ' 个画布')
+      if (fail) ElementPlus.ElMessage.error('导入失败 ' + fail + ' 个\n' + errors.map(cleanError).join('\n'))
+      if (ok) await loadList()
+    }
+
+    async function parseImportFile(file) {
+      const text = await file.text()
+      let data
+      try { data = JSON.parse(text) } catch { return null }
+      const name = (data.name || file.name.replace(/\.json$/i, '')).trim()
+      return { name, content: data }
+    }
+
+    async function importOneFile(file) {
+      const text = await file.text()
+      let data
+      try {
+        data = JSON.parse(text)
+      } catch {
+        throw new Error('JSON 解析失败')
+      }
+      const name = (data.name || file.name.replace(/\.json$/i, '')).trim()
+      if (!name) throw new Error('缺少 name 字段')
+      const code = genCode()
+      await API.create(name, code, data)
+    }
+
+    // ── Init ──
+    onMounted(() => {
+      checkSidecar()
+      if (isLoggedIn.value) loadList()
+    })
+
+    return {
+      // sidecar health
+      sidecarOnline, sidecarChecking, checkSidecar,
+      // login
+      isLoggedIn, loginLoading, loginForm, rememberLogin, doLogin, logout,
+      // list
+      canvases, totalCount, loading, currentPage, pageSize, searchName, onSearchInput, loadList,
+      myOnly, currentUserId,
+      // detail
+      detailItem, openDetail, closeDetail, detailMediaList, openImagePreview,
+      // dialog
+      dialogVisible, dialogMode, dialogLoading, contentError, dialogForm,
+      openCreateDialog, openEditDialog, resetDialog, validateContent, submitDialog,
+      // dialog media
+      selectedImages, uploadFileList, editMediaList, onImageSelect, onImageRemove, removeMedia, setAsCover,
+      // delete
+      confirmDelete,
+      // import
+      fileInputRef, importLoading, isDragging,
+      triggerFileInput, handleFileSelect, handleDrop, onDragOver, onDragLeave,
+      // utils
+      formatRelativeTime, contentToText,
+      // icons
+      Refresh: ElementPlusIconsVue.Refresh,
+      Plus: ElementPlusIconsVue.Plus,
+      Upload: ElementPlusIconsVue.Upload,
+      Edit: ElementPlusIconsVue.Edit,
+      Delete: ElementPlusIconsVue.Delete,
+      Picture: ElementPlusIconsVue.Picture,
+      FolderOpened: ElementPlusIconsVue.FolderOpened,
+    }
+  },
+})
+
+app.use(ElementPlus)
+for (const [key, comp] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, comp)
+}
+app.mount('#app')
+</script>
+
+</body>
+</html>

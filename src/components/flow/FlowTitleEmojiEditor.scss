@@ -1,0 +1,136 @@
+.flow-title-emoji-editor {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 36px;
+  box-sizing: border-box;
+  border: 1px solid #4f5562;
+  border-radius: 6px;
+  background: #101115;
+}
+
+.flow-title-emoji-editor:focus-within {
+  border-color: #55c5d7;
+  box-shadow: 0 0 0 2px rgba(18, 190, 218, 0.14);
+}
+
+.flow-title-emoji-editor__trigger {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  color: #8c929e;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+  place-items: center;
+}
+
+.flow-title-emoji-editor__trigger:hover,
+.flow-title-emoji-editor__trigger[aria-expanded="true"] {
+  color: #eef0f4;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.flow-title-emoji-editor__trigger:focus-visible {
+  outline: none;
+}
+
+.flow-title-emoji-editor__current {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  font-size: 18px;
+}
+
+.flow-title-emoji-editor__divider {
+  width: 1px;
+  height: 20px;
+  flex: 0 0 1px;
+  margin: 0 8px 0 2px;
+  background: #343740;
+}
+
+.flow-title-emoji-editor__input {
+  min-width: 0;
+  height: 34px;
+  flex: 1;
+  padding: 0 8px 0 0;
+  color: #eef0f4;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+}
+
+.flow-title-emoji-editor__picker {
+  position: absolute;
+  z-index: 230;
+  top: calc(100% + 8px);
+  left: -7px;
+  width: 256px;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #343740;
+  border-radius: 10px;
+  background: #181a20;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.42), 0 2px 8px rgba(0, 0, 0, 0.28);
+}
+
+.flow-title-emoji-editor__grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+}
+
+.flow-title-emoji-editor__option,
+.flow-title-emoji-editor__clear {
+  padding: 0;
+  color: #c5c9d1;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.flow-title-emoji-editor__option {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  font-size: 18px;
+  line-height: 1;
+  place-items: center;
+}
+
+.flow-title-emoji-editor__option:hover,
+.flow-title-emoji-editor__option.is-selected {
+  background: rgba(18, 190, 218, 0.14);
+}
+
+.flow-title-emoji-editor__option.is-selected {
+  box-shadow: inset 0 0 0 1px rgba(85, 197, 215, 0.36);
+}
+
+.flow-title-emoji-editor__option:focus-visible,
+.flow-title-emoji-editor__clear:focus-visible {
+  outline: 2px solid rgba(85, 197, 215, 0.4);
+  outline-offset: 0;
+}
+
+.flow-title-emoji-editor__clear {
+  width: 100%;
+  height: 30px;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.flow-title-emoji-editor__clear:hover,
+.flow-title-emoji-editor__clear.is-selected {
+  color: #eef0f4;
+  background: rgba(255, 255, 255, 0.07);
+}

@@ -1,0 +1,346 @@
+.preset-panel {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  width: 100%;
+}
+
+.preset-panel-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.preset-sidebar {
+  width: 140px;
+  flex-shrink: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.preset-sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+  gap: 4px;
+}
+
+.preset-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.preset-sidebar-item.active {
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.preset-sidebar-label {
+  font-size: 12px;
+  color: #d4d4d8;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preset-sidebar-item.active .preset-sidebar-label {
+  color: #a5b4fc;
+}
+
+.preset-sidebar-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.preset-sidebar-item:hover .preset-sidebar-actions {
+  opacity: 1;
+}
+
+.preset-sidebar-input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  border-radius: 3px;
+  color: #e4e4e7;
+  font-size: 12px;
+  padding: 2px 4px;
+  outline: none;
+}
+
+.preset-sidebar-add {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  color: #71717a;
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.preset-sidebar-add:hover {
+  color: #a5b4fc;
+}
+
+.preset-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.preset-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.preset-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.preset-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.preset-card.selected {
+  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.preset-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.preset-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e4e4e7;
+}
+
+.preset-card-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.preset-card:hover .preset-card-actions {
+  opacity: 1;
+}
+
+.preset-card-content {
+  font-size: 11px;
+  color: #a1a1aa;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.preset-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.preset-card-tag {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #71717a;
+}
+
+.preset-card-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  background: transparent;
+  color: #71717a;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.preset-card-add:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #a5b4fc;
+}
+
+.preset-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: none;
+  background: transparent;
+  color: #71717a;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.preset-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #d4d4d8;
+}
+
+.preset-icon-btn.danger:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.preset-panel-footer {
+  flex-shrink: 0;
+  padding: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  gap: 6px;
+}
+
+.preset-apply-btn {
+  flex: 1;
+  padding: 7px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(99, 102, 241, 0.8);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.preset-apply-btn:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 1);
+}
+
+.preset-apply-btn.batch {
+  background: rgba(245, 158, 11, 0.8);
+}
+
+.preset-apply-btn.batch:hover:not(:disabled) {
+  background: rgba(245, 158, 11, 1);
+}
+
+.preset-apply-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.preset-item-editor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.preset-item-editor {
+  background: #1a1a1b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preset-item-editor-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e4e4e7;
+  margin: 0 0 4px 0;
+}
+
+.preset-item-editor-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #e4e4e7;
+  font-size: 12px;
+  padding: 6px 8px;
+  outline: none;
+}
+
+.preset-item-editor-input:focus {
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.preset-item-editor-textarea {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #e4e4e7;
+  font-size: 12px;
+  padding: 6px 8px;
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.preset-item-editor-textarea:focus {
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.preset-item-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.preset-item-editor-btn {
+  padding: 5px 14px;
+  border-radius: 4px;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.preset-item-editor-btn.cancel {
+  background: rgba(255, 255, 255, 0.06);
+  color: #a1a1aa;
+}
+
+.preset-item-editor-btn.cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.preset-item-editor-btn.confirm {
+  background: rgba(99, 102, 241, 0.8);
+  color: white;
+}
+
+.preset-item-editor-btn.confirm:hover {
+  background: rgba(99, 102, 241, 1);
+}

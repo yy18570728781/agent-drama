@@ -1,0 +1,26 @@
+:root {
+  --bg-base: var(--sys-surface-page);
+  --bg-surface: var(--sys-surface-panel);
+  --bg-elevated: var(--sys-surface-elevated);
+  --bg-hover: var(--sys-surface-hover);
+  --bg-active: var(--sys-surface-active);
+
+  --border: var(--sys-border-default);
+  --border-light: var(--sys-border-muted);
+
+  --text-primary: var(--sys-text-primary);
+  --text-secondary: var(--sys-text-secondary);
+  --text-muted: var(--sys-text-muted);
+
+  --accent: var(--sys-action-primary-bg);
+  --accent-primary: var(--sys-action-primary-bg);
+  --accent-light: var(--sys-action-primary-emphasis);
+  --accent-dim: var(--sys-action-primary-soft);
+  --accent-ink: var(--sys-action-primary-fg);
+
+  --success: var(--sys-success);
+  --warning: var(--sys-warning);
+  --error: var(--sys-error);
+
+  --font-family: var(--sys-font-family-base);
+}
